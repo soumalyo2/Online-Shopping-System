@@ -107,6 +107,31 @@
         }
 
         .rating-stars { color: #f59e0b; }
+
+        /* Horizontal Scroll Styling */
+        .product-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 1rem 0.5rem 2.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-accent) transparent;
+        }
+        .product-scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .product-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--primary-accent);
+            border-radius: 10px;
+        }
+        .product-item {
+            flex: 0 0 280px; /* Fixed width for horizontal items */
+        }
+        .category-header {
+            border-left: 5px solid var(--primary-accent);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
         
         footer { background: #0f172a; color: #94a3b8; }
     </style>
@@ -147,7 +172,7 @@
                     <div class="container">
                         <h1 class="display-2 fw-bolder animate__animated animate__fadeInDown">New Summer Collection</h1>
                         <p class="fs-4 mb-4">Up to 50% off on premium fashion brands.</p>
-                        <a href="#shop" class="btn btn-primary btn-lg px-5 rounded-pill">Shop Now</a>
+                        <a href="#Fashion-section" class="btn btn-primary btn-lg px-5 rounded-pill">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -156,7 +181,7 @@
                     <div class="container">
                         <h1 class="display-2 fw-bolder">Elite Electronics</h1>
                         <p class="fs-4 mb-4">Latest M3 Chips and Titanium designs in stock.</p>
-                        <a href="#shop" class="btn btn-outline-light btn-lg px-5 rounded-pill">Explore Tech</a>
+                        <a href="#Electronics-section" class="btn btn-outline-light btn-lg px-5 rounded-pill">Explore Tech</a>
                     </div>
                 </div>
             </div>
@@ -165,7 +190,7 @@
                     <div class="container">
                         <h1 class="display-2 fw-bolder">Fresh Groceries</h1>
                         <p class="fs-4 mb-4">Farm to fork quality. Delivered in 10 minutes.</p>
-                        <a href="#shop" class="btn btn-success btn-lg px-5 rounded-pill">Order Fresh</a>
+                        <a href="#Grocery-section" class="btn btn-success btn-lg px-5 rounded-pill">Order Fresh</a>
                     </div>
                 </div>
             </div>
@@ -174,7 +199,7 @@
                     <div class="container">
                         <h1 class="display-2 fw-bolder">Modern Living</h1>
                         <p class="fs-4 mb-4">Transform your home with our luxury appliances.</p>
-                        <a href="#shop" class="btn btn-info btn-lg px-5 rounded-pill">Shop Decor</a>
+                        <a href="#Home-Appliances-section" class="btn btn-info btn-lg px-5 rounded-pill">Shop Decor</a>
                     </div>
                 </div>
             </div>
@@ -191,15 +216,15 @@
             <div class="category-pill" onclick="filterProducts('Home Appliances', this)">Home Appliances</div>
             <div class="category-pill" onclick="filterProducts('Fashion', this)">Fashion</div>
             <div class="category-pill" onclick="filterProducts('Kids', this)">Kids</div>
+            <div class="category-pill" onclick="filterProducts('Beauty', this)">Beauty</div>
             <div class="category-pill" onclick="filterProducts('Electronics', this)">Electronics</div>
         </div>
     </section>
 
     <!-- Product Grid -->
-    <section id="shop" class="container py-5">
-        <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-4" id="product-grid">
-            <!-- Products injected by JS -->
-        </div>
+    <section id="shop" class="container py-3">
+        <!-- Category sections will be injected here by JS -->
+        <div id="product-sections"></div>
     </section>
 
     <!-- Login Modal -->
@@ -251,22 +276,23 @@
     
     <script>
         // --- PRODUCT DATA ARRAY (50 ITEMS) ---
-        const categories = ['Grocery', 'Home Appliances', 'Fashion', 'Kids', 'Electronics'];
+        const categories = ['Grocery', 'Home Appliances', 'Fashion', 'Kids', 'Beauty', 'Electronics'];
         const productPool = [
             { name: 'Organic Honey', price: '₹450', img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=500' },
             { name: 'Air Fryer', price: '₹7,999', img: 'https://images.unsplash.com/photo-1585659722982-789758793322?w=500' },
             { name: 'Leather Jacket', price: '₹4,500', img: 'https://images.unsplash.com/photo-1551028711-031cde72b4d5?w=500' },
             { name: 'Teddy Bear', price: '₹999', img: 'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500' },
+            { name: 'Face Serum', price: '₹899', img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500' },
             { name: 'Noise Buds', price: '₹2,500', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500' }
         ];
 
         const products = [];
-        for (let i = 1; i <= 50; i++) {
-            const template = productPool[i % 5];
+        for (let i = 1; i <= 60; i++) {
+            const template = productPool[i % 6];
             products.push({
                 id: i,
                 name: `${template.name} v${i}`,
-                section: categories[i % 5],
+                section: categories[i % 6],
                 price: template.price,
                 rating: Math.floor(Math.random() * 2) + 4, // 4 or 5 stars
                 description: 'High quality premium material with factory warranty.',
@@ -275,41 +301,56 @@
         }
 
         // --- CORE LOGIC ---
-        function renderProducts(items) {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = items.map(p => `
-                <div class="col" data-aos="fade-up">
-                    <div class="card product-card h-100 p-3">
-                        <div class="position-relative overflow-hidden rounded">
-                            <img src="${p.image}" class="card-img-top" alt="${p.name}">
-                            <button class="btn btn-light btn-sm quick-view-btn rounded-pill shadow" onclick="quickView(${p.id})">Quick View</button>
-                        </div>
-                        <div class="card-body px-0 pb-0">
-                            <span class="badge bg-secondary mb-2">${p.section}</span>
-                            <h6 class="fw-bold">${p.name}</h6>
-                            <div class="rating-stars mb-2">
-                                ${'<i class="bi bi-star-fill"></i>'.repeat(p.rating)}
-                                ${'<i class="bi bi-star"></i>'.repeat(5 - p.rating)}
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fs-5 fw-bold text-primary">${p.price}</span>
-                                <button class="btn btn-outline-primary btn-sm rounded-pill" onclick="addToCart()">
-                                    <i class="bi bi-cart-plus"></i>
-                                </button>
-                            </div>
+        function renderProducts() {
+            const container = document.getElementById('product-sections');
+            container.innerHTML = categories.map(cat => {
+                const catProducts = products.filter(p => p.section === cat);
+                const sectionId = cat.replace(/\s+/g, '-');
+                return `
+                    <div class="category-group mb-5" id="${sectionId}-section" data-aos="fade-up">
+                        <h3 class="category-header fw-bold">${cat}</h3>
+                        <div class="product-scroll-container">
+                            ${catProducts.map(p => `
+                                <div class="product-item">
+                                    <div class="card product-card h-100 p-3">
+                                        <div class="position-relative overflow-hidden rounded">
+                                            <img src="${p.image}" class="card-img-top" alt="${p.name}">
+                                            <button class="btn btn-light btn-sm quick-view-btn rounded-pill shadow" onclick="quickView(${p.id})">Quick View</button>
+                                        </div>
+                                        <div class="card-body px-0 pb-0 text-wrap">
+                                            <h6 class="fw-bold text-truncate">${p.name}</h6>
+                                            <div class="rating-stars mb-2">
+                                                ${'<i class="bi bi-star-fill"></i>'.repeat(p.rating)}
+                                                ${'<i class="bi bi-star"></i>'.repeat(5 - p.rating)}
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="fs-5 fw-bold text-primary">${p.price}</span>
+                                                <button class="btn btn-outline-primary btn-sm rounded-pill" onclick="addToCart()">
+                                                    <i class="bi bi-cart-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function filterProducts(cat, el) {
             document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
             
-            const filtered = cat === 'All' ? products : products.filter(p => p.section === cat);
-            renderProducts(filtered);
-            AOS.refresh();
+            if (cat === 'All') {
+                window.scrollTo({ top: document.getElementById('shop').offsetTop - 100, behavior: 'smooth' });
+            } else {
+                const target = document.getElementById(`${cat.replace(/\s+/g, '-')}-section`);
+                if (target) {
+                    window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
+                }
+            }
         }
 
         function handleLogin() {
@@ -361,7 +402,7 @@
 
         window.addEventListener('load', () => {
             AOS.init({ duration: 800, once: true });
-            renderProducts(products);
+            renderProducts();
         });
     </script>
 </body>
