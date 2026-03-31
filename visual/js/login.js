@@ -17,6 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!email || !pass) {
             Swal.fire({ icon: 'error', title: 'Oops...', text: 'Please fill in all fields.', background: '#FAFAF7' });
+        } else {
+            // Static version: Simulate successful login and redirect to homepage
+            Swal.fire({
+                icon: 'success',
+                title: 'Welcome!',
+                text: 'Login successful',
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = '../../index.html';
+            });
         }
     });
 });

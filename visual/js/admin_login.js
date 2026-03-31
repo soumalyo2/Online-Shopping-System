@@ -11,7 +11,7 @@ document.getElementById('adminAuthForm').addEventListener('submit', function(e) 
             showConfirmButton: false,
             background: '#FAFAF7'
         }).then(() => {
-            window.location.href = '/admin';
+            window.location.href = 'admin.html';
         });
     } else {
         const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
