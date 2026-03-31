@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Lora:wght@600&display=swap');
+
+:root {
+    --bg-color: #FAFAF7;
+    --admin-sage: #3A6A3A;
+    --headline-color: #1A1A1A;
+    --border-color: #E5E5E0;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'DM Sans', sans-serif;
+    height: 100vh;
+}
+
+.heading-lora { font-family: 'Lora', serif; color: var(--headline-color); }
+
+.admin-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    border: 0.5px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+    width: 100%;
+    max-width: 440px;
+}
+
+.security-icon { font-size: 2.5rem; color: var(--admin-sage); }
+
+.custom-input {
+    border: 0.5px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    background: #F9F9F9;
+}
+
+.custom-input:focus { border-color: var(--admin-sage); box-shadow: none; background: white; }
+
+.btn-admin-sage {
+    background-color: var(--admin-sage);
+    color: white;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-admin-sage:hover { filter: brightness(1.1); color: white; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in { animation: fadeIn 0.6s ease-out; }

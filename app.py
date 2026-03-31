@@ -14,6 +14,14 @@ def index():
     conn.close()
     return render_template('index.html', products=products)
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/admin/login')
+def admin_login():
+    return render_template('admin_login.html')
+
 @app.route('/admin')
 def admin_dashboard():
     conn = get_db_connection()

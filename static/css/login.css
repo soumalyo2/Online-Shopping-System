@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:wght@500;600&display=swap');
+
+:root {
+    --bg-color: #FAFAF7;
+    --primary-cta: #5A8A5A;
+    --headline-color: #1A1A1A;
+    --border-color: #E5E5E0;
+    --body-font: 'DM Sans', sans-serif;
+    --heading-font: 'Lora', serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: var(--body-font);
+    color: var(--headline-color);
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.heading-lora {
+    font-family: var(--heading-font);
+    color: var(--headline-color);
+}
+
+.split-container {
+    display: flex;
+    height: 100vh;
+}
+
+.side-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .side-image { display: block; }
+}
+
+.side-image .overlay {
+    position: absolute;
+    bottom: 80px;
+    left: 80px;
+    color: white;
+    z-index: 2;
+}
+
+.side-form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    padding: 40px;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Floating Labels */
+.form-floating-custom {
+    position: relative;
+    border-bottom: 0.5px solid var(--border-color);
+}
+
+.form-floating-custom input {
+    width: 100%;
+    padding: 24px 0 10px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1rem;
+}
+
+.form-floating-custom label {
+    position: absolute;
+    top: 24px;
+    left: 0;
+    color: #999;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.form-floating-custom input:focus ~ label,
+.form-floating-custom input:not(:placeholder-shown) ~ label {
+    top: 0;
+    font-size: 0.75rem;
+    color: var(--primary-cta);
+    font-weight: 600;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0;
+    top: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.btn-primary-nature {
+    background-color: var(--primary-cta);
+    color: white;
+    border-radius: 12px;
+    padding: 14px;
+    font-weight: 600;
+    border: none;
+    transition: filter 0.3s;
+}
+
+.btn-primary-nature:hover {
+    filter: brightness(0.9);
+    color: white;
+}
+
+.back-link, .toggle-link {
+    color: var(--primary-cta);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
