@@ -34,6 +34,13 @@ for (let i = 0; i < 60; i++) {
         price: template.price,
         rating: Math.floor(Math.random() * 2) + 4,
         description: 'This is a premium product curated with high quality materials. It comes with a 1-year manufacturer warranty and a 30-day return policy.',
-        image: template.img
+        image: template.img,
+        images: [
+            template.img,
+            `https://picsum.photos/seed/${i + 101}/600/600`,
+            `https://picsum.photos/seed/${i + 102}/600/600`,
+            `https://picsum.photos/seed/${i + 103}/600/600`,
+            `https://picsum.photos/seed/${i + 104}/600/600`
+        ]
     });
 }
