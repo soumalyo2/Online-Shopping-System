@@ -44,3 +44,223 @@ for (let i = 0; i < 60; i++) {
         ]
     });
 }
+
+let toastTimeout;
+
+        function showToast() {
+            const cartToast = document.getElementById('cart-toast');
+            if (cartToast) {
+                cartToast.classList.add('show');
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    cartToast.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        function closeToast() {
+            const cartToast = document.getElementById('cart-toast');
+            if (cartToast) {
+                clearTimeout(toastTimeout);
+                cartToast.classList.remove('show');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            
+            const product = products.find(p => p.id === productId);
+
+            const container = document.getElementById('product-content');
+
+            if (product) {
+                
+                container.innerHTML = `
+                    <div id="cart-toast" class="cart-toast">
+                        <div class="toast-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="toast-content">
+                            <p class="fw-bold mb-1">Added to Cart!</p>
+                            <a href="visual/template/cart.html" class="btn btn-sm btn-light">Checkout</a>
+                        </div>
+                        <button class="toast-close" onclick="closeToast()">&times;</button>
+                    </div>
+                    <main class="c-prduct-d py-5">
+                        <div class="row g-5">
+                            <div class="col-lg-5">
+                                <div class="c-singale-image-box-left">
+                                    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                        </div>
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                    </div>
+                                    <div thumbsSlider="" class="swiper mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${product.image}" class="product-img" alt="${product.name}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            
+                            <div class="col-lg-6">
+                                <div class="c-product-con">
+                                    <span class="badge bg-success mb-2">${product.section}</span>
+                                    <h1 class="heading-lora fw-bold mb-3">${product.name}</h1>
+                                    <div class="c-price-product">
+                                        <span class="c-normal-p">₹${(parseInt(product.price.replace(/\D/g, '')) + 400).toLocaleString('en-IN')}</span>
+                                        <span class="c-discount-p color-nature">${product.price}</span>
+                                    </div>
+                                    <div class="mb-3 text-warning">
+                                        ${'<i class="bi bi-star-fill"></i>'.repeat(product.rating)}
+                                        ${'<i class="bi bi-star"></i>'.repeat(5 - product.rating)}
+                                    </div>
+                                    <p class="lead text-secondary mb-5">${product.description}</p>
+                                    <div class="c-delivery-banner">
+                                        <img src="visual/assets/delivery-banner.jpg" alt="">
+                                    </div>
+                                    
+                                    <div class="c-actions-wrapper">
+                                        <div class="c-quantity-selector mb-4">
+                                            <label for="quantity" class="form-label fw-bold">Quantity</label>
+                                            <select class="form-select" id="quantity" style="width: 100%;">
+                                                <option selected>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                
+                                        <div class="gap-3 mb-4">
+                                            <button class="btn btn-buy-now flex-grow-1" onclick="openCheckoutModal()">Buy It Now</button>
+                                            <button class="btn btn-add-cart flex-grow-1">Add to Cart</button>
+                                            <button class="btn btn-favourite flex-grow-1"><i class="bi bi-heart"></i><span style="font-size: 1rem;font-weight: 700;margin-left: 5px"> Add to favourites</span></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                `;
+                document.title = `${product.name} | PBSSD Fresh`;
+
+                setTimeout(() => {
+                    var swiper = new Swiper(".mySwiper", {
+                        loop: true,
+                        spaceBetween: 10,
+                        slidesPerView: 4,
+                        freeMode: true,
+                        watchSlidesProgress: true,
+                    });
+                    var swiper2 = new Swiper(".mySwiper2", {
+                        loop: true,
+                        spaceBetween: 10,
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+                        thumbs: {
+                            swiper: swiper,
+                        },
+                    });
+                }, 0);
+
+                const addToCartBtn = document.querySelector('.btn-add-cart');
+                if (addToCartBtn) {
+                    addToCartBtn.addEventListener('click', (event) => {
+                        event.preventDefault(); 
+                        showToast();
+                    });
+                }
+
+                window.openCheckoutModal = () => {
+                    document.getElementById('checkoutProgress').style.width = '33%';
+                    document.getElementById('checkoutProgress').classList.remove('bg-success');
+                    document.getElementById('step-address').classList.remove('d-none');
+                    document.getElementById('step-payment').classList.add('d-none');
+                    document.getElementById('step-thankyou').classList.add('d-none');
+                    
+                    const paymentStep = document.getElementById('step-payment');
+                    const buttons = paymentStep.querySelectorAll('button');
+                    buttons.forEach(btn => btn.disabled = false);
+                    buttons[1].innerText = 'Place Order';
+                    
+                    const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+                    modal.show();
+                };
+
+                window.nextStep = (step) => {
+                    if (step === 2) {
+                        document.getElementById('checkoutProgress').style.width = '66%';
+                        document.getElementById('step-address').classList.add('d-none');
+                        document.getElementById('step-payment').classList.remove('d-none');
+                    } else if (step === 1) {
+                        document.getElementById('checkoutProgress').style.width = '33%';
+                        document.getElementById('step-address').classList.remove('d-none');
+                        document.getElementById('step-payment').classList.add('d-none');
+                    }
+                };
+
+                window.processOrder = () => {
+                    document.getElementById('checkoutProgress').style.width = '100%';
+                    
+                    const paymentStep = document.getElementById('step-payment');
+                    const buttons = paymentStep.querySelectorAll('button');
+                    buttons.forEach(btn => btn.disabled = true);
+                    buttons[1].innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+
+                    setTimeout(() => {
+                        document.getElementById('step-payment').classList.add('d-none');
+                        document.getElementById('step-thankyou').classList.remove('d-none');
+                        document.getElementById('checkoutProgress').classList.add('bg-success');
+                    }, 1500);
+                };
+
+                window.clearCart = () => {
+                    window.location.href = 'index.html';
+                };
+            } else {
+                container.innerHTML = `<div class="col-12 text-center"><h2>Product not found</h2><a href="index.html">Return to home</a></div>`;
+            }
+        });
