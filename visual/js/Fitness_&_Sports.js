@@ -1,63 +1,36 @@
 // =============================================
-// 2_Wheelers.js — Hero Carousel + Dynamic Products
-// Theme: Bikes & Cycles (White & Green)
+// Fitness_&_Sports.js — Hero Carousel + Dynamic Products
+// Theme: Green & White (Sporty Brand)
 // =============================================
 
-// Hero Carousel Data — Bikes & Cycles
+// Hero Carousel Dynamic Data for Fitness & Sports
 const heroProducts = [
-    {
-        name: "Apex Mountain Pro X9",
-        price: "$1,299",
-        tag: "BEST SELLER",
-        img: "../assets/hero_bike_1.png",
-        link: "2_Wheelers_ProductDetails.html?name=Apex%20Mountain%20Pro%20X9&price=$1,299&img=../assets/hero_bike_1.png&cat=Mountain%20Bikes&rating=4.8&reviews=2450&originalPrice=$2,199&desc=Full%20suspension%20carbon%20fiber%20frame%20with%2029-inch%20wheels.&badge=Best%20Seller",
-        bg: "linear-gradient(135deg, rgba(9, 18, 9, 0.92), rgba(13, 38, 13, 0.88)), url('../assets/hero_bike_1.png')",
-        desc: "Conquer every trail with the Apex Mountain Pro X9. Full suspension, carbon fiber frame, and 29-inch wheels built for the toughest terrain."
+    { 
+        name: "Pro-Series Treadmill Z1", 
+        price: "$899.00", 
+        tag: "ELITE PERFORMANCE", 
+        img: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600&h=600&fit=crop", 
+        link: "Fitness_&_Sports_ProductDetails.html?name=Pro-Series%20Treadmill%20Z1&price=$899.00&img=https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600&h=600&fit=crop&cat=Equipment&rating=4.9&reviews=1200&originalPrice=$1200&desc=Commercial-grade%20motor%20and%20advanced%20cushioning%20for%20the%20ultimate%20running%20experience.&badge=Flagship",
+        bg: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&h=900&fit=crop')",
+        desc: "Push your limits with our most advanced treadmill. Precision engineering for elite athletes."
     },
-    {
-        name: "Velocity Road Racer",
-        price: "$899",
-        tag: "TRENDING NOW",
-        img: "../assets/hero_bike_2.png",
-        link: "../template/2_Wheelers_ProductDetails.html?name=Velocity%20Road%20Racer&price=$899&img=../assets/hero_bike_2.png&cat=Road%20Bikes&rating=4.7&reviews=1890&originalPrice=$1,299&badge=Trending",
-        bg: "linear-gradient(135deg, rgba(7, 15, 7, 0.9), rgba(20, 40, 20, 0.85)), url('../assets/hero_bike_2.png')",
-        desc: "Aerodynamic design meets lightweight engineering. Dominate every road with precision Shimano gears and a featherweight alloy frame."
+    { 
+        name: "Adjustable Dumbbell Set", 
+        price: "$249.00", 
+        tag: "TOP RATED", 
+        img: "https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=600&h=600&fit=crop", 
+        link: "Fitness_&_Sports_ProductDetails.html?name=Adjustable%20Dumbbell%20Set&price=$249.00&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=600&h=600&fit=crop&cat=Strength&rating=4.8&reviews=3400&originalPrice=$349&desc=Replace%2015%20sets%20of%20weights%20with%20one%20compact%2C%20easy-to-use%20system.&badge=Best%20Seller",
+        bg: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&h=900&fit=crop')",
+        desc: "Space-saving design meets heavy-duty performance. The only weights you'll ever need for your home gym."
     },
-    {
-        name: "EcoVolt E-Bike 500",
-        price: "$1,649",
-        tag: "NEW ARRIVAL",
-        img: "../assets/hero_ebike.png",
-        link: "../template/2_Wheelers_ProductDetails.html?name=EcoVolt%20E-Bike%20500&price=$1,649&img=../assets/hero_ebike.png&cat=Electric%20Bikes&rating=4.9&reviews=3120&originalPrice=$2,199&badge=New%20Arrival",
-        bg: "linear-gradient(135deg, rgba(5, 12, 5, 0.92), rgba(15, 35, 15, 0.88)), url('../assets/hero_ebike.png')",
-        desc: "Go farther, go greener. 500W motor, 80km range, and regenerative braking — the future of urban commuting is electric."
-    },
-    {
-        name: "CityGlide Hybrid 7",
-        price: "$549",
-        tag: "BEST DEAL",
-        img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=600&h=600&fit=crop",
-        link: "../template/2_Wheelers_ProductDetails.html?name=CityGlide%20Hybrid%207&price=$549&img=https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop&cat=Hybrid%20Bikes&rating=4.5&reviews=1560&originalPrice=$749&badge=Best%20Deal",
-        bg: "linear-gradient(135deg, rgba(10, 20, 10, 0.88), rgba(25, 50, 25, 0.82))",
-        desc: "The perfect blend of comfort and speed. 21-speed drivetrain, ergonomic saddle, and puncture-resistant tires for everyday adventures."
-    },
-    {
-        name: "KidStar BMX Blaze",
-        price: "$279",
-        tag: "KIDS FAVORITE",
-        img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=600&h=600&fit=crop",
-        link: "../template/2_Wheelers_ProductDetails.html?name=KidStar%20BMX%20Blaze&price=$279&img=https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop&cat=BMX%20Bikes&rating=4.6&reviews=980&originalPrice=$399&badge=Kids%20Favorite",
-        bg: "linear-gradient(135deg, rgba(8, 16, 8, 0.9), rgba(18, 36, 18, 0.85))",
-        desc: "Built tough for young riders. Reinforced steel frame, trick-ready pegs, and vibrant green graphics that pop on the skatepark."
-    },
-    {
-        name: "TrailBlazer Fat Tire",
-        price: "$989",
-        tag: "ADVENTURE READY",
-        img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=600&h=600&fit=crop",
-        link: "../template/2_Wheelers_ProductDetails.html?name=TrailBlazer%20Fat%20Tire&price=$989&img=https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop&cat=Fat%20Tire%20Bikes&rating=4.7&reviews=1240&originalPrice=$1,299&badge=Adventure%20Ready",
-        bg: "linear-gradient(135deg, rgba(6, 14, 6, 0.9), rgba(22, 44, 22, 0.86))",
-        desc: "4.8-inch fat tires crush sand, snow, and mud. Hydro disc brakes and a dropper post make this beast unstoppable anywhere."
+    { 
+        name: "Premium Yoga Mat Pro", 
+        price: "$75.00", 
+        tag: "MINDFULNESS", 
+        img: "https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=600&h=600&fit=crop", 
+        link: "Fitness_&_Sports_ProductDetails.html?name=Premium%20Yoga%20Mat%20Pro&price=$75.00&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=600&h=600&fit=crop&cat=Yoga&rating=5.0&reviews=850&originalPrice=$95&desc=Extra%20grip%20and%20superior%20cushioning%20for%20your%20daily%20practice.&badge=Eco-Friendly",
+        bg: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1600&h=900&fit=crop')",
+        desc: "Sustainable materials and non-slip surface. Elevate your yoga journey with pro-grade equipment."
     }
 ];
 
@@ -95,7 +68,7 @@ function renderHeroCarousel() {
             <div class="hero-content">
                 <div class="hero-text">
                     <span class="category-tag">${product.tag}</span>
-                    <h1>Ride The <span style="color:var(--accent-green)">Future</span></h1>
+                    <h1>Train Like A <span style="color:var(--accent-green)">Champion</span></h1>
                     <p>${product.desc}</p>
                 </div>
                 <div class="hero-product-display">
@@ -286,41 +259,27 @@ function onDragEnd(e) {
 }
 
 // =============================================
-// Dynamic Product Categories — 2 Wheelers
+// Dynamic Product Categories — Fitness & Sports
 // =============================================
-
-const categories = [
-    { name: "Premium Mountain Bikes", tagline: "CONQUER EVERY TRAIL" },
-    { name: "Road & Racing Bikes", tagline: "SPEED MACHINES" },
-    { name: "Electric Bikes", tagline: "RIDE THE FUTURE" },
-    { name: "Cycling Helmets", tagline: "SAFETY FIRST" },
-    { name: "Bike Locks & Security", tagline: "PROTECT YOUR RIDE" },
-    { name: "Cycling Gloves", tagline: "GRIP & COMFORT" },
-    { name: "Bike Lights & Reflectors", tagline: "BE SEEN, BE SAFE" },
-    { name: "Tyres & Inner Tubes", tagline: "ROLL ON" },
-    { name: "Cycling Apparel", tagline: "RIDE IN STYLE" },
-    { name: "Bike Repair Kits", tagline: "FIX IT FAST" },
-    { name: "Water Bottles & Cages", tagline: "STAY HYDRATED" },
-    { name: "Saddles & Seats", tagline: "COMFORT ZONE" },
-    { name: "Bike Pumps", tagline: "PRESSURE PERFECT" },
-    { name: "Cycling Shoes", tagline: "PEDAL POWER" },
-    { name: "Bike Stands & Storage", tagline: "PARK SMART" },
-    { name: "GPS & Bike Computers", tagline: "TRACK YOUR RIDE" },
-    { name: "Kids Bikes & Gear", tagline: "LITTLE RIDERS" },
-    { name: "Bike Bells & Horns", tagline: "RING THE RIDE" },
-    { name: "Panniers & Bike Bags", tagline: "CARRY IT ALL" }
+const fitnessCategories = [
+    { name: "Gym & Strength", tagline: "BUILT DIFFERENT" },
+    { name: "Yoga & Pilates", tagline: "FIND YOUR FLOW" },
+    { name: "Outdoor Sports", tagline: "PLAY THE GAME" },
+    { name: "Combat Sports", tagline: "FIGHT FOR IT" },
+    { name: "Aquatic Fitness", tagline: "DIVE IN" },
+    { name: "Recovery Gear", tagline: "RESTORE BALANCE" }
 ];
 
-const products = [
-    { name: "Pro Edition", price: "$149.99", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop" },
-    { name: "Trail Master", price: "$89.00", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop" },
-    { name: "Urban Cruiser", price: "$199.00", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop" },
-    { name: "Speed Elite", price: "$249.50", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop" }
+const basicProducts = [
+    { name: "Eco Yoga Block", price: "$15.00", img: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=400&h=300&fit=crop" },
+    { name: "Performance Football", price: "$45.00", img: "https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=400&h=300&fit=crop" },
+    { name: "Boxing Gloves Pro", price: "$85.00", img: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop" },
+    { name: "Speed Jump Rope", price: "$12.50", img: "https://images.unsplash.com/photo-1590502160462-094ba45283fc?q=80&w=400&h=300&fit=crop" }
 ];
 
 const badges = [
     { text: "Best Seller", class: "badge-best" },
-    { text: "Top Pick", class: "badge-deal" },
+    { text: "Today's Deal", class: "badge-deal" },
     { text: "New", class: "badge-new" },
     { text: "Trending", class: "badge-best" }
 ];
@@ -329,7 +288,7 @@ function renderDynamicCategories() {
     const container = document.getElementById('dynamic-categories');
     if (!container) return;
 
-    categories.forEach((catObj, index) => {
+    fitnessCategories.forEach((catObj, index) => {
         const section = document.createElement('section');
         section.className = 'container';
         // Alternate white and light-green backgrounds
@@ -341,13 +300,13 @@ function renderDynamicCategories() {
                     <span class="section-tagline">${catObj.tagline}</span>
                     <h2>${catObj.name}</h2>
                 </div>
-                <a href="2_Wheelers_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                <a href="Fitness_&_Sports_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="product-scroll-container">
-                ${products.map(p => {
+                ${basicProducts.map(p => {
             const b = badges[Math.floor(Math.random() * badges.length)];
             return `
-                    <div class="product-card" onclick="window.location.href='2_Wheelers_ProductDetails.html?name=${encodeURIComponent(catObj.name + ' ' + p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(catObj.name)}&badge=${encodeURIComponent(b.text)}'">
+                    <div class="product-card" onclick="window.location.href='Fitness_&_Sports_ProductDetails.html?name=${encodeURIComponent(catObj.name + ' ' + p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(catObj.name)}&badge=${encodeURIComponent(b.text)}'">
                         <div class="image-wrapper">
                             <img src="${p.img}" class="product-image" alt="${p.name}">
                             <span class="product-badge ${b.class}">${b.text}</span>
@@ -370,5 +329,4 @@ function renderDynamicCategories() {
 document.addEventListener('DOMContentLoaded', () => {
     renderHeroCarousel();
     renderDynamicCategories();
-    
 });

@@ -234,3 +234,4 @@ function renderDynamicCategories() {
         container.appendChild(section);
     });
 }
+

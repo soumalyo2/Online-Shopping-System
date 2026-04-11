@@ -1,27 +1,34 @@
 // =============================================
-// ProductDetails.js — HomeSmart Product Details
+// Books_ProductDetails.js
 // Features: Dynamic stars, like button, badge,
-// discount %, description — matching AllProducts
+// discount %, description, author — Books theme
 // =============================================
 
 // --- URL Parameters ---
 const urlParams = new URLSearchParams(window.location.search);
-const name = urlParams.get('name') || 'Premium Essential';
-const price = urlParams.get('price') || '$45.00';
-const img = urlParams.get('img') || 'https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=400&h=300&fit=crop';
-const cat = urlParams.get('cat') || 'General';
-const rating = parseFloat(urlParams.get('rating')) || 4.8;
-const reviews = parseInt(urlParams.get('reviews')) || 2450;
+const name = urlParams.get('name') || 'A Great Book';
+const price = urlParams.get('price') || '$14.99';
+const img = urlParams.get('img') || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&h=300&fit=crop';
+const cat = urlParams.get('cat') || 'Books';
+const rating = parseFloat(urlParams.get('rating')) || 4.7;
+const reviews = parseInt(urlParams.get('reviews')) || 1850;
 const originalPrice = urlParams.get('originalPrice') || '';
 const desc = urlParams.get('desc') || '';
 const badge = urlParams.get('badge') || '';
+const author = urlParams.get('author') || '';
 
 // --- Update Basic UI ---
 document.getElementById('product-title').innerText = name;
 document.getElementById('product-price').innerText = price;
 document.getElementById('product-img').src = img;
 document.getElementById('category-name').innerText = cat;
-document.title = name + " - HomeSmart";
+document.title = name + " — BookShelf";
+
+// --- Author ---
+const authorEl = document.getElementById('book-author');
+if (authorEl && author) {
+    authorEl.innerText = 'by ' + author;
+}
 
 // --- Dynamic Star Rating ---
 function renderStars(rating) {
@@ -54,7 +61,6 @@ if (originalPrice) {
     const origEl = document.getElementById('original-price');
     const discEl = document.getElementById('discount-badge');
 
-    // Parse prices for discount calculation
     const currentNum = parseFloat(price.replace(/[^0-9.]/g, ''));
     const origNum = parseFloat(originalPrice.replace(/[^0-9.]/g, ''));
 
@@ -80,7 +86,7 @@ if (badgeEl && badge) {
 }
 
 // --- Like / Wishlist Button ---
-let likedProducts = JSON.parse(localStorage.getItem('hs_liked') || '[]');
+let likedProducts = JSON.parse(localStorage.getItem('books_liked') || '[]');
 
 function isLiked(productName) {
     return likedProducts.includes(productName);
@@ -98,12 +104,11 @@ function toggleLike(productName) {
         btn.classList.add('liked');
         btn.innerHTML = '<i class="fas fa-heart"></i>';
     }
-    localStorage.setItem('hs_liked', JSON.stringify(likedProducts));
+    localStorage.setItem('books_liked', JSON.stringify(likedProducts));
 }
 
 const likeBtn = document.getElementById('like-btn');
 if (likeBtn) {
-    // Set initial state
     if (isLiked(name)) {
         likeBtn.classList.add('liked');
         likeBtn.innerHTML = '<i class="fas fa-heart"></i>';
@@ -117,9 +122,9 @@ const thumbList = document.getElementById('thumb-list');
 
 const galleryImages = [
     img,
-    "https://images.unsplash.com/photo-1544233726-9f1d2b27be8b?q=80&w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1581783598307-5bbe6ed40e5a?q=80&w=400&h=300&fit=crop"
+    "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=400&h=300&fit=crop"
 ];
 
 galleryImages.forEach((src, idx) => {
@@ -138,25 +143,26 @@ galleryImages.forEach((src, idx) => {
     thumbList.appendChild(thumb);
 });
 
-// --- Generate 20 Dynamic Related Products ---
+// --- Generate 20 Dynamic Related Book Products ---
 const relatedProductsPool = [
-    { name: "Nordic Minimalist Vase", price: "$32.00", img: "https://images.unsplash.com/photo-1581783598307-5bbe6ed40e5a?q=80&w=400&h=300&fit=crop", rating: 4.5, reviews: 1560 },
-    { name: "Bamboo Serving Tray", price: "$24.50", img: "https://images.unsplash.com/photo-1513519245088-0e12902e15ca?q=80&w=400&h=300&fit=crop", rating: 4.4, reviews: 2100 },
-    { name: "Velvet Cushion Set", price: "$45.00", img: "https://images.unsplash.com/photo-1583847268964-b28dc2f51ac9?q=80&w=400&h=300&fit=crop", rating: 4.6, reviews: 2340 },
-    { name: "Ceramic Coffee Dripper", price: "$28.00", img: "https://images.unsplash.com/photo-1544233726-9f1d2b27be8b?q=80&w=400&h=300&fit=crop", rating: 4.3, reviews: 980 },
-    { name: "Aromatic Diffuser", price: "$39.99", img: "https://images.unsplash.com/photo-1602928294711-536f9ae94098?q=80&w=400&h=300&fit=crop", rating: 4.4, reviews: 2560 },
-    { name: "Wooden Coaster Set", price: "$15.00", img: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=400&h=300&fit=crop", rating: 4.3, reviews: 2800 },
-    { name: "Glass Storage Jars", price: "$19.00", img: "https://images.unsplash.com/photo-1521128182236-407137f8ea6b?q=80&w=400&h=300&fit=crop", rating: 4.7, reviews: 3800 },
-    { name: "Linen Table Runner", price: "$22.00", img: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=400&h=300&fit=crop", rating: 4.5, reviews: 1890 },
-    { name: "Cotton Throw Blanket", price: "$55.00", img: "https://images.unsplash.com/photo-1512418490979-92798cec352a?q=80&w=400&h=300&fit=crop", rating: 4.7, reviews: 2100 },
-    { name: "Matte Black Planter", price: "$34.00", img: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=400&h=300&fit=crop", rating: 4.3, reviews: 1200 }
+    { name: "The Midnight Library", author: "Matt Haig", price: "$18.99", img: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&h=300&fit=crop", rating: 4.9, reviews: 42000 },
+    { name: "Atomic Habits", author: "James Clear", price: "$16.99", img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400&h=300&fit=crop", rating: 4.8, reviews: 85000 },
+    { name: "Sapiens", author: "Yuval Noah Harari", price: "$18.99", img: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=400&h=300&fit=crop", rating: 4.8, reviews: 72000 },
+    { name: "Dune", author: "Frank Herbert", price: "$14.99", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=400&h=300&fit=crop", rating: 4.9, reviews: 67000 },
+    { name: "Gone Girl", author: "Gillian Flynn", price: "$14.99", img: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400&h=300&fit=crop", rating: 4.7, reviews: 89000 },
+    { name: "Becoming", author: "Michelle Obama", price: "$15.99", img: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=400&h=300&fit=crop", rating: 4.9, reviews: 54000 },
+    { name: "Normal People", author: "Sally Rooney", price: "$15.99", img: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=400&h=300&fit=crop", rating: 4.6, reviews: 38000 },
+    { name: "It Ends with Us", author: "Colleen Hoover", price: "$15.99", img: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&h=300&fit=crop", rating: 4.6, reviews: 120000 },
+    { name: "1984", author: "George Orwell", price: "$11.99", img: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400&h=300&fit=crop", rating: 4.8, reviews: 105000 },
+    { name: "The Hobbit", author: "J.R.R. Tolkien", price: "$12.99", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=400&h=300&fit=crop", rating: 4.9, reviews: 89000 }
 ];
 
 const scroll = document.getElementById('related-scroll');
 for (let i = 0; i < 20; i++) {
     const baseProduct = relatedProductsPool[i % relatedProductsPool.length];
     const p = {
-        name: `${baseProduct.name} ${Math.floor(i / relatedProductsPool.length + 1)}`,
+        name: i < relatedProductsPool.length ? baseProduct.name : `${baseProduct.name} v${Math.floor(i / relatedProductsPool.length) + 1}`,
+        author: baseProduct.author,
         price: baseProduct.price,
         img: baseProduct.img,
         rating: baseProduct.rating,
@@ -166,18 +172,18 @@ for (let i = 0; i < 20; i++) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.style.minWidth = '240px';
-    card.onclick = () => window.location.href = `ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=Related&rating=${p.rating}&reviews=${p.reviews}`;
-    
+    card.onclick = () => window.location.href = `Books_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=Related&rating=${p.rating}&reviews=${p.reviews}&author=${encodeURIComponent(p.author)}`;
+
     card.innerHTML = `
         <div class="image-wrapper">
             <img src="${p.img}" alt="${p.name}" class="product-image">
         </div>
         <div class="product-info">
             <h3>${p.name}</h3>
+            <p class="related-author">by ${p.author}</p>
             <div class="related-stars">${renderStars(p.rating)}</div>
             <p class="product-price">${p.price}</p>
         </div>
     `;
     scroll.appendChild(card);
-    
 }

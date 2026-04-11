@@ -1,5 +1,5 @@
 /* ===================================================
-   Homesmart.css — Hero Carousel & Page-Specific Styles
+   Fitness_&_Sports.css — Hero Carousel & Page-Specific Styles
    Theme: White & Green 
    =================================================== */
 
@@ -9,7 +9,7 @@
     height: 85vh;
     width: 100%;
     overflow: hidden;
-    background: #020617; /* Keeping the HomeSmart dark slate background */
+    background: #070f07;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
@@ -33,7 +33,7 @@
     justify-content: center;
     z-index: 1;
     pointer-events: none;
-    background-color: #0f172a; /* Keeping the HomeSmart background */
+    background-color: #091209;
 }
 
 .carousel-slide.active {
@@ -338,20 +338,20 @@
 }
 
 /* --- Page-Specific Overrides (White/Green Theme) --- */
-.homesmart-body {
+.fitness-sports-body {
     background-color: #ffffff;
 }
 
-.homesmart-body .container {
+.fitness-sports-body .container {
     background: #ffffff;
 }
 
-.homesmart-body .container:nth-child(even) {
+.fitness-sports-body .container:nth-child(even) {
     background: var(--light-green);
 }
 
 /* Section accent stripe — green left bar */
-.homesmart-body .section-header h2::before {
+.fitness-sports-body .section-header h2::before {
     background-color: var(--accent-green);
 }
 

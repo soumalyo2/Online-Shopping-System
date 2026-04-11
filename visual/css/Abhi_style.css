@@ -40,7 +40,7 @@ header {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
     font-weight: 800;
     color: var(--primary-green);
     text-transform: uppercase;
@@ -50,7 +50,7 @@ header {
 }
 
 .logo i {
-    font-size: 1.8rem;
+    font-size: clamp(1.5rem, 4vw, 1.8rem);
 }
 
 .search-container {
@@ -64,7 +64,7 @@ header {
     border-radius: 30px;
     border: 1px solid #e2e8f0;
     background: #f1f5f9;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
     outline: none;
     transition: var(--transition);
 }
@@ -78,7 +78,7 @@ header {
 .nav-actions {
     display: flex;
     gap: 1.5rem;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
     color: var(--text-dark);
 }
 
@@ -112,14 +112,14 @@ header {
 }
 
 .hero h1 {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 800;
     margin-bottom: 1rem;
     animation: fadeInUp 0.8s ease-out;
 }
 
 .hero p {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
     margin-bottom: 2rem;
     opacity: 0.9;
     animation: fadeInUp 1s ease-out;
@@ -128,11 +128,11 @@ header {
 .btn-primary {
     background-color: var(--accent-green);
     color: var(--white);
-    padding: 1rem 2.5rem;
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.8rem, 4vw, 2.5rem);
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     transition: var(--transition);
     display: inline-block;
     box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
@@ -193,7 +193,7 @@ header {
 }
 
 .section-header h2 {
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
     font-weight: 700;
     color: var(--text-dark);
     position: relative;
@@ -292,7 +292,7 @@ header {
 .badge-new { background: var(--accent-green); color: white; }
 
 .section-tagline {
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 1.5vw, 0.85rem);
     color: var(--accent-green);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -302,13 +302,13 @@ header {
 }
 
 .product-info h3 {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     margin-bottom: 0.5rem;
     color: var(--text-dark);
 }
 
 .product-price {
-    font-size: 1.25rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
     font-weight: 800;
     color: var(--primary-green);
     margin-bottom: 1rem;
@@ -316,7 +316,8 @@ header {
 
 .add-to-cart {
     width: 100%;
-    padding: 0.8rem;
+    padding: clamp(0.6rem, 1.5vw, 0.8rem);
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
     border-radius: 12px;
     border: 2px solid var(--accent-green);
     background: transparent;
@@ -334,10 +335,8 @@ header {
 /* --- Responsive --- */
 
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
-    .hero p { font-size: 1rem; }
     .search-container { order: 3; flex-basis: 100%; margin-top: 1rem; }
-    header { flex-wrap: wrap; }
+    header { flex-wrap: wrap; gap: 1rem; }
     .product-card { min-width: 220px; }
 }
 

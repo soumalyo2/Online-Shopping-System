@@ -179,4 +179,5 @@ for (let i = 0; i < 20; i++) {
         </div>
     `;
     scroll.appendChild(card);
+    
 }

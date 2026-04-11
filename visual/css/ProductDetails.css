@@ -9,12 +9,12 @@
 .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.5rem;
     color: var(--text-dark);
     text-decoration: none;
     font-weight: 600;
-    font-size: 1rem;
-    padding: 0.6rem 1.2rem;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    padding: clamp(0.4rem, 1.5vw, 0.6rem) clamp(0.8rem, 3vw, 1.2rem);
     background: white;
     border-radius: 50px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -39,8 +39,8 @@
 }
 
 .details-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
     gap: 4rem;
     padding: 4rem 5%;
     max-width: 1400px;
@@ -48,6 +48,8 @@
 }
 
 .product-gallery {
+    flex: 1;
+    min-width: 350px;
     position: sticky;
     top: 100px;
     background: white;
@@ -61,6 +63,11 @@
     height: auto; /* Growth based on content */
 }
 
+.product-meta {
+    flex: 1;
+    min-width: 350px;
+}
+
 .main-image-container {
     width: 100%;
     height: 500px; /* Big image (4 parts height) */
@@ -71,6 +78,7 @@
     border-radius: 15px;
     overflow: hidden;
     border: 1px solid #f1f5f9;
+    position: relative;
 }
 
 .main-image {
@@ -158,7 +166,7 @@
 }
 
 .product-meta h1 {
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
     margin-bottom: 1rem;
     color: var(--text-dark);
 }
@@ -177,7 +185,7 @@
 }
 
 .price-tag {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 800;
     color: var(--primary-green);
     margin-bottom: 2rem;
@@ -186,7 +194,7 @@
 .description {
     margin-bottom: 2rem;
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
 }
 
 .action-btns {
@@ -253,20 +261,9 @@
     color: var(--text-dark);
 }
 
-@media (max-width: 992px) {
-    .details-container { grid-template-columns: 1fr; gap: 2rem; }
-    .product-gallery { position: static; height: auto; }
-    .main-image { height: 350px; }
-}
-
 /* =============================================
    NEW: Product Details Enhanced Features
    ============================================= */
-
-/* Main image container for badge + like positioning */
-.main-image-container {
-    position: relative;
-}
 
 /* Product Badge */
 .pd-badge {
@@ -375,4 +372,73 @@
     margin: 4px 0;
     display: flex;
     gap: 2px;
+}
+
+@media (max-width: 992px) {
+    .details-container { flex-direction: column; gap: 2rem; }
+    .product-gallery { position: static; height: auto; }
+    .main-image-container { height: 400px; }
+}
+
+@media (max-width: 768px) {
+    .details-container {
+        padding: 3rem 4%;
+        gap: 2rem;
+    }
+    .product-gallery {
+        min-width: 100%;
+        padding: 1rem;
+    }
+    .main-image-container {
+        height: 350px;
+    }
+    .thumbnail {
+        height: 80px;
+    }
+    .spec-grid {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .details-container {
+        padding: 1.5rem 4%;
+        gap: 1.5rem;
+    }
+    .product-gallery {
+        padding: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .main-image-container {
+        height: 280px;
+        border-radius: 12px;
+    }
+    .thumbnail {
+        width: calc(25% - 0.75rem); /* show 4 per row */
+        height: 70px;
+        border-radius: 8px;
+    }
+    .video-player-container {
+        height: 200px;
+        border-radius: 12px;
+    }
+    .action-btns {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    .btn-buy, .btn-add-cart {
+        padding: 1rem;
+    }
+    .spec-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    .pd-price-row {
+        gap: 0.8rem;
+    }
+    .pd-original-price {
+        font-size: 1rem;
+    }
+    
 }

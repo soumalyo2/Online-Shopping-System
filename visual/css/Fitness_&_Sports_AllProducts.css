@@ -1,10 +1,10 @@
 /* ===================================================
-   Homesmart_AllProducts.css — All Products Grid Page
-   Theme: White & Green (HomeSmart)
+   Fitness_&_Sports_AllProducts.css — All Products Grid Page
+   Theme: White & Green
    =================================================== */
 
-/* --- Back to HomeSmart Button --- */
-.back-btn-hs {
+/* --- Back to Fitness & Sports Button --- */
+.back-btn-fs {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -20,12 +20,12 @@
     box-shadow: 0 3px 10px rgba(76, 175, 80, 0.1);
 }
 
-.back-btn-hs i:first-child {
+.back-btn-fs i:first-child {
     font-size: 0.85rem;
     transition: transform 0.3s ease;
 }
 
-.back-btn-hs:hover {
+.back-btn-fs:hover {
     background: linear-gradient(135deg, var(--accent-green), #388e3c);
     color: white;
     border-color: var(--accent-green);
@@ -33,11 +33,11 @@
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.25);
 }
 
-.back-btn-hs:hover i:first-child {
+.back-btn-fs:hover i:first-child {
     transform: translateX(-4px);
 }
 
-.back-btn-hs:active {
+.back-btn-fs:active {
     transform: translateX(-3px) scale(0.97);
 }
 
@@ -781,4 +781,3 @@
         font-size: 1.2rem;
     }
 }
-

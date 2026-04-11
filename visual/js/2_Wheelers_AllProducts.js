@@ -388,4 +388,5 @@ function initCustomDropdown() {
             sortProducts(value);
         });
     });
+    
 }
