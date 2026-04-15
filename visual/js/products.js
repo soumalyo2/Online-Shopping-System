@@ -7,7 +7,7 @@ const categories = [
 ];
 
 const productPool = [
-    { name: 'Multivitamins', price: '₹1,200', img: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=500' },
+    { name: 'Multivitamins', price: '₹1,200', img: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=500', },
     { name: 'Face Serum', price: '₹899', img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500' },
     { name: 'Dog Food', price: '₹2,500', img: 'https://images.unsplash.com/photo-1589924691106-906f13979416?w=500' },
     { name: 'Baby Monitor', price: '₹4,500', img: 'https://images.unsplash.com/photo-1555252333-978fead06d0c?w=500' },
@@ -31,7 +31,7 @@ for (let i = 0; i < TOTAL_PRODUCTS; i++) {
     const template = productPool[i % productPool.length];
     products.push({
         id: i,
-        name: `${template.name} v${i}`,
+        name: `${template.name}`,
         section: categories[i % categories.length],
         price: template.price,
         rating: Math.floor(Math.random() * 2) + 4,
