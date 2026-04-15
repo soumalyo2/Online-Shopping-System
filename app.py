@@ -58,6 +58,9 @@ def add_product():
     
     return render_template('add_product.html')
 
+@app.route('/payment')
+def payment_gateway():
+    return render_template('payment_gateway.html')
 @app.route('/cart')
 def cart():
     return render_template('cart.html')

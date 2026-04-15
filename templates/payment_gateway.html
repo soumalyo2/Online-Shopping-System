@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gateway | UrbanMart Secure Checkout</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Leaflet.js for Dynamic Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- International Phone Input -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
+
+    <style>
+        :root {
+            --p-pine: #1B3022;
+            --p-sage: #88A38B;
+            --p-moss: #5A8A5A;
+            --p-cream: #FAF9F6;
+            --p-charcoal: #2D3436;
+            --g-frosted: rgba(255, 255, 255, 0.45);
+            --g-border: rgba(27, 48, 34, 0.08);
+            --s-soft: 0 24px 48px -12px rgba(27, 48, 34, 0.06);
+            --anim-speed: 0.4s;
+        }
+
+        body {
+            background-color: var(--p-cream);
+            color: var(--p-charcoal);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(250, 249, 246, 0.8), rgba(250, 249, 246, 0.3));
+            backdrop-filter: blur(12px) saturate(1.2);
+            z-index: -1;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .brand-header {
+            text-align: center;
+            padding-bottom: 40px;
+        }
+
+        .brand-logo {
+            font-family: 'Lora', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--p-pine);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .brand-logo span { color: var(--p-moss); }
+
+        .stepper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .step-pill {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid var(--g-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--anim-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--p-sage);
+            position: relative;
+        }
+
+        .step-pill::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 1.5px;
+            background: var(--g-border);
+            right: -35px;
+        }
+
+        .step-pill:last-child::after { display: none; }
+
+        .step-pill.active {
+            background: var(--p-pine);
+            color: white;
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 12px 24px rgba(27, 48, 34, 0.2);
+        }
+
+        .step-pill.done {
+            background: rgba(136, 163, 139, 0.15);
+            color: var(--p-pine);
+            border-color: var(--p-sage);
+        }
+
+        .lux-card {
+            background: var(--g-frosted);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 40px;
+            padding: 50px;
+            box-shadow: var(--s-soft);
+            height: 100%;
+        }
+
+        .step-block { display: none; }
+        .step-block.active { display: block; }
+
+        h2 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            margin-bottom: 35px;
+            font-size: 2.4rem;
+            letter-spacing: -1.5px;
+            color: var(--p-pine);
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--p-sage);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 40px;
+        }
+
+        .bag-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .bag-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid var(--g-border);
+            background: white;
+        }
+
+        .lux-input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .lux-field {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1.5px solid var(--g-border);
+            border-radius: 16px;
+            padding: 18px 24px;
+            color: var(--p-charcoal);
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .lux-field:focus {
+            border-color: var(--p-moss);
+            background: white;
+            box-shadow: 0 0 20px rgba(90, 138, 90, 0.08);
+        }
+
+        .lux-tag {
+            position: absolute;
+            top: -10px;
+            left: 18px;
+            background: white;
+            padding: 0 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--p-moss);
+            border-radius: 6px;
+            border: 1px solid var(--g-border);
+            z-index: 50; /* Ensure it stays above library wrappers */
+        }
+
+        .p-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .p-pill {
+            background: rgba(255,255,255,0.5);
+            border: 1.5px solid var(--g-border);
+            border-radius: 24px;
+            padding: 30px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .p-pill:hover {
+            transform: translateY(-8px);
+            background: white;
+        }
+
+        .p-pill.active {
+            border-color: var(--p-moss);
+            background: white;
+            box-shadow: 0 15px 35px rgba(90, 138, 90, 0.12);
+        }
+
+        .p-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+            color: var(--p-sage);
+        }
+
+        .active .p-icon { color: var(--p-moss); }
+
+        .btn-luxe {
+            background: var(--p-pine);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 20px 40px;
+            font-weight: 700;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(27, 48, 34, 0.15);
+        }
+
+        .btn-luxe:hover {
+            background: var(--p-charcoal);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(27, 48, 34, 0.25);
+            color: white;
+        }
+
+        /* GPS button states */
+        .btn-gps {
+            border: 1.5px dashed rgba(27,48,34,0.15);
+            background: rgba(255,255,255,0.5);
+            border-radius: 16px;
+            width: 100%;
+            padding: 16px 24px;
+            font-weight: 600;
+            color: var(--p-charcoal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 28px;
+        }
+
+        .btn-gps:hover:not(:disabled) {
+            background: white;
+            border-color: var(--p-moss);
+        }
+
+        .btn-gps:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-gps .gps-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(90,138,90,0.2);
+            border-top-color: var(--p-moss);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        .btn-gps.loading .gps-spinner { display: block; }
+        .btn-gps.loading .gps-icon { display: none; }
+
+        .f-box {
+            background: rgba(255,255,255,0.4);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--g-border);
+            transition: all 0.3s ease;
+        }
+
+        .f-head {
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .f-body {
+            padding: 0 24px 20px;
+            display: none;
+        }
+
+        .f-box.open { background: white; border-color: var(--p-moss); }
+        .f-box.open .f-body { display: block; }
+        .f-box.open .chevron { transform: rotate(180deg); }
+
+        .loader-wrap {
+            position: fixed;
+            inset: 0;
+            background: var(--p-cream);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .spin-leaf {
+            width: 70px;
+            height: 70px;
+            border: 4px solid rgba(136, 163, 139, 0.1);
+            border-top-color: var(--p-pine);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Map styling */
+        .map-container {
+            height: 250px;
+            width: 100%;
+            border-radius: 24px;
+            margin-bottom: 30px;
+            border: 1px solid var(--g-border);
+            overflow: hidden;
+            display: none; /* Hidden until GPS button clicked */
+            box-shadow: 0 10px 30px rgba(27, 48, 34, 0.05);
+            z-index: 10;
+        }
+
+        .leaflet-container {
+            font-family: inherit;
+        }
+
+        .leaflet-bar a {
+            background-color: white !important;
+            color: var(--p-pine) !important;
+            border: 1px solid var(--g-border) !important;
+        }
+
+        /* Intl-tel-input integration */
+        .iti { width: 100%; display: block; }
+        .iti__country-list { 
+            border-radius: 16px; 
+            border: 1px solid var(--g-border); 
+            box-shadow: var(--s-soft); 
+            background: white;
+            backdrop-filter: blur(20px);
+            padding: 10px;
+        }
+        .iti__flag-container { padding: 2px; }
+        .iti__selected-flag { border-radius: 12px 0 0 12px; }
+        .lux-field.iti-input { padding-left: 95px !important; }
+
+        @media (max-width: 991px) {
+            .sidebar { position: relative; top: 0; margin-top: 50px; }
+            h2 { font-size: 1.8rem; }
+            .p-grid { grid-template-columns: 1fr; }
+            .lux-card { padding: 30px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+    <div class="loader-wrap" id="loaderWrap">
+        <div class="spin-leaf"></div>
+        <h5 class="mt-4 text-dark opacity-75 fw-bold" style="letter-spacing: 4px;">SECURE CHECKOUT</h5>
+    </div>
+
+    <div class="wrapper">
+        <div class="brand-header">
+            <a href="/" class="brand-logo">Urban<span>mart</span>.</a>
+        </div>
+
+        <div class="stepper">
+            <div class="step-pill active" id="pill1" onclick="jumpTo(1)"><i class="bi bi-truck"></i></div>
+            <div class="step-pill" id="pill2" onclick="jumpTo(2)"><i class="bi bi-stack"></i></div>
+            <div class="step-pill" id="pill3" onclick="jumpTo(3)"><i class="bi bi-credit-card-2-back"></i></div>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-lg-7 transition-all" id="mainCol">
+                <div class="lux-card">
+
+                    <!-- STEP 1: SHIPPING -->
+                    <div class="step-block active animate__animated animate__fadeIn" id="step1">
+                        <h2>Shipping Details</h2>
+
+                        <button class="btn-gps" id="gpsBtn" onclick="gpsAutofill()">
+                            <div class="gps-spinner"></div>
+                            <i class="bi bi-geo-fill text-success gps-icon" style="font-size:1.1rem;"></i>
+                            <span id="gpsBtnText">Auto-detect via GPS</span>
+                        </button>
+
+                        <div id="map" class="map-container"></div>
+
+                        <form id="shippingForm">
+                            <div class="lux-input-group">
+                                <span class="lux-tag">RECIPIENT NAME</span>
+                                <input type="text" id="inName" class="lux-field" placeholder="Full Name" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="lux-input-group" style="margin-bottom: 25px;">
+                                        <span class="lux-tag" style="z-index:60; position:absolute; top:-10px; left:18px;">CONTACT</span>
+                                        <input type="tel" id="inPhone" class="lux-field" style="padding-left:95px;" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="lux-input-group">
+                                        <span class="lux-tag">ZIP CODE</span>
+                                        <input type="text" id="inZip" class="lux-field" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lux-input-group">
+                                <span class="lux-tag">ADDRESS</span>
+                                <input type="text" id="inAddr" class="lux-field" placeholder="Building, Street, Area" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="lux-input-group">
+                                        <span class="lux-tag">CITY</span>
+                                        <input type="text" id="inCity" class="lux-field" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="lux-input-group">
+                                        <span class="lux-tag">STATE</span>
+                                        <input type="text" id="inState" class="lux-field" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-luxe mt-3" onclick="jumpTo(2)">
+                                Verify Order Summary <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- STEP 2: ORDER REVIEW -->
+                    <div class="step-block animate__animated animate__fadeIn" id="step2">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <div class="text-center mb-5">
+                                    <h2 class="mb-2">Review Your Order</h2>
+                                    <p class="text-muted">High-quality choices, ready for delivery.</p>
+                                </div>
+
+                                <div class="bg-white bg-opacity-40 p-5 rounded-5 border border-white shadow-sm">
+                                    <span class="section-label">PRODUCTS</span>
+                                    <!-- Dynamic product list populated by loadCartData() -->
+                                    <div class="mb-4" id="rev-product-list"></div>
+
+                                    <div class="border-top pt-4 mb-4">
+                                        <span class="section-label">DELIVERY TO</span>
+                                        <div class="fw-bold h6 mb-1" id="rev-name">---</div>
+                                        <div class="text-muted small" id="rev-addr">---</div>
+                                    </div>
+
+                                    <div class="border-top pt-4 mb-5">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Subtotal</span>
+                                            <span class="fw-bold" id="rev-subtotal">---</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Fees & Shipping</span>
+                                            <span class="fw-bold" id="rev-fees">₹0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between h4 fw-bold text-dark border-top pt-3 mt-3">
+                                            <span>GRAND TOTAL</span>
+                                            <span id="rev-total">---</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-dark w-100 py-3 rounded-4" onclick="jumpTo(1)">
+                                                <i class="bi bi-arrow-left me-2"></i> Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button class="btn btn-luxe w-100" onclick="jumpTo(3)">
+                                                Proceed to Payment <i class="bi bi-credit-card-2-back ms-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: PAYMENT -->
+                    <div class="step-block animate__animated animate__fadeIn" id="step3">
+                        <h2>Payment Hub</h2>
+                        <span class="section-label">METHOD SELECTION</span>
+
+                        <div class="p-grid">
+                            <div class="p-pill active" onclick="setPayMethod(this, 'card')">
+                                <i class="bi bi-shield-lock p-icon"></i>
+                                <span class="fw-bold small">CARD</span>
+                            </div>
+                            <div class="p-pill" onclick="setPayMethod(this, 'upi')">
+                                <i class="bi bi-lightning p-icon"></i>
+                                <span class="fw-bold small">UPI</span>
+                            </div>
+                            <div class="p-pill" onclick="setPayMethod(this, 'cod')">
+                                <i class="bi bi-hand-thumbs-up p-icon"></i>
+                                <span class="fw-bold small">COD</span>
+                            </div>
+                        </div>
+
+                        <div id="cardFields" class="animate__animated animate__fadeIn">
+                            <div class="lux-input-group">
+                                <span class="lux-tag">NUMBER</span>
+                                <input type="text" class="lux-field" placeholder="0000 0000 0000 0000">
+                            </div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="lux-input-group">
+                                        <span class="lux-tag">EXPIRY</span>
+                                        <input type="text" class="lux-field" placeholder="MM / YY">
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="lux-input-group">
+                                        <span class="lux-tag">CVV</span>
+                                        <input type="password" class="lux-field" placeholder="***">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="upiFields" class="d-none animate__animated animate__fadeIn">
+                            <div class="p-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+                                <button class="p-pill py-3" onclick="selectUpi('G-Pay', this)">
+                                    <i class="bi bi-google mb-1 d-block text-primary"></i><span style="font-size:0.7rem;">G-PAY</span>
+                                </button>
+                                <button class="p-pill py-3" onclick="selectUpi('PhonePe', this)">
+                                    <i class="bi bi-phone mb-1 d-block" style="color:#6739b7;"></i><span style="font-size:0.7rem;">PHONEPE</span>
+                                </button>
+                                <button class="p-pill py-3" onclick="selectUpi('Paytm', this)">
+                                    <i class="bi bi-wallet mb-1 d-block text-info"></i><span style="font-size:0.7rem;">PAYTM</span>
+                                </button>
+                                <button class="p-pill py-3" onclick="selectUpi('Other', this)">
+                                    <i class="bi bi-three-dots mb-1 d-block text-secondary"></i><span style="font-size:0.7rem;">OTHER</span>
+                                </button>
+                            </div>
+
+                            <!-- Standard UPI ID input -->
+                            <div class="lux-input-group" id="upiIdGroup">
+                                <span class="lux-tag" id="upiDisp">UPI ID</span>
+                                <input type="text" id="upiIn" class="lux-field" placeholder="username@upi">
+                            </div>
+
+                            <!-- Other UPI: custom handle input -->
+                            <div id="otherUpiGroup" class="d-none animate__animated animate__fadeIn">
+                                <div class="lux-input-group">
+                                    <span class="lux-tag">UPI HANDLE</span>
+                                    <input type="text" id="otherUpiIn" class="lux-field" placeholder="yourname@bankname">
+                                </div>
+                                <p class="text-muted" style="font-size:0.78rem; margin-top:-12px; padding-left:5px;">
+                                    <i class="bi bi-info-circle me-1"></i>Enter a valid UPI ID like <code>name@okaxis</code> or <code>number@oksbi</code>
+                                </p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-luxe mt-4" onclick="finalPay()">Complete Secured Purchase</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-5 animate__animated" id="sideCol">
+                <div class="sidebar">
+                    <div class="lux-card" style="padding: 40px;">
+                        <span class="section-label">BAG SUMMARY</span>
+                        <!-- Dynamic bag items populated by loadCartData() -->
+                        <div class="mb-4" id="bag-item-list"></div>
+
+                        <div class="border-top border-opacity-10 pt-4 mb-4" id="side-shipping" style="display: none;">
+                            <span class="section-label">SHIP TO</span>
+                            <div class="fw-bold small text-dark" id="side-name">---</div>
+                            <div class="text-muted small mt-1" id="side-addr">---</div>
+                        </div>
+
+                        <div class="f-box">
+                            <div class="f-head" onclick="openFees()">
+                                <span class="fw-bold small">Fees & Shipping</span>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2 small fw-bold">₹3,150</span>
+                                    <i class="bi bi-chevron-down chevron text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="f-body">
+                                <div class="d-flex justify-content-between small text-muted mb-2"><span>Delivery</span><span class="text-success fw-bold">FREE</span></div>
+                                <div class="d-flex justify-content-between small text-muted"><span>Platform Fee</span><span>₹3,150</span></div>
+                            </div>
+                        </div>
+
+                        <div class="lux-input-group mb-3">
+                            <span class="lux-tag">PROMO CODE</span>
+                            <div class="d-flex gap-2">
+                                <input type="text" id="cpIn" class="lux-field py-2" style="font-size:0.9rem;" placeholder="SAVE20">
+                                <button class="btn btn-outline-success px-4" onclick="applyPromo()">Apply</button>
+                            </div>
+                            <div id="cpMsg"></div>
+                        </div>
+
+                        <div class="mt-4 border-top pt-4">
+                            <div class="d-flex justify-content-between mb-2 small text-muted"><span>Original Base</span><span id="side-base-total">---</span></div>
+                            <div class="d-flex justify-content-between mb-4 text-success fw-bold" id="discRow" style="display: none !important;">
+                                <span>Promo Saved</span><span id="discText">- ₹0</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="fw-bold h5 mb-0 text-dark">GRAND TOTAL</span>
+                                <span class="h3 mb-0 fw-bold text-dark" id="finalTotal">---</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentIdx = 1;
+        let discountAmt = 0;
+        let map, marker, iti;
+
+        // Initialize Phone Input
+        document.addEventListener("DOMContentLoaded", function() {
+            // Load cart from sessionStorage (or fallback demo data)
+            loadCartData();
+
+            const phoneInput = document.querySelector("#inPhone");
+            iti = window.intlTelInput(phoneInput, {
+                initialCountry: "in",
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js",
+            });
+
+            // ── ENTER KEY NAVIGATION ────────────────────────────────────────────
+            // Step 1: pressing Enter on any shipping field proceeds to Step 2
+            const shippingFields = document.querySelectorAll('#shippingForm .lux-field');
+            shippingFields.forEach(field => {
+                field.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        jumpTo(2);
+                    }
+                });
+            });
+
+            // Step 3 Card fields: Enter triggers final payment
+            document.querySelectorAll('#cardFields .lux-field').forEach(field => {
+                field.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        finalPay();
+                    }
+                });
+            });
+
+            // Step 3 UPI fields: Enter triggers final payment
+            document.querySelectorAll('#upiFields .lux-field, #otherUpiGroup .lux-field').forEach(field => {
+                field.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        finalPay();
+                    }
+                });
+            });
+
+            // Promo code field: Enter applies the promo
+            document.getElementById('cpIn').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applyPromo();
+                }
+            });
+            // ────────────────────────────────────────────────────────────────────
+
+            // Enforce Indian Starting Digits (6,7,8,9)
+            phoneInput.addEventListener('input', function() {
+                const country = iti.getSelectedCountryData();
+                if (country.iso2 === 'in') {
+                    const cleanVal = phoneInput.value.replace(/\D/g, '');
+                    if (cleanVal.length > 0 && !['6', '7', '8', '9'].includes(cleanVal[0])) {
+                        phoneInput.value = '';
+                        Swal.fire({
+                            title: 'Invalid Indian Number',
+                            text: 'Mobile numbers in India must start with 6, 7, 8, or 9.',
+                            icon: 'warning',
+                            toast: true,
+                            position: 'top-end',
+                            timer: 4000,
+                            showConfirmButton: false
+                        });
+                    }
+                }
+            });
+        });
+
+        /* ── DYNAMIC GPS & MAPPING ── */
+        async function gpsAutofill() {
+            if (!navigator.geolocation) {
+                Swal.fire('Not Supported', 'Your browser does not support GPS location.', 'warning');
+                return;
+            }
+
+            const btn = document.getElementById('gpsBtn');
+            const btnText = document.getElementById('gpsBtnText');
+            btn.classList.add('loading');
+            btn.disabled = true;
+            btnText.textContent = 'Detecting high-precision location…';
+
+            navigator.geolocation.getCurrentPosition(
+                async (pos) => {
+                    const { latitude, longitude, accuracy } = pos.coords;
+                    console.log(`Detected location with ${accuracy}m accuracy.`);
+                    
+                    btnText.textContent = 'Mapping location…';
+                    await initMap(latitude, longitude);
+                    await updateAddressFromCoords(latitude, longitude, true);
+                    
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    btnText.textContent = 'Location detected ✓';
+                    btn.style.borderColor = 'var(--p-moss)';
+                    btn.style.color = 'var(--p-moss)';
+                },
+                (err) => {
+                    resetGpsBtn();
+                    const messages = {
+                        1: 'Permission denied. Please enable location access.',
+                        2: 'Position unavailable. Try moving to a clearer area.',
+                        3: 'Request timed out. Please try again.'
+                    };
+                    Swal.fire('GPS Error', messages[err.code] || 'Could not detect location.', 'error');
+                },
+                { timeout: 15000, enableHighAccuracy: true }
+            );
+        }
+
+        async function initMap(lat, lon) {
+            const mapContainer = document.getElementById('map');
+            mapContainer.style.display = 'block';
+            
+            // Wait for display:block to take effect for Leaflet sizing
+            setTimeout(() => {
+                if (!map) {
+                    map = L.map('map', { zoomControl: false }).setView([lat, lon], 16);
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                        attribution: '&copy; OpenStreetMap'
+                    }).addTo(map);
+                    
+                    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+                    marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+                    
+                    marker.on('dragend', async (e) => {
+                        const newPos = marker.getLatLng();
+                        map.panTo(newPos);
+                        await updateAddressFromCoords(newPos.lat, newPos.lng, false);
+                    });
+                } else {
+                    map.setView([lat, lon], 16);
+                    marker.setLatLng([lat, lon]);
+                }
+                map.invalidateSize();
+            }, 100);
+        }
+
+        async function updateAddressFromCoords(lat, lon, isInitial = false) {
+            try {
+                const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
+                const res = await fetch(url, {
+                    headers: { 'Accept-Language': 'en', 'User-Agent': 'UrbanMart-Checkout/1.1' }
+                });
+
+                if (!res.ok) throw new Error('Geocoding failed');
+                const data = await res.json();
+                const addr = data.address || {};
+
+                // Map Nominatim fields accurately
+                const house = addr.house_number || '';
+                const road = addr.road || addr.pedestrian || addr.suburb || '';
+                const neighbourhood = addr.neighbourhood || addr.village || '';
+                
+                const street = [house, road, neighbourhood].filter(Boolean).join(', ');
+                const city = addr.city || addr.town || addr.village || addr.county || '';
+                const state = addr.state || '';
+                const zip = addr.postcode || '';
+
+                // Fill form fields
+                if (street) document.getElementById('inAddr').value = street;
+                if (city)   document.getElementById('inCity').value = city;
+                if (state)  document.getElementById('inState').value = state;
+                if (zip)    document.getElementById('inZip').value = zip;
+                
+                // Sync phone country code
+                if (addr.country_code && iti) {
+                    iti.setCountry(addr.country_code.toLowerCase());
+                }
+
+                syncHub();
+
+                if (isInitial) {
+                    Swal.fire({
+                        title: 'Precision Location Set',
+                        text: 'We\'ve detected your location. You can drag the map pin to refine it further.',
+                        icon: 'success',
+                        confirmButtonColor: '#1B3022',
+                        timer: 3000,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                }
+            } catch (err) {
+                console.error('Reverse geocoding error:', err);
+            }
+        }
+
+        function resetGpsBtn() {
+            const btn = document.getElementById('gpsBtn');
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            document.getElementById('gpsBtnText').textContent = 'Auto-detect via GPS';
+        }
+
+        /* ── STEP NAVIGATION ── */
+        function jumpTo(idx) {
+            if (idx > currentIdx) {
+                const sForm = document.getElementById('shippingForm');
+                if (currentIdx === 1) {
+                    if (!sForm.checkValidity()) { sForm.reportValidity(); return; }
+                    
+                    // Validate Phone Number properly via intl-tel-input
+                    if (!iti.isValidNumber()) {
+                        Swal.fire({
+                            title: 'Phone Validation Error',
+                            text: 'The phone number entered is invalid or incomplete for the selected country.',
+                            icon: 'error',
+                            confirmButtonColor: '#1B3022',
+                            background: '#FAF9F6'
+                        });
+                        return;
+                    }
+                }
+            }
+
+            const mainCol = document.getElementById('mainCol');
+            const sideCol = document.getElementById('sideCol');
+
+            if (idx === 2) {
+                mainCol.classList.replace('col-lg-7', 'col-lg-12');
+                sideCol.style.display = 'none';
+            } else {
+                mainCol.classList.replace('col-lg-12', 'col-lg-7');
+                sideCol.style.display = 'block';
+            }
+
+            document.querySelectorAll('.step-block').forEach(b => b.classList.remove('active'));
+            document.getElementById('step' + idx)?.classList.add('active');
+
+            for (let i = 1; i <= 3; i++) {
+                const p = document.getElementById('pill' + i);
+                p.classList.remove('active', 'done');
+                if (i < idx) p.classList.add('done');
+                if (i === idx) p.classList.add('active');
+            }
+
+            if (idx >= 1) syncHub();
+            currentIdx = idx;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function syncHub() {
+            const name  = document.getElementById('inName').value;
+            const phone = document.getElementById('inPhone').value;
+            const addr  = document.getElementById('inAddr').value;
+            const city  = document.getElementById('inCity').value;
+            const zip   = document.getElementById('inZip').value;
+            const state = document.getElementById('inState').value;
+
+            if (name || addr) {
+                document.getElementById('side-shipping').style.display = 'block';
+                document.getElementById('side-name').innerText = name || 'Customer';
+                document.getElementById('side-addr').innerText = `${addr || ''}, ${city || ''}`;
+            }
+
+            if (document.getElementById('rev-name')) {
+                document.getElementById('rev-name').innerText = name || 'User';
+                document.getElementById('rev-addr').innerText = `${addr || ''}, ${city || ''}, ${state || ''} - ${zip || ''}`;
+            }
+        }
+
+        function openFees() { document.querySelector('.f-box').classList.toggle('open'); }
+
+        function setPayMethod(el, type) {
+            document.querySelectorAll('.p-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('cardFields').classList.toggle('d-none', type !== 'card');
+            document.getElementById('upiFields').classList.toggle('d-none', type !== 'upi');
+        }
+
+        function selectUpi(app, el) {
+            // Highlight selected pill
+            document.querySelectorAll('#upiFields .p-pill').forEach(p => p.classList.remove('active'));
+            if (el) el.classList.add('active');
+
+            const isOther = app === 'Other';
+            document.getElementById('upiIdGroup').classList.toggle('d-none', isOther);
+            document.getElementById('otherUpiGroup').classList.toggle('d-none', !isOther);
+
+            if (!isOther) {
+                document.getElementById('upiDisp').innerText = `${app} ID`;
+                document.getElementById('upiIn').placeholder = `${app.toLowerCase().replace('-','')}@upi`;
+                Swal.fire({ title: `${app} selected`, icon: 'success', toast: true, position: 'top-end', timer: 1800, showConfirmButton: false });
+            } else {
+                document.getElementById('otherUpiIn').focus();
+            }
+        }
+
+        /* ── DYNAMIC CART LOADER ─────────────────────────────────────────────────
+         *  Other pages push data into sessionStorage like this:
+         *
+         *  sessionStorage.setItem('um_cart', JSON.stringify([
+         *    { name: 'Product Name', price: 1999, image: 'https://...' },
+         *    { name: 'Another Item', price: 3499, image: 'https://...' }
+         *  ]));
+         *  window.location.href = '/payment_gateway';
+         *
+         *  A single product buy can also be passed; just send an array with one item.
+         * ─────────────────────────────────────────────────────────────────────── */
+        const PLATFORM_FEE = 99; // flat platform fee in ₹
+
+        function loadCartData() {
+            let items = [];
+            try {
+                const raw = sessionStorage.getItem('um_cart');
+                if (raw) items = JSON.parse(raw);
+            } catch(e) { items = []; }
+
+            // Fallback demo items if nothing in sessionStorage (for standalone preview)
+            if (!items.length) {
+                items = [
+                    { name: 'Nike Air Max Pro',   price: 12499, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200' },
+                    { name: 'Urban Smartwatch v4', price: 4999,  image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200' }
+                ];
+            }
+
+            const subtotal = items.reduce((s, i) => s + i.price, 0);
+            const grandTotal = subtotal + PLATFORM_FEE;
+
+            /* --- Bag Summary sidebar --- */
+            const bagList = document.getElementById('bag-item-list');
+            bagList.innerHTML = items.map(i => `
+                <div class="bag-item">
+                    <img src="${i.image}" class="bag-img" onerror="this.src='https://placehold.co/70x70/EEF0EB/88A38B?text=IMG'">
+                    <div>
+                        <h6 class="mb-0 fw-bold">${i.name}</h6>
+                        <span class="text-muted small">₹${i.price.toLocaleString('en-IN')}</span>
+                    </div>
+                </div>`).join('');
+
+            /* --- Order Review product list --- */
+            const revList = document.getElementById('rev-product-list');
+            revList.innerHTML = items.map((i, idx) => `
+                <div class="d-flex justify-content-between align-items-center ${idx < items.length-1 ? 'mb-3' : ''}">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="${i.image}" class="rounded-3" style="width:50px;height:50px;object-fit:cover;"
+                             onerror="this.src='https://placehold.co/50x50/EEF0EB/88A38B?text=IMG'">
+                        <span class="fw-bold">${i.name}</span>
+                    </div>
+                    <span class="fw-bold">₹${i.price.toLocaleString('en-IN')}</span>
+                </div>`).join('');
+
+            /* --- Totals --- */
+            const fmt = n => `₹${n.toLocaleString('en-IN')}`;
+            document.getElementById('rev-subtotal').innerText   = fmt(subtotal);
+            document.getElementById('rev-fees').innerText       = fmt(PLATFORM_FEE);
+            document.getElementById('rev-total').innerText      = fmt(grandTotal);
+            document.getElementById('side-base-total').innerText = fmt(grandTotal);
+            document.getElementById('finalTotal').innerText     = fmt(grandTotal);
+
+            // Store base for promo discount calc
+            window._cartBaseTotal = grandTotal;
+        }
+
+        function applyPromo() {
+            const val = document.getElementById('cpIn').value.toUpperCase();
+            const base = window._cartBaseTotal || 0;
+            if (val === 'SAVE20') {
+                discountAmt = Math.round(base * 0.20);
+                document.getElementById('discRow').style.cssText = 'display: flex !important;';
+                document.getElementById('discText').innerText = `- ₹${discountAmt.toLocaleString('en-IN')}`;
+                updateFinals();
+                Swal.fire('Promo Applied!', `You saved ₹${discountAmt.toLocaleString('en-IN')} (20% off)`, 'success');
+            } else {
+                Swal.fire('Invalid Code', 'Try SAVE20 for 20% off', 'error');
+            }
+        }
+
+        function updateFinals() {
+            const base = window._cartBaseTotal || 0;
+            const total = base - discountAmt;
+            document.getElementById('finalTotal').innerText = `₹${total.toLocaleString('en-IN')}`;
+            document.getElementById('rev-total').innerText  = `₹${total.toLocaleString('en-IN')}`;
+        }
+
+        function finalPay() {
+            document.getElementById('loaderWrap').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('loaderWrap').style.display = 'none';
+                Swal.fire({
+                    title: 'ORDER SECURED',
+                    text: 'Your sustainable goodies are being packed.',
+                    icon: 'success',
+                    background: '#FAF9F6',
+                    confirmButtonColor: '#1B3022',
+                    padding: '3rem'
+                }).then(() => window.location.href = '/');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
