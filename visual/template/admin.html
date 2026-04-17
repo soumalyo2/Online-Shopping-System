@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Footer CSS -->
     <link rel="stylesheet" href="../css/footer.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #FAFAF7;
@@ -19,20 +21,63 @@
             --text-muted: #6C757D;
             --border-soft: #E5E5E0;
         }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-color); color: var(--headline-color); }
-        .navbar { background: white !important; border-bottom: 1px solid var(--border-soft); }
-        .stat-card { background: white; border: 1px solid var(--border-soft); border-radius: 15px; padding: 20px; text-align: center; transition: all 0.3s; }
-        .stat-card:hover { border-color: var(--primary-nature); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .btn-nature { background: var(--primary-nature); color: white; border-radius: 10px; border: none; font-weight: 600; transition: all 0.3s ease; }
-        .btn-nature:hover { filter: brightness(0.9); transform: translateY(-2px); color: white; }
-        .color-nature { color: var(--primary-nature) !important; }
-        .inventory-container { background: white; border: 1px solid var(--border-soft); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--headline-color);
+        }
+
+        .navbar {
+            background: white !important;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border-soft);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary-nature);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-nature {
+            background: var(--primary-nature);
+            color: white;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nature:hover {
+            filter: brightness(0.9);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .color-nature {
+            color: var(--primary-nature) !important;
+        }
+
+        .inventory-container {
+            background: white;
+            border: 1px solid var(--border-soft);
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold color-nature" href="#">PBSSD <span style="color: #1A1A1A">ADMIN</span></a>
+            <a class="navbar-brand fw-bold color-nature" href="#">UrbanMart <span
+                    style="color: #1A1A1A">ADMIN</span></a>
             <div class="ms-auto">
                 <span class="text-secondary me-3"><i class="bi bi-person-circle me-1"></i>Administrator</span>
                 <a href="../../index.html" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</a>
@@ -43,7 +88,8 @@
     <main class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <h2 class="fw-bold"><i class="bi bi-speedometer2 me-2 color-nature"></i>Dashboard Overview</h2>
-            <button class="btn btn-nature rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addProductModal"><i class="bi bi-plus-lg me-2"></i>Add New Product</button>
+            <button class="btn btn-nature rounded-pill px-4 shadow-sm" data-bs-toggle="modal"
+                data-bs-target="#addProductModal"><i class="bi bi-plus-lg me-2"></i>Add New Product</button>
         </div>
 
         <!-- Stats Row -->
@@ -80,16 +126,19 @@
 
         <!-- Inventory Table -->
         <div class="p-5 rounded-4 inventory-container shadow-sm">
-            <h4 class="fw-bold mb-4"><i class="bi bi-list-task me-2 color-nature"></i>Inventory Management</h4>
+            <h4 class="fw-bold mb-4"><i class="bi bi-list-task me-2 color-nature"></i>Global Seller Inventory Management
+            </h4>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Product ID</th>
                             <th>Image</th>
+                            <th>Seller / Shop</th>
                             <th>Category</th>
-                            <th>Product</th>
-                            <th>Inventory</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
                             <th>Status</th>
                             <th class="text-end">Actions</th>
                         </tr>
@@ -107,7 +156,8 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h5 class="footer-heading">PBSSD FRESH</h5>
-                    <p class="footer-text">Your daily dose of fresh and organic products, delivered to your doorstep with care and quality.</p>
+                    <p class="footer-text">Your daily dose of fresh and organic products, delivered to your doorstep
+                        with care and quality.</p>
                     <div class="social-icons mt-4">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -164,7 +214,8 @@
                     <form id="productForm">
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Product Name</label>
-                            <input type="text" id="pName" class="form-control rounded-3" placeholder="e.g. Organic Wild Honey" required>
+                            <input type="text" id="pName" class="form-control rounded-3"
+                                placeholder="e.g. Organic Wild Honey" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Product Image</label>
@@ -193,9 +244,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // IndexedDB Logic
-        const DB_NAME = 'PBSSDFreshDB';
+        // IndexedDB Logic tailored for Sellers Products (PBSSDProductDB)
+        const DB_NAME = 'PBSSDProductDB';
         const DB_VERSION = 1;
         const STORE_NAME = 'products';
         let db;
@@ -204,34 +256,47 @@
         request.onupgradeneeded = (e) => {
             db = e.target.result;
             if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                const store = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                store.createIndex('sellerId', 'sellerId', { unique: false });
             }
         };
         request.onsuccess = (e) => { db = e.target.result; loadInventory(); };
 
         function loadInventory() {
+            if (!db.objectStoreNames.contains(STORE_NAME)) return;
             const transaction = db.transaction([STORE_NAME], 'readonly');
             const store = transaction.objectStore(STORE_NAME);
             const getRequest = store.getAll();
             getRequest.onsuccess = () => {
-                const items = getRequest.result;
+                const items = getRequest.result || [];
                 const tbody = document.getElementById('inventoryTableBody');
+
+                // Sort by latest added at
+                items.sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
+
+                if (items.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" class="text-center py-5 text-muted">No seller products found in the database.</td></tr>';
+                    return;
+                }
+
                 tbody.innerHTML = items.map(item => `
                     <tr>
-                        <td>#${item.id}</td>
+                        <td class="text-secondary small font-monospace fw-bold">${item.id.replace('PROD_', '')}</td>
                         <td>
-                            ${item.image ? 
-                                `<img src="${item.image}" alt="" style="width: 45px; height: 45px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-soft);">` : 
-                                `<div style="width: 45px; height: 45px; background: #f0f0ed; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            ${item.image ?
+                        `<img src="${item.image}" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-soft);">` :
+                        `<div style="width: 50px; height: 50px; background: #f0f0ed; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                                     <i class="bi bi-image text-muted"></i>
                                  </div>`}
                         </td>
-                        <td>${item.category}</td>
-                        <td>${item.name}</td>
+                        <td class="fw-bold color-nature">${item.shopName || 'Admin'}</td>
+                        <td><span class="badge bg-secondary rounded-pill px-2 py-1">${item.category}</span></td>
+                        <td class="fw-bold text-dark">${item.name}</td>
+                        <td class="fw-bold text-success">₹${Number(item.price || 0).toFixed(2)}</td>
                         <td>${item.stock}</td>
-                        <td><span class="badge ${item.stock > 10 ? 'bg-success' : 'bg-warning'}">${item.stock > 10 ? 'Healthy' : 'Low Stock'}</span></td>
+                        <td><span class="badge ${item.stock > 10 ? 'bg-success' : 'bg-warning'} px-2 py-1 rounded-pill">${item.stock > 10 ? 'Healthy' : 'Low Stock'}</span></td>
                         <td class="text-end">
-                            <i class="bi bi-trash text-danger cursor-pointer" onclick="deleteItem(${item.id})"></i>
+                            <button class="btn btn-sm btn-outline-danger shadow-sm rounded-circle" onclick="deleteItem('${item.id}')"><i class="bi bi-trash"></i></button>
                         </td>
                     </tr>`).join('');
             };
@@ -239,7 +304,7 @@
 
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const fileInput = document.getElementById('pImage');
             let imageBase64 = '';
 
@@ -252,20 +317,50 @@
                 });
             }
 
-            const product = { 
-                name: document.getElementById('pName').value, 
-                category: document.getElementById('pCategory').value, 
+            const product = {
+                id: 'PROD_' + Date.now().toString(),
+                sellerId: 'ADMIN',
+                shopName: 'UrbanMart Official',
+                name: document.getElementById('pName').value,
+                category: document.getElementById('pCategory').value,
+                price: 199.99, // default placeholder price since admin form doesn't carry it
                 stock: parseInt(document.getElementById('pStock').value),
-                image: imageBase64
+                image: imageBase64,
+                addedAt: new Date().toISOString()
             };
 
             const tx = db.transaction([STORE_NAME], 'readwrite');
             tx.objectStore(STORE_NAME).add(product);
-            tx.oncomplete = () => { loadInventory(); bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide(); document.getElementById('productForm').reset(); };
+            tx.oncomplete = () => {
+                loadInventory();
+                bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
+                document.getElementById('productForm').reset();
+                Swal.fire({ icon: 'success', title: 'Product Added!', confirmButtonColor: '#5A8A5A', timer: 1500, showConfirmButton: false });
+            };
         });
 
-        function deleteItem(id) { const tx = db.transaction([STORE_NAME], 'readwrite'); tx.objectStore(STORE_NAME).delete(id); tx.oncomplete = loadInventory; }
+        window.deleteItem = function (id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this product removal!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e11d48',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const tx = db.transaction([STORE_NAME], 'readwrite');
+                    tx.objectStore(STORE_NAME).delete(id);
+                    tx.oncomplete = () => {
+                        loadInventory();
+                        Swal.fire({ icon: 'success', title: 'Deleted!', text: 'Product has been removed.', showConfirmButton: false, timer: 1200 });
+                    };
+                }
+            });
+        }
     </script>
 </body>
+
 </html>
 <!-- dskjkhkjsh yyyy-->
