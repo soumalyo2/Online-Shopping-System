@@ -1,7 +1,12 @@
 const tabs = document.querySelectorAll('.tab-item');
 const panes = document.querySelectorAll('.content-pane');
-const imgTag = document.getElementById('img-tag');
+const gtkuImg = document.getElementById('gtku-img');
 const tags = ['The Marketplace', 'The Explorer', 'The Gateway'];
+const images = [
+    'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=600&q=80',
+    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80',
+    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80'
+];
 
 tabs.forEach(tab => {
 tab.addEventListener('click', () => {
@@ -10,11 +15,14 @@ tab.addEventListener('click', () => {
     panes.forEach(p => p.classList.remove('active'));
     tab.classList.add('active');
     document.querySelector(`.content-pane[data-pane="${idx}"]`).classList.add('active');
-    imgTag.style.opacity = '0';
-    setTimeout(() => {
-    imgTag.textContent = tags[idx];
-    imgTag.style.opacity = '1';
-    }, 150);
+    if (gtkuImg) {
+      gtkuImg.style.opacity = '0';
+      setTimeout(() => {
+        gtkuImg.src = images[idx];
+        gtkuImg.alt = tags[idx];
+        gtkuImg.style.opacity = '1';
+      }, 300);
+    }
 });
 });
 
@@ -199,3 +207,36 @@ const data = {
   });
 
   buildCards('board');
+
+  let countersStarted = false;
+
+  function startCounters() {
+    if (countersStarted) return;
+    countersStarted = true;
+    const speed = 200;
+    document.querySelectorAll('.counter').forEach(counter => {
+      const target = parseFloat(counter.getAttribute('data-target'));
+      const isDecimal = counter.hasAttribute('data-decimal');
+      let count = 0;
+      const inc = target / speed;
+      const update = () => {
+        count += inc;
+        if (count < target) {
+          counter.textContent = isDecimal ? count.toFixed(1) : Math.ceil(count);
+          setTimeout(update, 1);
+        } else {
+          counter.textContent = isDecimal ? target.toFixed(1) : target;
+        }
+      };
+      update();
+    });
+  }
+
+  const statsObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { startCounters(); obs.unobserve(entry.target); }
+    });
+  }, { threshold: 0.4 });
+
+  const statsSection = document.querySelector('.stats-section');
+  if (statsSection) statsObserver.observe(statsSection);
