@@ -1,0 +1,35 @@
+# UrbanMart - E-Commerce System Documentation
+
+## 1. Project Overview
+UrbanMart is a premium e-commerce platform designed to offer a highly interactive, fluid, and dynamic user experience. The repository currently presents a hybrid architecture that heavily focuses on a modern, detailed frontend prototype, accompanied by a rudimentary Python/Flask backend and a MySQL database structure.
+
+## 2. Directory Structure and Purpose
+- `app.py`: The entry point for the Flask application. It defines simple routing and basic database connection handling for rendering Jinja templates.
+- `database/`: Contains `schema.sql`, which outlines the MySQL table structures including user roles (buyer, seller, admin), products, orders, cart_items, and category_details.
+- `index.html` (root): The main landing page for the rich frontend prototype. Features complex UI components, modern animations (AOS), IndexedDB interactions, and pathways to various product categories.
+- `visual/`: This is the core strength of the current codebase. It contains a comprehensive, highly detailed static frontend UI:
+  - `visual/template/`: Holds individual landing and product pages for specific categories such as Fashion, Electronics, Groceries, Books, Pet Supplies, Travel, and Two-Wheelers.
+  - `visual/css/` & `visual/js/`: Contains the bespoke styling and client-side logic to drive these templates, including client-side cart management and animations.
+- `templates/`: Typical Flask Jinja2 templates (e.g., `index.html`, `login.html`, `admin.html`, `cart.html`) that are currently served by the `app.py` backend. Right now, this acts mostly as a separate MVP frontend, while the "visual" directory acts as the next-generation UI being integrated.
+- `TODO.md`: A tracker for ongoing complex UI features and migration steps.
+
+## 3. Technology Stack
+### Frontend
+- HTML5, Vanilla JavaScript, and extensive custom CSS.
+- CSS Frameworks / Libraries: Bootstrap 5, AOS (Animate on Scroll), Animate.css, Bootstrap Icons.
+- Storage: Browser-native `IndexedDB` is used effectively to mock and handle client-side cart and state logic (e.g., seamless syncing of the cart badge and items without a backend server roundtrip).
+
+### Backend
+- Server: Python with Flask.
+- Database: MySQL (using `db_config.py` for connection configuration).
+
+## 4. Current State & Critical Observations
+1. **Frontend-Heavy Progress**: The project shines in its frontend design. Pages under the `visual/template/` directory are incredibly polished, offering advanced scrolling behaviors, mock product filtering, interactive UI drawers, and rich imagery.
+2. **Backend/Frontend Disconnect**: The Python backend serves the older or simpler HTML layouts from the `templates/` folder and has basic db connection code. The rich UI in the `index.html` (root) and `visual/` folder largely operates autonomously using IndexedDB and JS logic rather than pulling heavily from the Flask SQL integrations.
+3. **Ongoing Migration**: Based on `TODO.md` and the architecture, the project is in a transitional phase where complex frontend states (like the advanced navigation bars and category pages) are being standardized and potentially prepared for integration with dynamic backend endpoints.
+4. **Data Layer Preparedness**: The `schema.sql` is well-thought-out, preparing tables for e-commerce necessities like `CART_ITEMS`, `ORDER_DETAILS`, `FAVOURITE_PRODUCTS`, etc., ready for when the backend expands.
+
+## 5. Next Logical Steps
+- Unify the application interfaces: Move the rich `visual` HTML pages into the Flask `templates` directory natively or convert the Flask server to an API-only (JSON) backend and let the existing HTML/JS serve as a true Single Page Application (SPA).
+- Map the frontend's IndexedDB states to actual backend Database records via RESTful API routes.
+- Implement robust authentication mechanisms linking the frontend login forms to the SQL user tables.
