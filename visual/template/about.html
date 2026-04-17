@@ -15,39 +15,289 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Footer CSS -->
     <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/about.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top px-3">
+    <nav class="navbar animate__animated animate__fadeInDown">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="../../index.html">
-                PBSSD <span style="color: #1A1A1A">FRESH</span>
-            </a>
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="bi bi-list fs-2" style="color: var(--primary-nature)"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../../index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">About</a></li>
+            <div class="navbar-inner w-100">
+                <a class="navbar-brand fw-bold" href="../../index.html"
+                style="display:flex;align-items:center;gap:0;text-decoration:none;">
+                <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="flex-shrink:0;">
+                    <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
+                    <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2"
+                    stroke-linecap="round" fill="none" />
+                    <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+                    <circle cx="9.5" cy="17" r="1.2" fill="white" />
+                    <circle cx="16.5" cy="17" r="1.2" fill="white" />
+                    <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#1A1A1A"
+                    letter-spacing="-0.3">Urban</text>
+                    <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#5A8A5A"
+                    letter-spacing="-0.3">mart</text>
+                    <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
+                </svg>
+                </a>
+                <ul class="nav-links ms-5 justify-content-center">
+                <li><a class="nav-link" href="../../index.html#shop">Shop</a></li>
+                <li><a class="nav-link" href="../../index.html#Travel">Travel</a></li>
+                <li><a class="nav-link" href="../../index.html#Payment">Payment</a></li>
                 </ul>
+                
+                <div class="nav-right">
+                <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites" style="position:relative;">
+                    <i class="bi bi-heart"></i>
+                    <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
+                </button>
+                <div class="settings-wrapper">
+                    <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i
+                        class="bi bi-gear"></i></button>
+                    <div class="settings-panel" id="settingsPanel">
+                    <div class="settings-panel-header">Preferences</div>
+                    <div class="settings-item" onclick="toggleSetting('notifications')">
+                        <div class="settings-item-left">
+                        <div class="settings-item-icon"><i class="bi bi-bell"></i></div>
+                        <div>
+                            <div class="settings-item-label">Notifications</div>
+                            <div class="settings-item-sub">Deals &amp; order updates</div>
+                        </div>
+                        </div>
+                        <button class="s-toggle on" id="toggle-notifications"></button>
+                    </div>
+                    <div class="settings-item" onclick="toggleSetting('darkmode')">
+                        <div class="settings-item-left">
+                        <div class="settings-item-icon"><i class="bi bi-moon"></i></div>
+                        <div>
+                            <div class="settings-item-label">Dark Mode</div>
+                            <div class="settings-item-sub">Switch appearance</div>
+                        </div>
+                        </div>
+                        <button class="s-toggle" id="toggle-darkmode"></button>
+                    </div>
+                    <div class="settings-item" onclick="toggleSetting('offers')">
+                        <div class="settings-item-left">
+                        <div class="settings-item-icon"><i class="bi bi-tag"></i></div>
+                        <div>
+                            <div class="settings-item-label">Personalised Offers</div>
+                            <div class="settings-item-sub">Based on your activity</div>
+                        </div>
+                        </div>
+                        <button class="s-toggle on" id="toggle-offers"></button>
+                    </div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-panel-header">Account</div>
+                    <a class="settings-link-item" href="login.html">
+                        <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
+                        Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                    </a>
+                    <a class="settings-link-item" href="#">
+                        <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
+                        Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                    </a>
+                    <a class="settings-link-item" href="seller.html">
+                        <div class="settings-item-icon" style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
+                            class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
+                        with Us</span><i class="bi bi-chevron-right ms-auto"
+                        style="font-size:0.7rem;color:var(--primary-nature);"></i>
+                    </a>
+                    <a class="settings-link-item" href="about.html">
+                        <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
+                        UrbanMart</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                    </a>
+                    </div>
+                </div>
+                <button class="nav-icon-btn" onclick="window.location.href='cart.html'" title="Cart">
+                    <i class="bi bi-bag"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+                <a id="login-nav-btn" class="nav-login-btn" href="login.html"><i class="bi bi-person-circle"></i>
+                    Login</a>
+                <a id="user-profile-btn" class="nav-login-btn d-none" href="account.html"><i class="bi bi-person-circle"></i>
+                    <span id="user-nav-name">Profile</span></a>
+                <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i class="bi bi-list"
+                    id="hamburgerIcon"></i></button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <header class="about-hero animate__animated animate__fadeIn">
-        <div class="container">
+
+    <header class="about-hero animate__animated animate__fadeIn" style="position: relative; background: linear-gradient(135deg, #f4f7f4 0%, #e3ede3 100%); padding: 120px 0; overflow: hidden;">
+        <img src="../assets/tree branches.svg" alt="" style="position: absolute; top: 0; left: 0; width: 100%; opacity: 0.6; pointer-events: none;">
+        <div class="container" style="position: relative; z-index: 1;">
             <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h6 class="text-uppercase tracking-widest text-success fw-bold mb-3 animate__animated animate__fadeInDown">Our Philosophy</h6>
-                    <h1 class="display-3 heading-lora mb-4 animate__animated animate__fadeInUp">Crafting a greener future, one choice at a time.</h1>
-                    <p class="lead text-secondary animate__animated animate__fadeInUp animate__delay-1s">At PBSSD Fresh, we believe that luxury shouldn't come at the cost of the planet. We curate organic, sustainable, and ethically sourced products for the conscious consumer.</p>
+                <div class="col-lg-8 text-center hero-box">
+                    <h1 class="text-center">About Us</h1>
+                    <h2 class="display-4 fw-bold mb-4" style="color: #1A1A1A;">One Platform. <span style="color: #5A8A5A;">Infinite Journeys.</span></h2>
+                    <p class="lead text-secondary" style="line-height: 1.8;">
+                        UrbanMart was born out of a simple realization: the modern urban life is fast. We don't just need a place to buy things; we need a seamless way to live, travel, and pay. We’ve built an ecosystem that connects your daily essentials with your wildest adventures.
+                    </p>
                 </div>
             </div>
         </div>
     </header>
+    <section class="gtku-section">
+        <div class="container">
 
-    <main class="container py-5">
+            <div class="section-title-wrap">
+            <div class="title-line"></div>
+            <h2 class="section-title">Get to Know Us</h2>
+            <div class="title-line"></div>
+            </div>
+
+            <div class="row g-4 align-items-center">
+
+            <div class="col-lg-3 tab-col">
+                <div class="tab-item active" data-tab="0">
+                <div class="tab-number">01</div>
+                <div class="tab-label">UrbanShop <span class="arrow">→</span></div>
+                </div>
+                <div class="tab-item" data-tab="1">
+                <div class="tab-number">02</div>
+                <div class="tab-label">UrbanTravel <span class="arrow">→</span></div>
+                </div>
+                <div class="tab-item" data-tab="2">
+                <div class="tab-number">03</div>
+                <div class="tab-label">UrbanPay <span class="arrow">→</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 content-col">
+                <div class="content-pane active" data-pane="0">
+                <p>Quality over quantity. We source the best products so you don't have to spend hours scrolling. From tech essentials to home comfort, UrbanShop brings the city's best to your doorstep.</p>
+                </div>
+                <div class="content-pane" data-pane="1">
+                <p>Your next escape is just a click away. Whether it's a weekend getaway or an international flight, we provide a premium booking experience with zero hidden costs.</p>
+                </div>
+                <div class="content-pane" data-pane="2">
+                <p>The engine that powers it all. UrbanPay ensures every transaction—whether you're buying a shirt or a flight—is bank-grade secure, lightning-fast, and entirely effortless.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 image-col">
+                <div class="brand-image">
+                <div class="img-placeholder">
+                    <svg class="img-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="6" width="36" height="36" rx="8" stroke="#5A8A5A" stroke-width="2" fill="none"/>
+                    <circle cx="18" cy="18" r="4" stroke="#5A8A5A" stroke-width="2" fill="none"/>
+                    <path d="M6 32l10-10 8 8 6-6 12 12" stroke="#5A8A5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                    <span class="img-tag" id="img-tag">The Marketplace</span>
+                </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+  <div class="container">
+
+    <div class="section-title-wrap">
+      <div class="title-line"></div>
+      <h2 class="section-title">Meet the Team</h2>
+      <div class="title-line"></div>
+    </div>
+
+    <!-- Filters + nav -->
+    <div class="d-flex align-items-center flex-wrap gap-3 mb-5">
+      <div class="team-filters">
+        <button class="filter-btn active" data-filter="board">Board of Directors</button>
+        <button class="filter-btn" data-filter="management">Management Team</button>
+      </div>
+      <div class="team-nav ms-auto">
+        <button class="nav-arrow" id="prevBtn" disabled aria-label="Previous">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 12L6 8l4-4"/>
+          </svg>
+        </button>
+        <button class="nav-arrow" id="nextBtn" aria-label="Next">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 4l4 4-4 4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="team-carousel-outer">
+      <div class="team-carousel-track" id="carouselTrack"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="security-section">
+  <div class="container">
+    <div class="security-inner">
+
+      <div class="security-left">
+        <div class="lock-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <circle cx="12" cy="16" r="1" fill="currentColor" stroke="none" style="fill:#5A8A5A"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="security-right">
+        <div class="security-label">The UrbanPromise</div>
+        <h2 class="security-heading">
+          Your Security is<br>
+          <span>our Priority.</span>
+        </h2>
+        <p class="security-body">
+          Trust is the currency of the digital age. UrbanMart utilizes 256-bit encryption
+          and multi-factor authentication across all platforms. Whether you are browsing
+          or billing, you are protected by the most advanced security protocols in the industry.
+        </p>
+        <div class="security-badges">
+          <div class="sec-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            256-bit Encryption
+          </div>
+          <div class="sec-badge">
+            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            Multi-Factor Auth
+          </div>
+          <div class="sec-badge">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Bank-Grade Security
+          </div>
+          <div class="sec-badge">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            24 / 7 Monitoring
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Bio Modal -->
+<div class="bio-overlay" id="bioOverlay">
+  <div class="bio-modal" role="dialog" aria-modal="true" aria-labelledby="bioName">
+    <button class="bio-close" id="bioClose" aria-label="Close">
+      <svg viewBox="0 0 14 14"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+    </button>
+    <div class="bio-tag" id="bioCategory"></div>
+    <h3 class="bio-name" id="bioName"></h3>
+    <p class="bio-role" id="bioRole"></p>
+    <div class="bio-divider"></div>
+    <p class="bio-identity" id="bioIdentity"></p>
+    <div class="bio-philosophy-label">Philosophy</div>
+    <p class="bio-philosophy" id="bioPhilosophy"></p>
+  </div>
+</div>
+
+
+    <!-- <main class="container py-5">
         <div class="row g-4 mt-4" id="philosophy-pods">
             <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="philosophy-card p-4">
@@ -71,7 +321,22 @@
                 </div>
             </div>
         </div>
-    </main>
+        <section class="container py-5" data-aos="fade-up" style="background-color: #e9ecef; border-radius: 15px;">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color: var(--phonepe-purple);">The Faces Behind PayFlow</h2>
+        <p class="text-muted">A small team of 7, building big things for you.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+        <div class="col-6 col-md-3">
+            <div class="card border-0 text-center shadow-sm p-3 rounded-4">
+                <img src="team-member.jpg" class="rounded-circle mb-3 mx-auto" width="100" height="100">
+                <h6 class="fw-bold mb-0">Member Name</h6>
+                <small class="text-muted">Lead Developer</small>
+            </div>
+        </div>
+    </div>
+</section>
+    </main> -->
 
     <footer class="c-footer-w">
         <div class="container py-5">
@@ -125,6 +390,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/navbar.js" defer></script>
     <script src="../js/about.js"></script>
 </body>
 </html>
