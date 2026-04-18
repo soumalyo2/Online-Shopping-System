@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCore — Car Spare Parts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface2: #181818;
+            --border: #222222;
+--accent: #5A8A5A;
+--accent2: #e11d48;
+            --text: #f0f0f0;
+            --muted: #888;
+            --ev: #00d4aa;
+            --petrol: #e8a020;
+            --diesel: #c0392b;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Barlow', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.8rem; font-weight: 900;
+            color: var(--text); text-decoration: none;
+            letter-spacing: -1px;
+        }
+        .brand span { color: var(--accent); }
+        .nav-search {
+            flex: 1; max-width: 400px; margin: 0 2rem;
+            display: flex; align-items: center;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 8px; overflow: hidden;
+        }
+        .nav-search input {
+            flex: 1; padding: 0.55rem 1rem;
+            background: transparent; border: none; outline: none;
+            color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.9rem;
+        }
+        .nav-search button {
+            padding: 0.55rem 1rem; background: var(--accent);
+            border: none; cursor: pointer; color: #000; font-size: 0.9rem;
+        }
+        .nav-actions { display: flex; gap: 0.5rem; align-items: center; }
+        .nav-btn {
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text); padding: 0.5rem 1rem; border-radius: 6px;
+            cursor: pointer; font-family: 'Barlow', sans-serif; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 0.4rem; transition: 0.2s;
+            text-decoration: none;
+        }
+        .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .nav-btn.cart { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+        .cart-count {
+            background: var(--accent2); color: white;
+            border-radius: 50%; width: 18px; height: 18px;
+            font-size: 0.7rem; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── CATEGORY PILLS ── */
+        .cat-bar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            display: flex; align-items: center; gap: 0.5rem;
+            overflow-x: auto; height: 48px;
+            scrollbar-width: none;
+        }
+        .cat-bar::-webkit-scrollbar { display: none; }
+        .cat-pill {
+            white-space: nowrap;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: 0.2s;
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .cat-pill:hover, .cat-pill.active {
+            background: var(--accent); border-color: var(--accent);
+            color: #000;
+        }
+        .cat-pill.ev-pill.active, .cat-pill.ev-pill:hover { background: var(--ev); border-color: var(--ev); color: #000; }
+        .cat-pill.diesel-pill.active, .cat-pill.diesel-pill:hover { background: var(--diesel); border-color: var(--diesel); color: #fff; }
+
+        /* ── HERO CAROUSEL ── */
+        .hero {
+            height: 520px; position: relative;
+            overflow: hidden; cursor: grab;
+            user-select: none;
+        }
+        .hero-slides { display: flex; height: 100%; transition: transform 0.55s cubic-bezier(0.77,0,0.175,1); }
+        .hero-slide {
+            min-width: 100%; height: 100%;
+            display: flex; align-items: center;
+            padding: 0 8%;
+            position: relative; overflow: hidden;
+        }
+        .hero-slide::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center;
+            transition: transform 8s ease;
+        }
+        .hero-slide:hover .hero-bg { transform: scale(1.04); }
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 580px;
+        }
+        .hero-tag {
+            display: inline-block;
+            padding: 0.3rem 0.9rem; border-radius: 3px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 1.2rem;
+        }
+        .hero-tag.ev { background: var(--ev); color: #000; }
+        .hero-tag.petrol { background: var(--petrol); color: #000; }
+        .hero-tag.diesel { background: var(--diesel); color: #fff; }
+        .hero-tag.all { background: var(--accent); color: #000; }
+        .hero-content h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 4rem; font-weight: 900; line-height: 0.95;
+            text-transform: uppercase; letter-spacing: -1px;
+            margin-bottom: 1rem; color: #fff;
+        }
+        .hero-content h1 em { color: var(--accent); font-style: normal; }
+        .hero-content p { color: rgba(255,255,255,0.75); font-size: 1rem; margin-bottom: 2rem; line-height: 1.6; }
+        .hero-cta {
+            display: flex; gap: 1rem; flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: var(--accent); color: #000;
+            padding: 0.75rem 2rem; border-radius: 4px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; border: none; cursor: pointer;
+            transition: 0.2s; text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: #ffb733; transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent; color: #fff;
+            padding: 0.75rem 2rem; border-radius: 4px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; border: 1px solid rgba(255,255,255,0.4); cursor: pointer;
+            transition: 0.2s; text-decoration: none; display: inline-block;
+        }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+        .hero-arrows {
+            position: absolute; bottom: 24px; right: 5%;
+            display: flex; gap: 0.5rem; z-index: 10;
+        }
+        .arrow-btn {
+            width: 44px; height: 44px; border-radius: 4px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+            color: white; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .arrow-btn:hover { background: var(--accent); border-color: var(--accent); color: #000; }
+        .hero-dots {
+            position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 0.5rem; z-index: 10;
+        }
+        .hdot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255,255,255,0.3); cursor: pointer; transition: 0.3s;
+        }
+        .hdot.active { background: var(--accent); width: 28px; border-radius: 4px; }
+
+        /* ── TRUST BAR ── */
+        .trust-bar {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: grid; grid-template-columns: repeat(4,1fr);
+            padding: 1.5rem 5%;
+        }
+        .trust-item {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0 1.5rem;
+            border-right: 1px solid var(--border);
+        }
+        .trust-item:last-child { border-right: none; }
+        .trust-icon {
+            width: 44px; height: 44px; border-radius: 8px;
+            background: rgba(232,160,32,0.1);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 1.2rem; flex-shrink: 0;
+        }
+        .trust-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.1rem; }
+        .trust-item p { font-size: 0.75rem; color: var(--muted); }
+
+        /* ── SECTION STYLES ── */
+        .section { padding: 4rem 5%; }
+        .section-alt { background: var(--surface); }
+        .section-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        .section-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 0.4rem;
+            display: block;
+        }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2.2rem; font-weight: 900;
+            text-transform: uppercase; letter-spacing: -0.5px;
+            line-height: 1;
+        }
+        .view-all-link {
+            color: var(--accent); text-decoration: none;
+            font-size: 0.85rem; font-weight: 600;
+            display: flex; align-items: center; gap: 0.4rem;
+            transition: 0.2s; white-space: nowrap;
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .view-all-link:hover { gap: 0.8rem; }
+
+        /* ── CAR TYPE FILTER ── */
+        .type-filter {
+            display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;
+        }
+        .type-btn {
+            padding: 0.5rem 1.4rem; border-radius: 4px;
+            border: 1px solid var(--border);
+            background: transparent; color: var(--muted);
+            cursor: pointer; transition: 0.2s;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .type-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .type-btn.active-ev { background: rgba(0,212,170,0.1); border-color: var(--ev); color: var(--ev); }
+        .type-btn.active-petrol { background: rgba(232,160,32,0.1); border-color: var(--petrol); color: var(--petrol); }
+        .type-btn.active-diesel { background: rgba(192,57,43,0.1); border-color: var(--diesel); color: var(--diesel); }
+        .type-btn.active-all { background: rgba(232,160,32,0.12); border-color: var(--accent); color: var(--accent); }
+
+        /* ── CAT CARDS GRID ── */
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .cat-card {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.5rem 1rem;
+            text-align: center; cursor: pointer;
+            transition: 0.25s; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+        }
+        .cat-card:hover {
+            border-color: var(--accent);
+            background: rgba(232,160,32,0.05);
+            transform: translateY(-4px);
+        }
+        .cat-card-icon {
+            width: 52px; height: 52px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+        }
+        .cat-card span {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--text);
+        }
+
+        /* ── PRODUCT SCROLL ── */
+        .product-scroll {
+            display: flex; gap: 1.2rem;
+            overflow-x: auto; padding-bottom: 1rem;
+            scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+        }
+        .product-scroll::-webkit-scrollbar { height: 4px; }
+        .product-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        /* ── PRODUCT CARD ── */
+        .pcard {
+            min-width: 220px; max-width: 220px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+            cursor: pointer; transition: 0.25s;
+            flex-shrink: 0;
+        }
+        .pcard:hover {
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(232,160,32,0.12);
+        }
+        .pcard-img {
+            height: 160px; position: relative; overflow: hidden;
+            background: #111;
+        }
+        .pcard-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .pcard:hover .pcard-img img { transform: scale(1.07); }
+        .pcard-badge {
+            position: absolute; top: 10px; left: 10px;
+            padding: 0.2rem 0.6rem; border-radius: 3px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .badge-deal { background: var(--accent2); color: #fff; }
+        .badge-new { background: var(--ev); color: #000; }
+        .badge-hot { background: var(--accent); color: #000; }
+        .badge-oem { background: #4a4a4a; color: #fff; }
+        .pcard-fav {
+            position: absolute; top: 10px; right: 10px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(0,0,0,0.6); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted); cursor: pointer; font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .pcard-fav:hover { color: #e11d48; border-color: #e11d48; }
+        .pcard-type {
+            position: absolute; bottom: 10px; right: 10px;
+            padding: 0.15rem 0.5rem; border-radius: 3px;
+            font-size: 0.65rem; font-weight: 700;
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .type-ev { background: rgba(0,212,170,0.2); color: var(--ev); border: 1px solid var(--ev); }
+        .type-petrol { background: rgba(232,160,32,0.2); color: var(--petrol); border: 1px solid var(--petrol); }
+        .type-diesel { background: rgba(192,57,43,0.2); color: #ff6b5a; border: 1px solid var(--diesel); }
+        .type-universal { background: rgba(255,255,255,0.08); color: var(--muted); border: 1px solid var(--border); }
+
+        .pcard-body { padding: 1rem; }
+        .pcard-compat {
+            font-size: 0.72rem; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .pcard-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            margin-bottom: 0.6rem; line-height: 1.2;
+        }
+        .pcard-prices { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; }
+        .pcard-price { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+        .pcard-original { font-size: 0.85rem; color: var(--muted); text-decoration: line-through; }
+        .pcard-rating { display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.8rem; }
+        .pcard-rating i { color: var(--accent); font-size: 0.7rem; }
+        .btn-cart {
+            width: 100%; padding: 0.55rem;
+            background: rgba(232,160,32,0.1); border: 1px solid var(--accent);
+            color: var(--accent); border-radius: 6px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; cursor: pointer; transition: 0.2s;
+        }
+        .btn-cart:hover { background: var(--accent); color: #000; }
+
+        /* ── PROMO BANNERS ── */
+        .promo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+        .promo-card {
+            border-radius: 12px; padding: 2rem;
+            position: relative; overflow: hidden; min-height: 180px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            cursor: pointer; transition: 0.3s;
+        }
+        .promo-card:hover { transform: translateY(-4px); }
+        .promo-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: inherit; transition: transform 0.5s ease;
+        }
+        .promo-card:hover::before { transform: scale(1.05); }
+        .promo-card .promo-text { position: relative; z-index: 2; }
+        .promo-card h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.5rem; font-weight: 900;
+            text-transform: uppercase; margin-bottom: 0.3rem;
+        }
+        .promo-card p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 0.8rem; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--surface); border-top: 1px solid var(--border);
+            padding: 4rem 5% 2rem;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem; margin-bottom: 3rem;
+        }
+        .footer-brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2rem; font-weight: 900; letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        .footer-brand span { color: var(--accent); }
+        footer p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+        .footer-col h4 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 1rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.6rem; }
+        .footer-col ul li a { color: var(--text); text-decoration: none; font-size: 0.875rem; transition: 0.2s; }
+        .footer-col ul li a:hover { color: var(--accent); }
+        .footer-bottom {
+            border-top: 1px solid var(--border); padding-top: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; color: var(--muted);
+        }
+
+        /* ── FLOATING CART ── */
+        .fab {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
+            width: 56px; height: 56px; border-radius: 12px;
+            background: var(--accent); color: #000;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; cursor: pointer; box-shadow: 0 8px 24px rgba(232,160,32,0.4);
+            transition: 0.2s;
+        }
+        .fab:hover { transform: scale(1.1); }
+        .fab-badge {
+            position: absolute; top: -6px; right: -6px;
+            background: var(--accent2); color: white;
+            border-radius: 50%; width: 20px; height: 20px;
+            font-size: 0.7rem; display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width: 992px) {
+            .hero { height: 420px; }
+            .hero-content h1 { font-size: 3rem; }
+            .trust-bar { grid-template-columns: repeat(2,1fr); }
+            .trust-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 0; }
+            .trust-item:nth-child(2n) { padding-left: 1.5rem; }
+            .promo-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media(max-width: 640px) {
+            .hero { height: 360px; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .nav-search { display: none; }
+            .trust-bar { grid-template-columns: 1fr; }
+            .promo-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .cat-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a class="brand" href="#">AUTO<span>CORE</span></a>
+    <div class="nav-search">
+        <input type="text" placeholder="Search parts, brands, OEM numbers...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+    <div class="nav-actions">
+        <a href="#" class="nav-btn"><i class="fas fa-heart"></i></a>
+        <a href="#" class="nav-btn"><i class="fas fa-user"></i> Login</a>
+        <a href="#" class="nav-btn cart"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+</nav>
+
+<!-- CATEGORY BAR -->
+<div class="cat-bar">
+    <div class="cat-pill active" onclick="filterByType('all',this)">All Parts</div>
+    <div class="cat-pill ev-pill" onclick="filterByType('ev',this)">⚡ EV Parts</div>
+    <div class="cat-pill" onclick="filterByType('petrol',this)">🔥 Petrol Parts</div>
+    <div class="cat-pill diesel-pill" onclick="filterByType('diesel',this)">⚙️ Diesel Parts</div>
+    <div class="cat-pill" onclick="scrollToSection('engine')">Engine</div>
+    <div class="cat-pill" onclick="scrollToSection('brakes')">Brakes</div>
+    <div class="cat-pill" onclick="scrollToSection('suspension')">Suspension</div>
+    <div class="cat-pill" onclick="scrollToSection('electrical')">Electrical</div>
+    <div class="cat-pill" onclick="scrollToSection('transmission')">Transmission</div>
+    <div class="cat-pill" onclick="scrollToSection('body')">Body Parts</div>
+    <div class="cat-pill" onclick="scrollToSection('tyres')">Tyres</div>
+    <div class="cat-pill" onclick="scrollToSection('cooling')">Cooling</div>
+    <div class="cat-pill" onclick="scrollToSection('interior')">Interior</div>
+    <div class="cat-pill" onclick="scrollToSection('exhaust')">Exhaust</div>
+</div>
+
+<!-- HERO CAROUSEL -->
+<section class="hero" id="heroSection">
+    <div class="hero-slides" id="heroSlides">
+
+        <div class="hero-slide">
+            <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1400&fit=crop');"></div>
+            <div class="hero-content">
+                <span class="hero-tag petrol">Petrol Performance</span>
+                <h1>Engine <em>Parts</em><br>Built to Last</h1>
+                <p>OEM-quality engine components for all major petrol vehicles. From pistons to camshafts — precision engineered.</p>
+                <div class="hero-cta">
+                    <a href="#engine" class="btn-primary">Shop Engine Parts</a>
+                    <a href="#" class="btn-outline">View Catalogue</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-slide">
+            <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1400&fit=crop');"></div>
+            <div class="hero-content">
+                <span class="hero-tag ev">EV Specialists</span>
+                <h1>Electric <em>Drive</em><br>Components</h1>
+                <p>High-voltage battery packs, inverters, and motor controllers for Tesla, BYD, Tata EV & more.</p>
+                <div class="hero-cta">
+                    <a href="#electrical" class="btn-primary" style="background:var(--ev);color:#000;">Shop EV Parts</a>
+                    <a href="#" class="btn-outline">EV Compatibility Guide</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-slide">
+            <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1400&fit=crop');"></div>
+            <div class="hero-content">
+                <span class="hero-tag diesel">Diesel Power</span>
+                <h1>Turbo &amp; <em>Fuel</em><br>Systems</h1>
+                <p>Rebuilt turbos, injectors, and fuel pumps for all commercial diesel vehicles. Tested to OEM spec.</p>
+                <div class="hero-cta">
+                    <a href="#transmission" class="btn-primary" style="background:var(--diesel);color:#fff;">Shop Diesel Parts</a>
+                    <a href="#" class="btn-outline">Find My Part</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-slide">
+            <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1400&fit=crop');"></div>
+            <div class="hero-content">
+                <span class="hero-tag all">Mega Sale</span>
+                <h1>Up to <em>50%</em><br>Off Brakes &amp; Tyres</h1>
+                <p>Seasonal clearance on brakes, rotors, and tyres from Brembo, MRF, CEAT, and Continental.</p>
+                <div class="hero-cta">
+                    <a href="#brakes" class="btn-primary">Shop the Sale</a>
+                    <a href="#tyres" class="btn-outline">Browse Tyres</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="hero-dots" id="heroDots"></div>
+    <div class="hero-arrows">
+        <button class="arrow-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+        <button class="arrow-btn" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+    </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-certificate"></i></div>
+        <div><h4>OEM Certified</h4><p>Genuine & aftermarket parts</p></div>
+    </div>
+    <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-truck-fast"></i></div>
+        <div><h4>Same Day Dispatch</h4><p>Orders before 3 PM</p></div>
+    </div>
+    <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-rotate-left"></i></div>
+        <div><h4>30-Day Returns</h4><p>Hassle-free on all items</p></div>
+    </div>
+    <div class="trust-item">
+        <div class="trust-icon"><i class="fas fa-wrench"></i></div>
+        <div><h4>Expert Support</h4><p>Mechanic helpline 7 AM–10 PM</p></div>
+    </div>
+</div>
+
+<!-- ALL CATEGORIES SECTION -->
+<section class="section">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Browse by System</span>
+            <h2 class="section-title">All Part Categories</h2>
+        </div>
+    </div>
+    <div class="cat-grid" id="catGrid">
+        <!-- injected by JS -->
+    </div>
+</section>
+
+<!-- DEALS SECTION -->
+<section class="section section-alt" id="deals">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Limited Time</span>
+            <h2 class="section-title">Today's Hot Deals</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="dealsScroll"></div>
+</section>
+
+<!-- ENGINE SECTION -->
+<section class="section" id="engine">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Powertrain</span>
+            <h2 class="section-title">Engine Components</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="type-filter">
+        <button class="type-btn active-all" onclick="setActive(this,'active-all')">All</button>
+        <button class="type-btn" onclick="setActive(this,'active-petrol')">Petrol</button>
+        <button class="type-btn" onclick="setActive(this,'active-diesel')">Diesel</button>
+        <button class="type-btn" onclick="setActive(this,'active-ev')">EV Motor</button>
+    </div>
+    <div class="product-scroll" id="engineScroll"></div>
+</section>
+
+<!-- PROMO BANNERS -->
+<section class="section section-alt">
+    <div class="promo-grid">
+        <div class="promo-card" style="background:linear-gradient(135deg,#0a1a0a,#0d2b1a);">
+            <div class="promo-text">
+                <h3 style="color:var(--ev);">EV Battery Packs</h3>
+                <p>For Tesla Model 3, Nexon EV & more</p>
+                <a href="#electrical" class="btn-primary" style="background:var(--ev);color:#000;display:inline-block;">Shop Now</a>
+            </div>
+        </div>
+        <div class="promo-card" style="background:linear-gradient(135deg,#1a1000,#2b1e00);">
+            <div class="promo-text">
+                <h3 style="color:var(--accent);">Brake Kits — 35% Off</h3>
+                <p>Brembo, Bosch & StopTech</p>
+                <a href="#brakes" class="btn-primary" style="display:inline-block;">Grab Deal</a>
+            </div>
+        </div>
+        <div class="promo-card" style="background:linear-gradient(135deg,#1a0500,#2b0c00);">
+            <div class="promo-text">
+                <h3 style="color:var(--accent2);">Diesel Turbo Clearance</h3>
+                <p>Rebuild kits from ₹4,999</p>
+                <a href="#transmission" class="btn-primary" style="background:var(--diesel);color:#fff;display:inline-block;">View Deals</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BRAKES SECTION -->
+<section class="section" id="brakes">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Safety Systems</span>
+            <h2 class="section-title">Brakes &amp; Rotors</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="brakesScroll"></div>
+</section>
+
+<!-- SUSPENSION SECTION -->
+<section class="section section-alt" id="suspension">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Chassis & Ride</span>
+            <h2 class="section-title">Suspension &amp; Steering</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="suspensionScroll"></div>
+</section>
+
+<!-- ELECTRICAL SECTION -->
+<section class="section" id="electrical">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Electrics & EV</span>
+            <h2 class="section-title">Electrical &amp; EV Systems</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="electricalScroll"></div>
+</section>
+
+<!-- TRANSMISSION SECTION -->
+<section class="section section-alt" id="transmission">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Drivetrain</span>
+            <h2 class="section-title">Transmission &amp; Clutch</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="transmissionScroll"></div>
+</section>
+
+<!-- BODY PARTS SECTION -->
+<section class="section" id="body">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Exterior</span>
+            <h2 class="section-title">Body Parts &amp; Lights</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="bodyScroll"></div>
+</section>
+
+<!-- TYRES SECTION -->
+<section class="section section-alt" id="tyres">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Wheels & Rubber</span>
+            <h2 class="section-title">Tyres &amp; Alloy Wheels</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="tyresScroll"></div>
+</section>
+
+<!-- COOLING SECTION -->
+<section class="section" id="cooling">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Thermal Management</span>
+            <h2 class="section-title">Cooling &amp; HVAC</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="coolingScroll"></div>
+</section>
+
+<!-- INTERIOR SECTION -->
+<section class="section section-alt" id="interior">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Cabin</span>
+            <h2 class="section-title">Interior &amp; Comfort</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="interiorScroll"></div>
+</section>
+
+<!-- EXHAUST SECTION -->
+<section class="section" id="exhaust">
+    <div class="section-header">
+        <div>
+            <span class="section-label">Emissions</span>
+            <h2 class="section-title">Exhaust &amp; Fuel Systems</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-scroll" id="exhaustScroll"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">AUTO<span>CORE</span></div>
+            <p>India's most trusted platform for genuine and aftermarket car spare parts. Serving 500,000+ customers across EV, Petrol & Diesel vehicles.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Shop By Type</h4>
+            <ul>
+                <li><a href="#">EV Parts</a></li>
+                <li><a href="#">Petrol Parts</a></li>
+                <li><a href="#">Diesel Parts</a></li>
+                <li><a href="#">Universal Parts</a></li>
+                <li><a href="#">OEM Surplus</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Categories</h4>
+            <ul>
+                <li><a href="#">Engine Parts</a></li>
+                <li><a href="#">Brakes & Rotors</a></li>
+                <li><a href="#">Suspension</a></li>
+                <li><a href="#">Tyres & Wheels</a></li>
+                <li><a href="#">Electrical / EV</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Help</h4>
+            <ul>
+                <li><a href="#">Part Finder Tool</a></li>
+                <li><a href="#">OEM Number Search</a></li>
+                <li><a href="#">Installation Guides</a></li>
+                <li><a href="#">Returns Policy</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2026 AutoCore. All rights reserved.</span>
+        <span>GST: 19AACCA1234Z1Z5 | CIN: U74999WB2026PTC00001</span>
+    </div>
+</footer>
+
+<!-- FAB CART -->
+<div class="fab" onclick="window.location.href='#'">
+    <i class="fas fa-shopping-cart"></i>
+    <div class="fab-badge" id="fabCount">0</div>
+</div>
+
+<script>
+// ─── HERO CAROUSEL ───
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dotsContainer = document.getElementById('heroDots');
+let autoTimer;
+
+slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'hdot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goSlide(i);
+    dotsContainer.appendChild(d);
+});
+
+function goSlide(n) {
+    slides[currentSlide].style.display = 'none';
+    document.querySelectorAll('.hdot')[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].style.display = 'flex';
+    document.querySelectorAll('.hdot')[currentSlide].classList.add('active');
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goSlide(currentSlide + 1), 5000);
+}
+function nextSlide() { goSlide(currentSlide + 1); }
+function prevSlide() { goSlide(currentSlide - 1); }
+
+slides.forEach((s, i) => { s.style.display = i === 0 ? 'flex' : 'none'; });
+autoTimer = setInterval(() => goSlide(currentSlide + 1), 5000);
+
+// touch swipe
+let ts = 0;
+document.getElementById('heroSection').addEventListener('touchstart', e => ts = e.touches[0].clientX);
+document.getElementById('heroSection').addEventListener('touchend', e => {
+    const dx = ts - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 40) dx > 0 ? nextSlide() : prevSlide();
+});
+
+// ─── DATA ───
+const catData = [
+    { icon: '⚙️', label: 'Engine Parts', color: '#e8a020', id: 'engine' },
+    { icon: '🛑', label: 'Brakes & Rotors', color: '#e11d48', id: 'brakes' },
+    { icon: '🔧', label: 'Suspension', color: '#6366f1', id: 'suspension' },
+    { icon: '⚡', label: 'Electrical & EV', color: '#00d4aa', id: 'electrical' },
+    { icon: '🔩', label: 'Transmission', color: '#f59e0b', id: 'transmission' },
+    { icon: '🚗', label: 'Body Parts', color: '#3b82f6', id: 'body' },
+    { icon: '🏎️', label: 'Tyres & Wheels', color: '#8b5cf6', id: 'tyres' },
+    { icon: '🌡️', label: 'Cooling & HVAC', color: '#06b6d4', id: 'cooling' },
+    { icon: '🪑', label: 'Interior', color: '#ec4899', id: 'interior' },
+    { icon: '💨', label: 'Exhaust & Fuel', color: '#ef4444', id: 'exhaust' },
+    { icon: '🔦', label: 'Headlights & Fog', color: '#fbbf24', id: 'body' },
+    { icon: '🪝', label: 'Filters & Fluids', color: '#10b981', id: 'engine' },
+    { icon: '🛢️', label: 'Oil & Lubricants', color: '#d97706', id: 'engine' },
+    { icon: '🔋', label: 'EV Battery Packs', color: '#00d4aa', id: 'electrical' },
+    { icon: '📡', label: 'Sensors & ECU', color: '#8b5cf6', id: 'electrical' },
+    { icon: '🪛', label: 'Repair Tools', color: '#6b7280', id: 'engine' },
+    { icon: '🏁', label: 'Performance Mods', color: '#f43f5e', id: 'engine' },
+    { icon: '🚙', label: 'Wiper Systems', color: '#64748b', id: 'body' },
+];
+
+const allProducts = [
+    // Engine
+    { name:'Forged Piston Set (Set of 4)', cat:'engine', type:'petrol', price:'₹8,499', orig:'₹12,000', badge:'deal', img:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop', brand:'MAHLE', rating:4.7, rev:342 },
+    { name:'Common Rail Fuel Injector', cat:'engine', type:'diesel', price:'₹6,200', orig:'₹9,000', badge:'oem', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop', brand:'Bosch', rating:4.9, rev:218 },
+    { name:'Electric Motor Controller 96V', cat:'engine', type:'ev', price:'₹22,000', orig:'₹28,000', badge:'new', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop', brand:'Danfoss', rating:4.8, rev:91 },
+    { name:'Timing Chain Kit', cat:'engine', type:'petrol', price:'₹4,100', orig:'₹5,800', badge:'hot', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop', brand:'Febi', rating:4.6, rev:156 },
+    { name:'Diesel Turbocharger GTB2256V', cat:'engine', type:'diesel', price:'₹18,500', orig:'₹24,000', badge:'deal', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop', brand:'Garrett', rating:4.8, rev:89 },
+    { name:'Cylinder Head Gasket Set', cat:'engine', type:'petrol', price:'₹2,800', orig:'', badge:'oem', img:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop&sat=-50', brand:'Victor Reinz', rating:4.5, rev:203 },
+    // Brakes
+    { name:'Brembo Front Brake Pads', cat:'brakes', type:'universal', price:'₹3,200', orig:'₹4,800', badge:'deal', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop', brand:'Brembo', rating:4.9, rev:567 },
+    { name:'Ventilated Disc Rotor (Pair)', cat:'brakes', type:'universal', price:'₹4,500', orig:'₹6,200', badge:'hot', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop', brand:'StopTech', rating:4.7, rev:334 },
+    { name:'ABS Sensor — Front Wheel', cat:'brakes', type:'ev', price:'₹1,100', orig:'', badge:'new', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop&hue=20', brand:'Bosch', rating:4.6, rev:112 },
+    { name:'Brake Caliper (Remanufactured)', cat:'brakes', type:'petrol', price:'₹5,800', orig:'₹8,000', badge:'deal', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&sat=0', brand:'A1 Cardone', rating:4.4, rev:78 },
+    // Suspension
+    { name:'Monroe Shock Absorber (Pair)', cat:'suspension', type:'universal', price:'₹6,400', orig:'₹9,200', badge:'deal', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop', brand:'Monroe', rating:4.8, rev:421 },
+    { name:'Ball Joint Lower Control Arm', cat:'suspension', type:'petrol', price:'₹1,600', orig:'₹2,400', badge:'hot', img:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop&hue=180', brand:'Moog', rating:4.5, rev:188 },
+    { name:'Air Suspension Compressor', cat:'suspension', type:'diesel', price:'₹12,000', orig:'₹16,500', badge:'oem', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop&hue=120', brand:'Arnott', rating:4.7, rev:63 },
+    { name:'EV Adaptive Damper Module', cat:'suspension', type:'ev', price:'₹8,500', orig:'₹11,000', badge:'new', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop&hue=90', brand:'Continental', rating:4.6, rev:47 },
+    // Electrical / EV
+    { name:'LFP Battery Module 72V 100Ah', cat:'electrical', type:'ev', price:'₹48,000', orig:'₹62,000', badge:'new', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop', brand:'CATL OEM', rating:4.9, rev:201 },
+    { name:'LED Headlight Assembly (Pair)', cat:'electrical', type:'universal', price:'₹5,200', orig:'₹8,000', badge:'deal', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&hue=60', brand:'Osram', rating:4.8, rev:354 },
+    { name:'Alternator 90A Rebuilt', cat:'electrical', type:'petrol', price:'₹4,800', orig:'', badge:'hot', img:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop&sat=30', brand:'Bosch', rating:4.6, rev:142 },
+    { name:'BMS Battery Management System', cat:'electrical', type:'ev', price:'₹11,500', orig:'₹15,000', badge:'new', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop&sat=20', brand:'Daly', rating:4.7, rev:88 },
+    { name:'Diesel Glow Plug Set (×4)', cat:'electrical', type:'diesel', price:'₹2,400', orig:'₹3,600', badge:'deal', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop&sat=30', brand:'NGK', rating:4.5, rev:167 },
+    // Transmission
+    { name:'Clutch Kit (Disc + Pressure Plate)', cat:'transmission', type:'petrol', price:'₹7,200', orig:'₹10,500', badge:'deal', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&hue=120', brand:'LuK', rating:4.8, rev:298 },
+    { name:'Diesel Dual-Mass Flywheel', cat:'transmission', type:'diesel', price:'₹14,000', orig:'₹19,000', badge:'oem', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop&hue=60', brand:'Sachs', rating:4.7, rev:134 },
+    { name:'CVT Transmission Oil', cat:'transmission', type:'universal', price:'₹1,800', orig:'', badge:'hot', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&hue=120', brand:'Motul', rating:4.6, rev:445 },
+    { name:'EV Single-Speed Reducer', cat:'transmission', type:'ev', price:'₹32,000', orig:'₹42,000', badge:'new', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop&sat=50', brand:'ZF', rating:4.8, rev:56 },
+    // Body
+    { name:'Front Bumper Cover (Unpainted)', cat:'body', type:'universal', price:'₹3,600', orig:'₹5,200', badge:'deal', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&sat=50', brand:'Taiwan OEM', rating:4.3, rev:211 },
+    { name:'Xenon / HID Headlight Kit', cat:'body', type:'petrol', price:'₹4,100', orig:'₹6,800', badge:'hot', img:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&h=300&fit=crop', brand:'Philips', rating:4.7, rev:389 },
+    { name:'Fog Light Assembly LED', cat:'body', type:'universal', price:'₹2,200', orig:'₹3,400', badge:'deal', img:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&h=300&fit=crop&hue=30', brand:'Hella', rating:4.6, rev:276 },
+    { name:'Side Mirror Assembly (Power)', cat:'body', type:'universal', price:'₹3,800', orig:'', badge:'oem', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&hue=60', brand:'BLIC', rating:4.4, rev:134 },
+    // Tyres
+    { name:'MRF ZVTS 185/65 R15', cat:'tyres', type:'universal', price:'₹4,200', orig:'₹5,100', badge:'deal', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&hue=30', brand:'MRF', rating:4.7, rev:528 },
+    { name:'CEAT SecuraDrive 195/65 R15', cat:'tyres', type:'universal', price:'₹3,900', orig:'₹4,800', badge:'hot', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&hue=180', brand:'CEAT', rating:4.6, rev:342 },
+    { name:'Continental EcoContact 6 (EV)', cat:'tyres', type:'ev', price:'₹6,800', orig:'₹8,200', badge:'new', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&hue=200', brand:'Continental', rating:4.9, rev:187 },
+    { name:'Alloy Wheel 16" 5-Spoke', cat:'tyres', type:'universal', price:'₹7,500', orig:'₹10,000', badge:'deal', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&hue=180', brand:'Enkei', rating:4.8, rev:213 },
+    // Cooling
+    { name:'Aluminum Radiator Assembly', cat:'cooling', type:'petrol', price:'₹5,600', orig:'₹8,000', badge:'deal', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop&sat=-20', brand:'Denso', rating:4.7, rev:167 },
+    { name:'EV Thermal Management Kit', cat:'cooling', type:'ev', price:'₹18,000', orig:'₹24,000', badge:'new', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop&sat=30', brand:'Modine', rating:4.8, rev:72 },
+    { name:'AC Compressor Rebuild Kit', cat:'cooling', type:'diesel', price:'₹8,200', orig:'₹11,500', badge:'hot', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop&sat=50', brand:'Sanden', rating:4.5, rev:98 },
+    // Interior
+    { name:'Digital Instrument Cluster', cat:'interior', type:'universal', price:'₹6,500', orig:'₹9,200', badge:'new', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&hue=240', brand:'Nippon Seiki', rating:4.6, rev:156 },
+    { name:'EV Range Indicator Display', cat:'interior', type:'ev', price:'₹4,200', orig:'', badge:'new', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop&hue=120', brand:'VDO', rating:4.7, rev:88 },
+    { name:'Seat Foam Cushion Set', cat:'interior', type:'universal', price:'₹2,800', orig:'₹3,800', badge:'deal', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&sat=60', brand:'Recaro Compat.', rating:4.5, rev:211 },
+    // Exhaust
+    { name:'DPF Diesel Particulate Filter', cat:'exhaust', type:'diesel', price:'₹12,500', orig:'₹17,000', badge:'deal', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop&hue=100', brand:'Delphi', rating:4.6, rev:143 },
+    { name:'Catalytic Converter Universal', cat:'exhaust', type:'petrol', price:'₹9,800', orig:'₹14,000', badge:'oem', img:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop&hue=200', brand:'Walker', rating:4.7, rev:167 },
+    { name:'High-Flow Sports Air Filter', cat:'exhaust', type:'petrol', price:'₹1,400', orig:'₹2,200', badge:'hot', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop&hue=200', brand:'K&N', rating:4.8, rev:489 },
+];
+
+// ─── RENDER CATEGORY GRID ───
+const catGrid = document.getElementById('catGrid');
+catData.forEach(c => {
+    catGrid.innerHTML += `
+    <a href="#${c.id}" class="cat-card">
+        <div class="cat-card-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+        <span>${c.label}</span>
+    </a>`;
+});
+
+// ─── RENDER PRODUCT CARDS ───
+function typeLabel(t) {
+    if(t==='ev') return '<span class="pcard-type type-ev">⚡ EV</span>';
+    if(t==='petrol') return '<span class="pcard-type type-petrol">🔥 Petrol</span>';
+    if(t==='diesel') return '<span class="pcard-type type-diesel">⚙️ Diesel</span>';
+    return '<span class="pcard-type type-universal">Universal</span>';
+}
+function badgeClass(b) {
+    return {deal:'badge-deal',new:'badge-new',hot:'badge-hot',oem:'badge-oem'}[b]||'badge-oem';
+}
+function stars(r) {
+    let s=''; for(let i=0;i<5;i++) s+=`<i class="fas fa-star" style="opacity:${i<Math.round(r)?1:0.25}"></i>`; return s;
+}
+function buildCard(p) {
+    const encoded = encodeURIComponent(JSON.stringify(p));
+    return `
+    <div class="pcard" onclick="goToDetail('${encoded}')">
+        <div class="pcard-img">
+            <img src="${p.img}" alt="${p.name}" loading="lazy">
+            <span class="pcard-badge ${badgeClass(p.badge)}">${p.badge.toUpperCase()}</span>
+            <div class="pcard-fav" onclick="event.stopPropagation();toggleFav(this)"><i class="far fa-heart"></i></div>
+            ${typeLabel(p.type)}
+        </div>
+        <div class="pcard-body">
+            <div class="pcard-compat">${p.brand}</div>
+            <div class="pcard-name">${p.name}</div>
+            <div class="pcard-prices">
+                <span class="pcard-price">${p.price}</span>
+                ${p.orig?`<span class="pcard-original">${p.orig}</span>`:''}
+            </div>
+            <div class="pcard-rating">${stars(p.rating)} <span>${p.rating} (${p.rev})</span></div>
+            <button class="btn-cart" onclick="event.stopPropagation();addCart(this)">Add to Cart</button>
+        </div>
+    </div>`;
+}
+
+function renderSection(id, catFilter, maxItems) {
+    const el = document.getElementById(id+'Scroll');
+    if(!el) return;
+    const items = allProducts.filter(p => p.cat === catFilter);
+    el.innerHTML = items.slice(0, maxItems||items.length).map(buildCard).join('');
+}
+
+// Render all sections
+renderSection('engine','engine');
+renderSection('brakes','brakes');
+renderSection('suspension','suspension');
+renderSection('electrical','electrical');
+renderSection('transmission','transmission');
+renderSection('body','body');
+renderSection('tyres','tyres');
+renderSection('cooling','cooling');
+renderSection('interior','interior');
+renderSection('exhaust','exhaust');
+
+// Deals — pick badge:deal items from all
+const dealsEl = document.getElementById('dealsScroll');
+dealsEl.innerHTML = allProducts.filter(p=>p.badge==='deal').slice(0,8).map(buildCard).join('');
+
+// ─── INTERACTIONS ───
+let cartCount = 0;
+function addCart(btn) {
+    cartCount++;
+    document.getElementById('cartCount').textContent = cartCount;
+    document.getElementById('fabCount').textContent = cartCount;
+    btn.textContent = '✓ Added!';
+    btn.style.background = 'var(--ev)'; btn.style.color = '#000'; btn.style.borderColor = 'var(--ev)';
+    setTimeout(() => { btn.textContent = 'Add to Cart'; btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; }, 1800);
+}
+function toggleFav(el) {
+    el.innerHTML = el.innerHTML.includes('far') ? '<i class="fas fa-heart" style="color:#e11d48"></i>' : '<i class="far fa-heart"></i>';
+}
+function goToDetail(encoded) {
+    const data = encodeURIComponent(encoded);
+window.location.href = `car_productdetail.html?p=${data}`;
+}
+function setActive(btn, cls) {
+    btn.closest('.type-filter').querySelectorAll('.type-btn').forEach(b => {
+        b.className = 'type-btn';
+    });
+    btn.className = 'type-btn ' + cls;
+}
+function scrollToSection(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+function filterByType(type, pill) {
+    document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active');
+}
+</script>
+</body>
+</html>

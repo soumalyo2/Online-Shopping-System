@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCore — Product Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface2: #181818;
+            --border: #222222;
+--accent: #5A8A5A;
+--accent2: #e11d48;
+            --text: #f0f0f0;
+            --muted: #888;
+            --ev: #00d4aa;
+            --petrol: #e8a020;
+            --diesel: #c0392b;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+        /* NAVBAR */
+        .navbar {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%; height: 64px;
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        }
+        .brand { font-family:'Barlow Condensed',sans-serif; font-size:1.8rem; font-weight:900; color:var(--text); text-decoration:none; letter-spacing:-1px; }
+        .brand span { color:var(--accent); }
+        .nav-search { flex:1; max-width:380px; display:flex; align-items:center; background:var(--surface2); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+        .nav-search input { flex:1; padding:0.55rem 1rem; background:transparent; border:none; outline:none; color:var(--text); font-family:'Barlow',sans-serif; font-size:0.9rem; }
+        .nav-search button { padding:0.55rem 1rem; background:var(--accent); border:none; cursor:pointer; color:#000; }
+        .nav-actions { display:flex; gap:0.5rem; align-items:center; }
+        .nav-btn { background:transparent; border:1px solid var(--border); color:var(--text); padding:0.5rem 1rem; border-radius:6px; cursor:pointer; font-family:'Barlow',sans-serif; font-size:0.85rem; display:flex; align-items:center; gap:0.4rem; transition:0.2s; text-decoration:none; }
+        .nav-btn:hover { border-color:var(--accent); color:var(--accent); }
+        .nav-btn.cart { background:var(--accent); border-color:var(--accent); color:#000; font-weight:600; }
+        .cart-count { background:var(--accent2); color:white; border-radius:50%; width:18px; height:18px; font-size:0.7rem; display:flex; align-items:center; justify-content:center; }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            padding: 1rem 5%; display:flex; align-items:center; gap:0.5rem;
+            font-size:0.8rem; color:var(--muted); border-bottom:1px solid var(--border);
+            background: var(--surface);
+        }
+        .breadcrumb a { color:var(--muted); text-decoration:none; transition:0.2s; }
+        .breadcrumb a:hover { color:var(--accent); }
+        .breadcrumb span { color:var(--text); }
+        .breadcrumb i { font-size:0.65rem; }
+
+        /* MAIN PRODUCT SECTION */
+        .product-section { display:grid; grid-template-columns:1fr 1fr; gap:3rem; padding:3rem 5%; max-width:1400px; margin:0 auto; }
+
+        /* IMAGE GALLERY */
+        .gallery { display:flex; flex-direction:column; gap:1rem; }
+        .gallery-main {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:16px; overflow:hidden;
+            aspect-ratio:4/3; display:flex; align-items:center; justify-content:center;
+            position:relative;
+        }
+        .gallery-main img { width:100%; height:100%; object-fit:cover; transition:0.4s ease; }
+        .gallery-main:hover img { transform:scale(1.05); }
+        .gallery-tag {
+            position:absolute; top:16px; left:16px;
+            padding:0.3rem 0.9rem; border-radius:3px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.75rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+        }
+        .gallery-thumbs { display:flex; gap:0.8rem; overflow-x:auto; scrollbar-width:none; }
+        .gallery-thumbs::-webkit-scrollbar { display:none; }
+        .thumb {
+            min-width:80px; height:72px; border-radius:10px; overflow:hidden;
+            border:2px solid var(--border); cursor:pointer; transition:0.2s; flex-shrink:0;
+        }
+        .thumb:hover, .thumb.active { border-color:var(--accent); }
+        .thumb img { width:100%; height:100%; object-fit:cover; }
+
+        /* PRODUCT INFO */
+        .pinfo { display:flex; flex-direction:column; gap:1.2rem; }
+        .pinfo-brand {
+            font-size:0.8rem; font-weight:700; letter-spacing:3px;
+            text-transform:uppercase; color:var(--accent);
+        }
+        .pinfo-name {
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:2.6rem; font-weight:900;
+            text-transform:uppercase; line-height:1.0; letter-spacing:-0.5px;
+        }
+        .pinfo-badges { display:flex; gap:0.6rem; flex-wrap:wrap; }
+        .badge {
+            padding:0.25rem 0.7rem; border-radius:3px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+        }
+        .badge-ev { background:rgba(0,212,170,0.15); color:var(--ev); border:1px solid var(--ev); }
+        .badge-petrol { background:rgba(232,160,32,0.15); color:var(--petrol); border:1px solid var(--petrol); }
+        .badge-diesel { background:rgba(192,57,43,0.15); color:#ff6b5a; border:1px solid var(--diesel); }
+        .badge-universal { background:rgba(255,255,255,0.06); color:var(--muted); border:1px solid var(--border); }
+        .badge-deal { background:var(--accent2); color:#fff; }
+        .badge-new { background:var(--ev); color:#000; }
+        .badge-hot { background:var(--accent); color:#000; }
+        .badge-oem { background:#4a4a4a; color:#fff; }
+
+        .rating-row { display:flex; align-items:center; gap:1rem; }
+        .stars { display:flex; gap:3px; }
+        .stars i { color:var(--accent); font-size:0.9rem; }
+        .rating-text { font-size:0.9rem; color:var(--muted); }
+        .rating-text strong { color:var(--text); }
+
+        .price-row { display:flex; align-items:center; gap:1rem; }
+        .main-price { font-family:'Barlow Condensed',sans-serif; font-size:2.8rem; font-weight:900; color:var(--accent); }
+        .orig-price { font-size:1.1rem; color:var(--muted); text-decoration:line-through; }
+        .discount-badge { background:rgba(232,160,32,0.15); color:var(--accent); padding:0.3rem 0.8rem; border-radius:4px; font-weight:700; font-size:0.9rem; border:1px solid var(--accent); }
+
+        .divider { border:none; border-top:1px solid var(--border); margin:0; }
+
+        /* COMPATIBILITY */
+        .compat-section h4 {
+            font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; font-weight:700;
+            letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:0.8rem;
+        }
+        .compat-tags { display:flex; flex-wrap:wrap; gap:0.5rem; }
+        .compat-tag {
+            padding:0.3rem 0.8rem; border-radius:4px;
+            background:var(--surface2); border:1px solid var(--border);
+            font-size:0.8rem; color:var(--text);
+        }
+
+        /* QTY + BUTTONS */
+        .qty-row { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+        .qty-control {
+            display:flex; align-items:center;
+            background:var(--surface2); border:1px solid var(--border); border-radius:8px; overflow:hidden;
+        }
+        .qty-btn {
+            width:40px; height:44px; background:transparent; border:none;
+            color:var(--text); font-size:1.1rem; cursor:pointer; transition:0.2s;
+        }
+        .qty-btn:hover { background:rgba(232,160,32,0.15); color:var(--accent); }
+        .qty-input {
+            width:52px; text-align:center; background:transparent; border:none;
+            color:var(--text); font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; font-weight:700;
+            outline:none;
+        }
+
+        .btn-add-cart {
+            flex:1; padding:0.85rem 2rem;
+            background:var(--accent); color:#000;
+            border:none; border-radius:8px; cursor:pointer;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:1.1rem; font-weight:800; letter-spacing:1px; text-transform:uppercase;
+            transition:0.2s; display:flex; align-items:center; justify-content:center; gap:0.5rem;
+        }
+        .btn-add-cart:hover { background:#ffb733; transform:translateY(-2px); box-shadow:0 8px 24px rgba(232,160,32,0.3); }
+        .btn-wishlist {
+            padding:0.85rem 1.2rem; border-radius:8px;
+            background:transparent; border:1px solid var(--border);
+            color:var(--muted); cursor:pointer; font-size:1.1rem; transition:0.2s;
+        }
+        .btn-wishlist:hover { border-color:#e11d48; color:#e11d48; }
+        .btn-buy-now {
+            width:100%; padding:0.85rem;
+            background:transparent; color:var(--text);
+            border:1px solid var(--border); border-radius:8px; cursor:pointer;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:1rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+            transition:0.2s;
+        }
+        .btn-buy-now:hover { border-color:var(--accent); color:var(--accent); }
+
+        /* DELIVERY INFO */
+        .delivery-info {
+            background:var(--surface2); border:1px solid var(--border); border-radius:10px;
+            padding:1rem; display:flex; flex-direction:column; gap:0.8rem;
+        }
+        .delivery-row { display:flex; align-items:flex-start; gap:0.8rem; font-size:0.875rem; }
+        .delivery-row i { color:var(--accent); margin-top:2px; width:16px; flex-shrink:0; }
+        .delivery-row strong { display:block; }
+        .delivery-row span { color:var(--muted); font-size:0.8rem; }
+
+        /* TABS */
+        .tabs-section { padding:0 5% 4rem; max-width:1400px; margin:0 auto; }
+        .tab-bar {
+            display:flex; border-bottom:1px solid var(--border); gap:0;
+            overflow-x:auto; scrollbar-width:none; margin-bottom:2rem;
+        }
+        .tab-bar::-webkit-scrollbar { display:none; }
+        .tab-btn {
+            padding:0.9rem 1.5rem; background:transparent; border:none;
+            color:var(--muted); cursor:pointer; font-family:'Barlow Condensed',sans-serif;
+            font-size:0.9rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+            border-bottom:3px solid transparent; margin-bottom:-1px; transition:0.2s; white-space:nowrap;
+        }
+        .tab-btn:hover { color:var(--text); }
+        .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+        .tab-panel { display:none; }
+        .tab-panel.active { display:block; }
+
+        /* SPECS TABLE */
+        .specs-table { width:100%; border-collapse:collapse; }
+        .specs-table tr { border-bottom:1px solid var(--border); }
+        .specs-table tr:last-child { border-bottom:none; }
+        .specs-table td { padding:0.9rem 1rem; font-size:0.9rem; }
+        .specs-table td:first-child { color:var(--muted); width:42%; font-weight:500; }
+        .specs-table td:last-child { color:var(--text); font-weight:600; }
+        .specs-table tr:hover { background:var(--surface); }
+
+        /* REVIEWS */
+        .review-summary {
+            display:grid; grid-template-columns:160px 1fr; gap:2rem; margin-bottom:2rem;
+            background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:2rem;
+        }
+        .review-big-num {
+            text-align:center;
+        }
+        .review-big-num .num {
+            font-family:'Barlow Condensed',sans-serif; font-size:5rem; font-weight:900; color:var(--accent); line-height:1;
+        }
+        .review-big-num .out { font-size:0.85rem; color:var(--muted); }
+        .review-bars { display:flex; flex-direction:column; gap:0.5rem; justify-content:center; }
+        .rbar { display:flex; align-items:center; gap:0.8rem; font-size:0.82rem; }
+        .rbar-label { width:40px; color:var(--muted); text-align:right; }
+        .rbar-track { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+        .rbar-fill { height:100%; background:var(--accent); border-radius:3px; }
+        .rbar-count { width:36px; color:var(--muted); }
+
+        .review-list { display:flex; flex-direction:column; gap:1.5rem; }
+        .review-card {
+            background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:1.5rem;
+        }
+        .review-header { display:flex; justify-content:space-between; margin-bottom:0.8rem; align-items:flex-start; }
+        .reviewer-name { font-weight:700; font-size:0.95rem; }
+        .reviewer-sub { font-size:0.78rem; color:var(--muted); }
+        .review-stars { display:flex; gap:2px; }
+        .review-stars i { color:var(--accent); font-size:0.8rem; }
+        .review-text { font-size:0.875rem; color:rgba(240,240,240,0.8); line-height:1.6; }
+        .review-tag {
+            display:inline-block; margin-top:0.6rem;
+            padding:0.2rem 0.6rem; border-radius:3px;
+            background:rgba(232,160,32,0.1); color:var(--accent);
+            font-size:0.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+        }
+        .verified { color:var(--ev); font-size:0.75rem; margin-top:0.3rem; display:flex; align-items:center; gap:0.3rem; }
+
+        /* INSTALLATION */
+        .install-steps { display:flex; flex-direction:column; gap:1.2rem; }
+        .step {
+            display:flex; gap:1.2rem; align-items:flex-start;
+            background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:1.2rem;
+        }
+        .step-num {
+            width:36px; height:36px; border-radius:8px; background:rgba(232,160,32,0.15);
+            border:1px solid var(--accent); display:flex; align-items:center; justify-content:center;
+            font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; font-weight:900; color:var(--accent);
+            flex-shrink:0;
+        }
+        .step h4 { font-size:0.95rem; font-weight:700; margin-bottom:0.3rem; }
+        .step p { font-size:0.85rem; color:var(--muted); line-height:1.5; }
+
+        /* SIMILAR PRODUCTS */
+        .similar-section { padding:3rem 5%; background:var(--surface); border-top:1px solid var(--border); }
+        .similar-section h2 {
+            font-family:'Barlow Condensed',sans-serif; font-size:1.8rem; font-weight:900;
+            text-transform:uppercase; margin-bottom:1.5rem;
+        }
+        .product-scroll { display:flex; gap:1.2rem; overflow-x:auto; padding-bottom:1rem; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+        .product-scroll::-webkit-scrollbar { height:4px; }
+        .product-scroll::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+        .pcard { min-width:200px; max-width:200px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; overflow:hidden; cursor:pointer; transition:0.25s; flex-shrink:0; }
+        .pcard:hover { border-color:var(--accent); transform:translateY(-6px); box-shadow:0 12px 32px rgba(232,160,32,0.12); }
+        .pcard-img2 { height:140px; overflow:hidden; }
+        .pcard-img2 img { width:100%; height:100%; object-fit:cover; }
+        .pcard-body2 { padding:0.8rem; }
+        .pcard-name2 { font-family:'Barlow Condensed',sans-serif; font-size:0.9rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; line-height:1.2; }
+        .pcard-price2 { font-size:0.95rem; font-weight:700; color:var(--accent); }
+
+        /* BACK BTN */
+        .back-btn {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            color:var(--muted); text-decoration:none; font-size:0.85rem;
+            transition:0.2s; font-family:'Barlow Condensed',sans-serif;
+            font-weight:700; letter-spacing:1px; text-transform:uppercase;
+        }
+        .back-btn:hover { color:var(--accent); }
+
+        /* NOTIFY TOAST */
+        .toast {
+            position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(100px);
+            background:var(--surface2); border:1px solid var(--accent);
+            color:var(--text); padding:1rem 2rem; border-radius:10px;
+            font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700;
+            letter-spacing:1px; z-index:1000; transition:0.4s cubic-bezier(0.34,1.56,0.64,1);
+            display:flex; align-items:center; gap:0.8rem; white-space:nowrap;
+        }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+        .toast i { color:var(--accent); font-size:1.2rem; }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .product-section { grid-template-columns:1fr; padding:2rem 5%; }
+            .pinfo-name { font-size:2rem; }
+        }
+        @media(max-width:640px) {
+            .nav-search { display:none; }
+            .review-summary { grid-template-columns:1fr; }
+            .main-price { font-size:2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <a class="brand" href="car.html">AUTO<span>CORE</span></a>
+    <div class="nav-search">
+        <input type="text" placeholder="Search parts, brands, OEM numbers...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+    <div class="nav-actions">
+        <a href="#" class="nav-btn"><i class="fas fa-heart"></i></a>
+        <a href="#" class="nav-btn"><i class="fas fa-user"></i> Login</a>
+        <a href="#" class="nav-btn cart"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cartCount">0</span></a>
+    </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    <a href="car.html">Home</a>
+    <i class="fas fa-chevron-right"></i>
+    <a href="car_spareparts.html" id="bcCat">Parts</a>
+    <i class="fas fa-chevron-right"></i>
+    <span id="bcName">Product</span>
+</div>
+
+<!-- PRODUCT LAYOUT -->
+<div class="product-section">
+
+    <!-- GALLERY -->
+    <div class="gallery">
+        <div class="gallery-main">
+            <img src="" alt="" id="mainImg">
+            <div class="gallery-tag" id="mainBadge"></div>
+        </div>
+        <div class="gallery-thumbs" id="thumbContainer"></div>
+    </div>
+
+    <!-- PRODUCT INFO -->
+    <div class="pinfo">
+        <a href="car.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Catalogue</a>
+        <div class="pinfo-brand" id="brandLabel"></div>
+        <h1 class="pinfo-name" id="partName">Loading...</h1>
+        <div class="pinfo-badges" id="pBadges"></div>
+        <div class="rating-row">
+            <div class="stars" id="starRow"></div>
+            <div class="rating-text"><strong id="ratingVal"></strong> &nbsp;<span id="reviewCount"></span></div>
+        </div>
+        <hr class="divider">
+        <div class="price-row">
+            <div class="main-price" id="mainPrice"></div>
+            <div class="orig-price" id="origPrice"></div>
+            <div class="discount-badge" id="discountBadge" style="display:none"></div>
+        </div>
+        <div class="compat-section">
+            <h4>Compatible With</h4>
+            <div class="compat-tags" id="compatTags"></div>
+        </div>
+        <hr class="divider">
+        <div class="qty-row">
+            <div class="qty-control">
+                <button class="qty-btn" onclick="changeQty(-1)"><i class="fas fa-minus"></i></button>
+                <input class="qty-input" type="number" id="qtyInput" value="1" min="1" max="99">
+                <button class="qty-btn" onclick="changeQty(1)"><i class="fas fa-plus"></i></button>
+            </div>
+            <button class="btn-add-cart" onclick="addToCart()"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+            <button class="btn-wishlist" onclick="toggleWish(this)" title="Wishlist"><i class="far fa-heart"></i></button>
+        </div>
+        <button class="btn-buy-now" onclick="buyNow()"><i class="fas fa-bolt"></i> Buy Now — Instant Checkout</button>
+        <div class="delivery-info">
+            <div class="delivery-row">
+                <i class="fas fa-truck-fast"></i>
+                <div><strong>Free Delivery</strong><span>Orders above ₹999 — Est. delivery in 2–4 business days</span></div>
+            </div>
+            <div class="delivery-row">
+                <i class="fas fa-rotate-left"></i>
+                <div><strong>30-Day Returns</strong><span>Unused, original packaging — hassle-free</span></div>
+            </div>
+            <div class="delivery-row">
+                <i class="fas fa-certificate"></i>
+                <div><strong>OEM Quality Guaranteed</strong><span>Tested to manufacturer specifications</span></div>
+            </div>
+            <div class="delivery-row">
+                <i class="fas fa-shield-halved"></i>
+                <div><strong>1-Year Warranty</strong><span>Against manufacturing defects</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-section">
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab(this,'tab-specs')">Specifications</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-reviews')">Reviews</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-install')">Installation Guide</button>
+        <button class="tab-btn" onclick="switchTab(this,'tab-faq')">FAQ</button>
+    </div>
+
+    <!-- SPECS -->
+    <div class="tab-panel active" id="tab-specs">
+        <table class="specs-table" id="specsTable"></table>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="tab-panel" id="tab-reviews">
+        <div class="review-summary">
+            <div class="review-big-num">
+                <div class="num" id="reviewBigNum">4.7</div>
+                <div class="stars" style="justify-content:center;gap:3px;margin:0.4rem 0;" id="reviewBigStars"></div>
+                <div class="out" id="reviewBigCount">out of 5</div>
+            </div>
+            <div class="review-bars" id="reviewBars"></div>
+        </div>
+        <div class="review-list" id="reviewList"></div>
+    </div>
+
+    <!-- INSTALLATION -->
+    <div class="tab-panel" id="tab-install">
+        <div class="install-steps" id="installSteps"></div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="tab-panel" id="tab-faq">
+        <div id="faqList" style="display:flex;flex-direction:column;gap:0.8rem;"></div>
+    </div>
+</div>
+
+<!-- SIMILAR PRODUCTS -->
+<div class="similar-section">
+    <h2>You May Also Need</h2>
+    <div class="product-scroll" id="similarScroll"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Added to cart!</span>
+</div>
+
+<script>
+// ─── PARSE PRODUCT FROM URL ───
+function getParam(key) {
+    return new URLSearchParams(window.location.search).get(key);
+}
+
+const raw = getParam('p');
+let product = null;
+
+if(raw) {
+    try {
+        product = JSON.parse(decodeURIComponent(decodeURIComponent(raw)));
+    } catch(e) {
+        try { product = JSON.parse(decodeURIComponent(raw)); } catch(e2) {}
+    }
+}
+
+// Fallback demo product
+if(!product) {
+    product = {
+        name:'Brembo Front Brake Pads',
+        cat:'brakes', type:'universal',
+        price:'₹3,200', orig:'₹4,800',
+        badge:'deal', brand:'Brembo',
+        rating:4.9, rev:567,
+        img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&h=600&fit=crop'
+    };
+}
+
+// ─── POPULATE PAGE ───
+document.title = `${product.name} — AutoCore`;
+document.getElementById('bcCat').textContent = (product.cat||'Parts').replace(/^\w/,c=>c.toUpperCase());
+document.getElementById('bcName').textContent = product.name;
+document.getElementById('brandLabel').textContent = product.brand || 'AutoCore';
+document.getElementById('partName').textContent = product.name;
+document.getElementById('mainPrice').textContent = product.price;
+
+// Orig price & discount
+const origEl = document.getElementById('origPrice');
+const discEl = document.getElementById('discountBadge');
+if(product.orig && product.orig !== product.price) {
+    origEl.textContent = product.orig;
+    const num1 = parseFloat(product.price.replace(/[^\d.]/g,''));
+    const num2 = parseFloat(product.orig.replace(/[^\d.]/g,''));
+    if(num2 > num1) {
+        const pct = Math.round((1 - num1/num2)*100);
+        discEl.textContent = `${pct}% OFF`;
+        discEl.style.display = 'block';
+    }
+}
+
+// Badges
+const badgeHtml = () => {
+    let h = '';
+    const tMap = {ev:'badge-ev', petrol:'badge-petrol', diesel:'badge-diesel', universal:'badge-universal'};
+    const bMap = {deal:'badge-deal', new:'badge-new', hot:'badge-hot', oem:'badge-oem'};
+    const tLabel = {ev:'⚡ EV', petrol:'🔥 Petrol', diesel:'⚙️ Diesel', universal:'Universal'};
+    if(product.type) h += `<span class="badge ${tMap[product.type]||'badge-universal'}">${tLabel[product.type]||'Universal'}</span>`;
+    if(product.badge) h += `<span class="badge ${bMap[product.badge]||'badge-oem'}">${product.badge.toUpperCase()}</span>`;
+    h += `<span class="badge" style="background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--border);">OEM Quality</span>`;
+    return h;
+};
+document.getElementById('pBadges').innerHTML = badgeHtml();
+
+// Stars
+function renderStars(r, containerId) {
+    const el = document.getElementById(containerId);
+    if(!el) return;
+    let h = '';
+    for(let i=1;i<=5;i++) {
+        if(i<=Math.floor(r)) h+=`<i class="fas fa-star"></i>`;
+        else if(i-r < 1 && r%1>0) h+=`<i class="fas fa-star-half-alt"></i>`;
+        else h+=`<i class="far fa-star" style="opacity:0.3"></i>`;
+    }
+    el.innerHTML = h;
+}
+renderStars(product.rating||4.7, 'starRow');
+document.getElementById('ratingVal').textContent = product.rating || '4.7';
+document.getElementById('reviewCount').textContent = `(${product.rev || 342} reviews)`;
+
+// Gallery images — use product image + variant filters
+const imgs = [
+    product.img,
+    product.img + (product.img.includes('?') ? '&hue=30' : '?hue=30'),
+    product.img + (product.img.includes('?') ? '&sat=50' : '?sat=50'),
+    product.img + (product.img.includes('?') ? '&brightness=80' : '?brightness=80'),
+];
+document.getElementById('mainImg').src = imgs[0];
+document.getElementById('mainImg').alt = product.name;
+
+// Badge
+const bTexts = {deal:'HOT DEAL', new:'NEW', hot:'TRENDING', oem:'OEM QUALITY'};
+const bStyles = {deal:'background:var(--accent2);color:#fff', new:'background:var(--ev);color:#000', hot:'background:var(--accent);color:#000', oem:'background:#333;color:#fff'};
+const badgeEl = document.getElementById('mainBadge');
+badgeEl.textContent = bTexts[product.badge] || 'QUALITY PART';
+badgeEl.style.cssText = bStyles[product.badge] || bStyles.oem;
+badgeEl.style.cssText += ';padding:0.3rem 0.9rem;border-radius:3px;font-family:Barlow Condensed,sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;';
+
+// Thumbnails
+const thumbs = document.getElementById('thumbContainer');
+imgs.forEach((src,i) => {
+    thumbs.innerHTML += `<div class="thumb ${i===0?'active':''}" onclick="setImg(this,'${src}')"><img src="${src}" alt="view ${i+1}"></div>`;
+});
+function setImg(el, src) {
+    document.getElementById('mainImg').src = src;
+    document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+}
+
+// Compatibility tags
+const compatMap = {
+    engine: ['Swift Petrol','Baleno 1.2','i10 Grand','City 1.5 Petrol','Creta Petrol','Tata Punch','Altroz'],
+    brakes: ['All Maruti Models','Hyundai i20','Honda City','Tata Nexon','Kia Seltos','Brezza'],
+    suspension: ['Baleno','Swift','Ignis','Tata Tiago','Creta 1.5','Venue','Sonet'],
+    electrical: ['Tesla Model 3','Tata Nexon EV','MG ZS EV','BYD Atto 3','Hyundai Ioniq 5','Kona EV'],
+    transmission: ['Ciaz MT','City 6-Speed','i20 DCT','Creta AMT','Nexon AT','Seltos IVT'],
+    body: ['Universal Fit','Custom Fitment Available','Check OEM Number'],
+    tyres: ['Universal 185/65 R15','195/55 R16','205/55 R16','215/60 R17'],
+    cooling: ['Swift Petrol','Baleno','Brezza Petrol','Creta 1.5','City 1.5','Verna'],
+    interior: ['Universal Fit','Most B-segment sedans','Check dimensions'],
+    exhaust: ['Maruti K-series','Hyundai 1.2 Kappa','Honda L-series','Toyota 2NR'],
+};
+const compat = compatMap[product.cat] || ['Universal Fit','Check OEM Number for exact match'];
+document.getElementById('compatTags').innerHTML = compat.map(c=>`<span class="compat-tag">${c}</span>`).join('');
+
+// ─── SPECS TABLE ───
+const specsData = {
+    engine: [['Part Number','OEM-8914-X2'],['Material','Forged Aluminium / Steel'],['Weight','2.4 kg'],['Warranty','12 Months'],['OEM Reference','Bosch / MAHLE Compatible'],['Origin','Germany / India'],['Package Contents','As specified'],['Fitment Type','Direct OEM Replacement'],['Certification','ISO 9001:2015'],['Max Temperature','1200°C']],
+    brakes: [['Part Number','BRK-FP-2024'],['Material','Ceramic Compound'],['Bedding Mileage','500 km break-in'],['Operating Temp.','0°C – 700°C'],['Warranty','18 Months'],['Certification','TUV / ECE-R90'],['Noise Level','Ultra Low (<65 dB)'],['OEM Compatible','Yes'],['Kit Contents','2 Pads + Wear Indicator'],['Country of Origin','Italy']],
+    suspension: [['Part Number','SUP-S-4421'],['Stroke Length','180 mm'],['Load Rating','650 kg'],['Damping Type','Gas-filled monotube'],['Mount Type','Top rubber mount'],['Warranty','24 Months'],['Material','High-strength steel'],['Finish','E-coat anti-rust'],['Compatible Springs','Standard & sport'],['Weight','1.8 kg']],
+    electrical: [['Voltage','12V / 48V / 72V'],['Capacity','Varies by SKU'],['Connector Type','OEM matched'],['IP Rating','IP67'],['Operating Temp.','-30°C to +85°C'],['Warranty','12 Months'],['Certification','CE / BIS'],['Chemistry','LFP / Li-ion'],['BMS Included','Yes (where applicable)'],['Origin','China / India']],
+    default: [['Part Number','AC-PART-XXXX'],['Material','OEM Grade'],['Warranty','12 Months'],['Certification','ISO 9001'],['Origin','India / Imported'],['Fitment','Direct Replacement'],['Package','Retail Box'],['Weight','Varies'],['OEM Compatible','Yes'],['Condition','New']],
+};
+const specs = specsData[product.cat] || specsData.default;
+const specsTable = document.getElementById('specsTable');
+specsTable.innerHTML = specs.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+
+// ─── REVIEWS ───
+const ratingVal = product.rating || 4.7;
+document.getElementById('reviewBigNum').textContent = ratingVal;
+renderStars(ratingVal, 'reviewBigStars');
+document.getElementById('reviewBigCount').textContent = `Based on ${product.rev||342} reviews`;
+
+const barData = [[5,68],[4,22],[3,7],[2,2],[1,1]];
+document.getElementById('reviewBars').innerHTML = barData.map(([star,pct])=>`
+<div class="rbar">
+    <span class="rbar-label">${star}★</span>
+    <div class="rbar-track"><div class="rbar-fill" style="width:${pct}%"></div></div>
+    <span class="rbar-count">${pct}%</span>
+</div>`).join('');
+
+const reviews = [
+    { name:'Rahul M.', date:'March 2026', rating:5, text:'Fitment was perfect for my Swift VXI 2022. Installed in about 45 minutes. Significant improvement over the stock part — quality feels OEM-level or better.', tag:'Verified Mechanic', vehicle:'Maruti Swift VXI 2022' },
+    { name:'Priya K.', date:'February 2026', rating:5, text:'Ordered for my Nexon EV. Arrived in 2 days, well packaged. Dealer quoted ₹8,000 for the same part, got it here for much less. Works flawlessly.', tag:'Verified Buyer', vehicle:'Tata Nexon EV 2023' },
+    { name:'Suresh T.', date:'January 2026', rating:4, text:'Good quality, matches OEM specs. Installation was straightforward with the guide provided. Knocked off one star because packaging could be better.', tag:'DIY Installer', vehicle:'Honda City 4th Gen' },
+    { name:'Arjun D.', date:'December 2025', rating:5, text:'Excellent product, exactly as described. My mechanic was impressed — said it was better than the Bosch part he usually orders. Would definitely buy again.', tag:'Verified Buyer', vehicle:'Hyundai Creta 1.5 Petrol' },
+];
+document.getElementById('reviewList').innerHTML = reviews.map(r=>`
+<div class="review-card">
+    <div class="review-header">
+        <div>
+            <div class="reviewer-name">${r.name}</div>
+            <div class="reviewer-sub">${r.vehicle} · ${r.date}</div>
+            <div class="verified"><i class="fas fa-check-circle"></i> ${r.tag}</div>
+        </div>
+        <div class="review-stars">${[...Array(5)].map((_,i)=>`<i class="${i<r.rating?'fas':'far'} fa-star"></i>`).join('')}</div>
+    </div>
+    <p class="review-text">${r.text}</p>
+</div>`).join('');
+
+// ─── INSTALLATION STEPS ───
+const installMap = {
+    brakes: [
+        {n:1, h:'Safety First', t:'Jack up the vehicle and secure on axle stands. Wear safety glasses and gloves. Never work under a car on a jack alone.'},
+        {n:2, h:'Remove the Wheel', t:'Loosen lug nuts before jacking. Remove wheel completely to access the brake caliper assembly.'},
+        {n:3, h:'Remove Old Pads', t:'Use a C-clamp to push the caliper piston back. Slide out old brake pads and inspect rotor surface for scoring.'},
+        {n:4, h:'Install New Pads', t:'Apply copper grease to the back of pads (not friction surface). Clip into caliper bracket, ensuring anti-squeal shims are fitted.'},
+        {n:5, h:'Reassemble & Bed-In', t:'Refit caliper, torque to spec (35–40 Nm typical). Pump brake pedal before moving. Perform 10× 60→20 km/h stops for break-in.'},
+    ],
+    engine: [
+        {n:1, h:'Drain Fluids & Cool Down', t:'Allow engine to cool for at least 2 hours. Drain coolant and oil as required by the specific component being replaced.'},
+        {n:2, h:'Disconnect Battery', t:'Always disconnect the negative terminal first to prevent accidental shorts during the repair.'},
+        {n:3, h:'Remove Old Component', t:'Follow factory workshop manual torque sequences. Label all connectors and hoses with masking tape before removal.'},
+        {n:4, h:'Install New Part', t:'Clean mating surfaces. Apply fresh gasket sealer where required. Torque all fasteners to specification — do not over-tighten.'},
+        {n:5, h:'Test & Monitor', t:'Refill fluids, reconnect battery. Start engine and check for leaks. Monitor temperature gauge for the first 20 km.'},
+    ],
+    default: [
+        {n:1, h:'Verify Fitment', t:'Cross-check the OEM part number on your old component with the one received. Do not proceed if there is a mismatch.'},
+        {n:2, h:'Gather Tools', t:'You will need standard metric spanners, torque wrench, and any application-specific tools listed in the box.'},
+        {n:3, h:'Remove Old Part', t:'Follow the factory service manual for your vehicle model. Take photos before disassembly for reference.'},
+        {n:4, h:'Fit New Part', t:'Install in reverse order of removal. Torque to manufacturer spec. Use thread-lock on vibration-prone fasteners.'},
+        {n:5, h:'Post-Installation Check', t:'Test all functions before road use. A short test drive of 5–10 km at low speed is recommended.'},
+    ],
+};
+const steps = installMap[product.cat] || installMap.default;
+document.getElementById('installSteps').innerHTML = steps.map(s=>`
+<div class="step">
+    <div class="step-num">${s.n}</div>
+    <div><h4>${s.h}</h4><p>${s.t}</p></div>
+</div>`).join('');
+
+// ─── FAQ ───
+const faqs = [
+    ['Is this an OEM or aftermarket part?', 'This is an OEM-equivalent aftermarket part meeting or exceeding original manufacturer specifications. It is not sold by the original vehicle manufacturer.'],
+    ['Will this void my car warranty?', 'Under Indian Consumer Protection Law, fitting an aftermarket part does not automatically void your warranty unless the dealer can prove the part caused specific damage.'],
+    ['Do you offer installation service?', 'AutoCore does not provide installation directly, but we partner with 2,000+ authorized garages. Use the "Find Installer" tool on checkout.'],
+    ['What if the part does not fit?', 'Return within 30 days for a full refund or exchange. Ensure you verify the OEM number or vehicle details using our Part Finder before purchase.'],
+    ['Is GST invoice included?', 'Yes. A GST-compliant invoice is included with every shipment. Download it from your order page at any time.'],
+];
+document.getElementById('faqList').innerHTML = faqs.map(([q,a])=>`
+<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+    <button onclick="toggleFaq(this)" style="width:100%;padding:1rem 1.2rem;background:transparent;border:none;color:var(--text);text-align:left;cursor:pointer;font-family:Barlow,sans-serif;font-size:0.9rem;font-weight:600;display:flex;justify-content:space-between;align-items:center;">
+        ${q} <i class="fas fa-chevron-down" style="color:var(--accent);font-size:0.8rem;transition:0.3s;flex-shrink:0;margin-left:1rem;"></i>
+    </button>
+    <div style="display:none;padding:0 1.2rem 1rem;font-size:0.875rem;color:rgba(240,240,240,0.75);line-height:1.6;">${a}</div>
+</div>`).join('');
+
+function toggleFaq(btn) {
+    const panel = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    const open = panel.style.display === 'block';
+    panel.style.display = open ? 'none' : 'block';
+    icon.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+// ─── SIMILAR PRODUCTS ───
+const simPool = [
+    {name:'Bosch Spark Plugs (×4)', price:'₹1,200', img:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=240&fit=crop'},
+    {name:'NGK Glow Plugs Set', price:'₹2,400', img:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=300&h=240&fit=crop'},
+    {name:'EV Charging Port Assy.', price:'₹8,500', img:'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=300&h=240&fit=crop'},
+    {name:'StopTech Brake Rotor', price:'₹4,100', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=300&h=240&fit=crop'},
+    {name:'Monroe Strut Assembly', price:'₹6,200', img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300&h=240&fit=crop'},
+    {name:'MRF Tyres 185/65 R15', price:'₹4,200', img:'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=300&h=240&fit=crop&hue=60'},
+    {name:'Denso Radiator Assy.', price:'₹5,600', img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=300&h=240&fit=crop'},
+    {name:'LED Headlight Kit', price:'₹5,200', img:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=300&h=240&fit=crop'},
+];
+document.getElementById('similarScroll').innerHTML = simPool.map(p=>`
+<div class="pcard" onclick="">
+    <div class="pcard-img2"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+    <div class="pcard-body2">
+        <div class="pcard-name2">${p.name}</div>
+        <div class="pcard-price2">${p.price}</div>
+    </div>
+</div>`).join('');
+
+// ─── TABS ───
+function switchTab(btn, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+}
+
+// ─── QTY ───
+function changeQty(delta) {
+    const inp = document.getElementById('qtyInput');
+    inp.value = Math.max(1, Math.min(99, parseInt(inp.value||1) + delta));
+}
+
+// ─── CART ───
+let cartCount = 0;
+function addToCart() {
+    cartCount++;
+    document.getElementById('cartCount').textContent = cartCount;
+    showToast(`${product.name.substring(0,30)}... added to cart!`);
+}
+function buyNow() {
+    addToCart();
+    showToast('Redirecting to checkout…');
+}
+function toggleWish(btn) {
+    const icon = btn.querySelector('i');
+    const wishlisted = icon.classList.contains('fas');
+    icon.className = wishlisted ? 'far fa-heart' : 'fas fa-heart';
+    btn.style.borderColor = wishlisted ? '' : '#e11d48';
+    btn.style.color = wishlisted ? '' : '#e11d48';
+    showToast(wishlisted ? 'Removed from wishlist' : '❤️ Added to wishlist!');
+}
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
