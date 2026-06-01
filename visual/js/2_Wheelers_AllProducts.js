@@ -1,295 +1,177 @@
 // =============================================
-// 2_Wheelers_AllProducts.js — All Products Page
-// Aggregates products from every section/category
+// 2_Wheelers_AllProducts.js — Dynamic Grid Logic
 // =============================================
 
-// --- Full Product Database ---
-const allProducts = [
-    // === Hero / Featured Bikes ===
-    { name: "Apex Mountain Pro X9", price: 103920, originalPrice: 175920, category: "Mountain Bikes", badge: "Best Seller", badgeClass: "badge-best", img: "../assets/hero_bike_1.png", desc: "Full suspension carbon fiber frame with 29-inch wheels. Built for the toughest terrain and steepest descents.", rating: 4.8, reviews: 2450 },
-    { name: "Velocity Road Racer", price: 71920, originalPrice: 103920, category: "Road Bikes", badge: "Trending", badgeClass: "badge-best", img: "../assets/hero_bike_2.png", desc: "Aerodynamic alloy frame with Shimano 22-speed drivetrain. Featherlight at just 8.5kg for maximum speed.", rating: 4.7, reviews: 1890 },
-    { name: "EcoVolt E-Bike 500", price: 131920, originalPrice: 175920, category: "Electric Bikes", badge: "New", badgeClass: "badge-new", img: "../assets/hero_ebike.png", desc: "500W motor, 80km range, regenerative braking. The future of eco-friendly urban commuting.", rating: 4.9, reviews: 3120 },
-    { name: "CityGlide Hybrid 7", price: 43920, originalPrice: 59920, category: "Hybrid Bikes", badge: "Best Deal", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "21-speed drivetrain with ergonomic saddle and puncture-resistant tires for everyday adventures.", rating: 4.5, reviews: 1560 },
-    { name: "KidStar BMX Blaze", price: 22320, originalPrice: 31920, category: "BMX Bikes", badge: "Kids Fav", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Reinforced steel frame with trick-ready pegs. Vibrant green graphics that pop on the skatepark.", rating: 4.6, reviews: 980 },
-    { name: "TrailBlazer Fat Tire", price: 79120, originalPrice: 103920, category: "Fat Tire Bikes", badge: "Adventure", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop", desc: "4.8-inch fat tires crush sand, snow, and mud. Hydro disc brakes and dropper post included.", rating: 4.7, reviews: 1240 },
+let activeFilter = 'all';
+let currentSort = 'featured';
 
-    // === Cycling Helmets ===
-    { name: "AeroShield Pro Helmet", price: 7120, originalPrice: 10320, category: "Cycling Helmets", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1557803175-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "MIPS protection system with 18 ventilation channels. Aerodynamic design weighing just 260g.", rating: 4.8, reviews: 3200 },
-    { name: "UrbanGuard City Helmet", price: 4720, originalPrice: null, category: "Cycling Helmets", badge: "New", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1557803175-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Integrated LED rear light with magnetic buckle. Sleek matte finish for urban commuters.", rating: 4.4, reviews: 870 },
-    { name: "KidSafe Junior Helmet", price: 3120, originalPrice: 4400, category: "Cycling Helmets", badge: "Kids Fav", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1557803175-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Fun designs with maximum protection. Adjustable fit system grows with your child.", rating: 4.7, reviews: 1450 },
+const productsGrid = document.getElementById('products-grid');
+const resultsCount = document.getElementById('results-count');
 
-    // === Bike Locks & Security ===
-    { name: "TitanLock U-Lock Pro", price: 3920, originalPrice: 5520, category: "Bike Locks", badge: "Top Pick", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1596460650993-90d2354830ba?q=80&w=400&h=300&fit=crop", desc: "16mm hardened steel shackle with anti-drill, anti-pick cylinder. Double-lock mechanism for maximum security.", rating: 4.6, reviews: 2100 },
-    { name: "FlexiChain 6ft Cable Lock", price: 2320, originalPrice: null, category: "Bike Locks", badge: "Budget Pick", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1541625602330-2277a1cd1f59?q=80&w=400&h=300&fit=crop", desc: "Braided steel cable with 4-digit customizable combination. Lightweight and flexible, ideal for quick stops.", rating: 4.2, reviews: 1680 },
-    { name: "SmartLock GPS Tracker", price: 10320, originalPrice: 14320, category: "Bike Locks", badge: "High-Tech", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558223175-0b41510afcb6?q=80&w=400&h=300&fit=crop", desc: "Built-in GPS with real-time smartphone alerts. Auto-locks when you walk away and unlocks on approach via Bluetooth.", rating: 4.5, reviews: 560 },
-
-    // === Cycling Gloves ===
-    { name: "GripMaster Full Finger", price: 2720, originalPrice: 3920, category: "Cycling Gloves", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1541625602330-2277a1cd1f59?q=80&w=400&h=300&fit=crop", desc: "Gel-padded palms with touchscreen-compatible fingertips. Breathable mesh back panel for all-day riding comfort.", rating: 4.5, reviews: 2340 },
-    { name: "ProRide Half Finger", price: 1920, originalPrice: null, category: "Cycling Gloves", badge: "Popular", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1582231242350-0239f1c79a1f?q=80&w=400&h=300&fit=crop", desc: "Lightweight summer gloves with anti-slip silicone grip. Quick-pull tabs make them easy to remove even when sweaty.", rating: 4.3, reviews: 1890 },
-    { name: "WinterShield Thermal Gloves", price: 3600, originalPrice: 5200, category: "Cycling Gloves", badge: "Winter Pick", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=400&h=300&fit=crop", desc: "3-layer insulated windproof shell with reflective accents. Keeps hands warm and dry down to -10°C.", rating: 4.6, reviews: 780 },
-
-    // === Bike Lights ===
-    { name: "BeamMax 1200 Front Light", price: 4720, originalPrice: 6320, category: "Bike Lights", badge: "Brightest", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1506505030201-1e96f1b3f947?q=80&w=400&h=300&fit=crop", desc: "1200 lumens with 6 modes including daytime flash. USB-C fast charging and 8hr runtime on medium setting.", rating: 4.8, reviews: 1920 },
-    { name: "TailSafe Rear Light Set", price: 2000, originalPrice: null, category: "Bike Lights", badge: "Essential", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1544133782-b7ce932599f5?q=80&w=400&h=300&fit=crop", desc: "180° visibility with an ultra-bright smart brake sensor. IPX6 waterproof rated for safe all-weather riding.", rating: 4.4, reviews: 3450 },
-    { name: "WheelGlow Spoke LEDs", price: 1520, originalPrice: 2320, category: "Bike Lights", badge: "Fun Pick", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=400&h=300&fit=crop", desc: "32 vibrant color patterns with motion-activated display. Enhances side visibility and adds style to your ride.", rating: 4.1, reviews: 2100 },
-
-    // === Tyres & Tubes ===
-    { name: "GripKing All-Terrain 29\"", price: 3600, originalPrice: 4720, category: "Tyres & Tubes", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1544191746-e3d1746c1c38?q=80&w=400&h=300&fit=crop", desc: "Dual-compound rubber with an aggressive tread pattern for superior trail grip. Tubeless-ready design.", rating: 4.7, reviews: 4200 },
-    { name: "SpeedLine Slick 700c", price: 2800, originalPrice: null, category: "Tyres & Tubes", badge: "Road Pick", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1533561052604-c3deb6d596c3?q=80&w=400&h=300&fit=crop", desc: "Ultra-low rolling resistance with a high-density puncture protection belt. Premium 120 TPI casing.", rating: 4.5, reviews: 2890 },
-    { name: "PunctureShield Tubes (Pack of 2)", price: 1200, originalPrice: 1760, category: "Tyres & Tubes", badge: "Value Pack", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1544191746-e3d1746c1c38?q=80&w=400&h=300&fit=crop", desc: "Self-sealing latex tubes with Presta valves. Instantly handles thorns and small debris while you ride.", rating: 4.3, reviews: 5600 },
-
-    // === Cycling Apparel ===
-    { name: "AeroFit Pro Jersey", price: 5520, originalPrice: 7600, category: "Cycling Apparel", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Italian fabric with 4-way stretch and UPF 50+ sun protection. Three rear pockets for essentials.", rating: 4.6, reviews: 1780 },
-    { name: "ComfortRide Padded Shorts", price: 4400, originalPrice: 6000, category: "Cycling Apparel", badge: "Comfort+", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "High-density chamois pad with flatlock seams. Compressive fabric reduces muscle fatigue.", rating: 4.7, reviews: 2340 },
-    { name: "StormBreaker Rain Jacket", price: 7120, originalPrice: 10320, category: "Cycling Apparel", badge: "All-Weather", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Fully seam-sealed with 10,000mm waterproof rating. Packable into its own pocket.", rating: 4.5, reviews: 890 },
-
-    // === Bike Repair & Tools ===
-    { name: "ProFix Multi-Tool 18-in-1", price: 2240, originalPrice: 3120, category: "Bike Tools", badge: "Essential", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "CNC machined hardened steel with chain breaker, Allen keys, and spoke wrench. Fits any saddle bag.", rating: 4.8, reviews: 4500 },
-    { name: "TireDoc Patch Kit", price: 960, originalPrice: null, category: "Bike Tools", badge: "Must-Have", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "6 self-adhesive patches with tire levers and portable air cartridge. Fits in jersey pocket.", rating: 4.4, reviews: 6200 },
-    { name: "TorqueMaster Pump Floor", price: 3600, originalPrice: 4720, category: "Bike Tools", badge: "Top Rated", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "160 PSI max with oversized gauge and dual Presta/Schrader head. Steel barrel for durability.", rating: 4.7, reviews: 3100 },
-
-    // === Water Bottles & Cages ===
-    { name: "HydroFlow Insulated 750ml", price: 1760, originalPrice: 2320, category: "Bottles & Cages", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop", desc: "Double-wall vacuum insulation keeps drinks cold for 24hrs. BPA-free with one-hand squeeze valve.", rating: 4.5, reviews: 3800 },
-    { name: "CarbonLite Bottle Cage", price: 1440, originalPrice: null, category: "Bottles & Cages", badge: "Lightweight", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop", desc: "Full carbon construction at just 25g. Secure grip with side-loading design for tight frames.", rating: 4.3, reviews: 1200 },
-
-    // === Saddles & Seats ===
-    { name: "CloudRide Gel Saddle", price: 5200, originalPrice: 7120, category: "Saddles & Seats", badge: "Comfort+", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "Memory foam core with central pressure relief channel. Fits all standard seatpost clamps.", rating: 4.6, reviews: 2670 },
-    { name: "SportFit Racing Saddle", price: 7600, originalPrice: 11120, category: "Saddles & Seats", badge: "Pro Choice", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "Carbon-reinforced shell with microfiber cover. Designed with 3D body-mapping technology.", rating: 4.7, reviews: 890 },
-
-    // === GPS & Bike Computers ===
-    { name: "RideNav GPS Pro", price: 15920, originalPrice: 22320, category: "GPS & Computers", badge: "High-Tech", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop", desc: "Color touchscreen with turn-by-turn navigation. ANT+ and Bluetooth sensors compatible.", rating: 4.8, reviews: 1560 },
-    { name: "SpeedMeter Basic Wireless", price: 2800, originalPrice: null, category: "GPS & Computers", badge: "Value Pick", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop", desc: "Speed, distance, time, and calories on a clear LCD. Wireless sensor with easy mount.", rating: 4.2, reviews: 4300 },
-
-    // === Panniers & Bags ===
-    { name: "TrekHauler Pannier Bags (Pair)", price: 6320, originalPrice: 8720, category: "Panniers & Bags", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "40L total capacity with waterproof roll-top closure. Quick-release rack mounting system.", rating: 4.6, reviews: 1890 },
-    { name: "FramePack Top Tube Bag", price: 2000, originalPrice: 2800, category: "Panniers & Bags", badge: "Handy", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Touchscreen-compatible phone window with waterproof zipper. Velcro straps fit any frame.", rating: 4.4, reviews: 2560 },
-
-    // === Cycling Shoes ===
-    { name: "ClipMaster Road Shoes", price: 10320, originalPrice: 14320, category: "Cycling Shoes", badge: "Pro Choice", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop", desc: "Stiff carbon sole for maximum power transfer. BOA dial closure for micro-adjustable fit.", rating: 4.7, reviews: 1340 },
-    { name: "TrailStep MTB Shoes", price: 7920, originalPrice: 11120, category: "Cycling Shoes", badge: "Trail Pick", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop", desc: "Vibram outsole for walk-ability with SPD cleat compatibility. Reinforced toe box protection.", rating: 4.5, reviews: 980 },
-    { name: "CasualRide Flat Pedal Shoes", price: 5520, originalPrice: null, category: "Cycling Shoes", badge: "Everyday", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop", desc: "Sticky rubber sole grips flat pedals like glue. Looks like sneakers, rides like bike shoes.", rating: 4.4, reviews: 1670 },
-
-    // === Bike Bells & Horns ===
-    { name: "PingClear Classic Bell", price: 960, originalPrice: null, category: "Bells & Horns", badge: "Classic", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop", desc: "Brass resonance chamber with spring-loaded striker. Clear ring audible from 50 meters.", rating: 4.3, reviews: 5800 },
-    { name: "HornBlast 120dB Electric", price: 1920, originalPrice: 2720, category: "Bells & Horns", badge: "Loud!", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop", desc: "USB rechargeable with 3 sound modes. Impossible to ignore — great for city traffic.", rating: 4.5, reviews: 2100 },
-
-    // === Bike Stands & Storage ===
-    { name: "WallMount Pro Rack", price: 2800, originalPrice: 3920, category: "Stands & Storage", badge: "Space Saver", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "Holds 2 bikes vertically. Rubber-coated hooks prevent frame scratches. Includes hardware.", rating: 4.6, reviews: 1890 },
-    { name: "FloorStand Adjustable", price: 2240, originalPrice: null, category: "Stands & Storage", badge: "Versatile", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop", desc: "Fits 20\" to 29\" wheels. Foldable steel design for garage, shed, or apartment.", rating: 4.4, reviews: 3200 },
-
-    // === Kids Bikes & Gear ===
-    { name: "LittleRider Balance Bike", price: 7120, originalPrice: 9520, category: "Kids Gear", badge: "Age 2-5", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Lightweight aluminium frame weighing just 3kg. Adjustable seat height grows with your toddler.", rating: 4.8, reviews: 2900 },
-    { name: "StarCruiser 16\" Kids Bike", price: 13520, originalPrice: 17520, category: "Kids Gear", badge: "Age 4-7", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Training wheels included with coaster brake. Fun streamers and matching bell in the box.", rating: 4.6, reviews: 1560 },
-    { name: "Junior Mountain Rider 24\"", price: 27920, originalPrice: 35920, category: "Kids Gear", badge: "Age 8-12", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Real 7-speed Shimano gears with front suspension. Disc brakes for serious young riders.", rating: 4.7, reviews: 870 },
-
-    // === Motorcycles ===
-    { name: "ThunderBolt 650 Twin", price: 599920, originalPrice: 719920, category: "Motorcycles", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=400&h=300&fit=crop", desc: "649cc parallel-twin engine producing 47hp. Modern classic styling with dual-channel ABS and slipper clutch.", rating: 4.9, reviews: 3400 },
-    { name: "StreetFire 300R", price: 343920, originalPrice: 399920, category: "Motorcycles", badge: "Trending", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1558981285-6f0c94958bb6?q=80&w=400&h=300&fit=crop", desc: "296cc liquid-cooled single with fuel injection. Raw Power and aggressive street-fighter design for technical urban routes.", rating: 4.7, reviews: 2890 },
-    { name: "CruiserKing 1200", price: 1039920, originalPrice: 1199920, category: "Motorcycles", badge: "Premium", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558981424-86a2f127d897?q=80&w=400&h=300&fit=crop", desc: "1200cc V-twin with high-torque belt drive. Features heated grips, cruise control, and leather saddlebags.", rating: 4.8, reviews: 1560 },
-    { name: "AdventureX 800 GS", price: 799920, originalPrice: 919920, category: "Motorcycles", badge: "Adventure", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=400&h=300&fit=crop", desc: "798cc adventure touring beast with 21-inch spokes and crash bars. Ready for any desert or mountain trail.", rating: 4.9, reviews: 2100 },
-    { name: "NightHawk 250cc Commuter", price: 223920, originalPrice: 263920, category: "Motorcycles", badge: "Value Pick", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1563220790-264777558ec4?q=80&w=400&h=300&fit=crop", desc: "Forgiving 250cc engine delivering exceptional fuel economy. Features low seat height and nimble handling.", rating: 4.5, reviews: 4500 },
-    { name: "SuperSport RR 600", price: 839920, originalPrice: 999920, category: "Motorcycles", badge: "Track Ready", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1621271107530-9b3602167d4f?q=80&w=400&h=300&fit=crop", desc: "Performance tuned 599cc inline-four. Professional track suspension and competition-grade radial brakes.", rating: 4.8, reviews: 1230 },
-
-    // === Scooters ===
-    { name: "GlideCity 125cc Scooter", price: 151920, originalPrice: 183920, category: "Scooters", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1582231242350-0239f1c79a1f?q=80&w=400&h=300&fit=crop", desc: "Efficient 125cc auto with expansive under-seat storage. Compact dimensions for effortless lane splitting.", rating: 4.6, reviews: 5200 },
-    { name: "RetroVespa Classic 150", price: 279920, originalPrice: 319920, category: "Scooters", badge: "Iconic", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1591535496431-72f126154366?q=80&w=400&h=300&fit=crop", desc: "150cc metal-bodied classic from the heritage line. Features electronic fuel injection and vintage charm.", rating: 4.8, reviews: 3100 },
-    { name: "UrbanZip 110cc", price: 103920, originalPrice: 127920, category: "Scooters", badge: "Budget Fav", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=400&h=300&fit=crop", desc: "Entry-level 110cc scooter with remarkable agility. Optimized for students and first-time riders.", rating: 4.4, reviews: 6100 },
-    { name: "MaxiScoot 300 GT", price: 439920, originalPrice: 519920, category: "Scooters", badge: "Touring", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1444491741275-3747c03c99d4?q=80&w=400&h=300&fit=crop", desc: "Cross-city maxi-scooter with a powerful 300cc engine. Tall windshield for long-distance highway comfort.", rating: 4.7, reviews: 1890 },
-
-    // === Electric Scooters & Mopeds ===
-    { name: "VoltRush E-Scooter Pro", price: 199920, originalPrice: 239920, category: "Electric Scooters", badge: "Eco Star", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558980601-3e4b789073c6?q=80&w=400&h=300&fit=crop", desc: "High-torque electric motor with 120km range. Includes swappable battery tech for 24/7 mobility.", rating: 4.7, reviews: 2800 },
-    { name: "ZipE Foldable Kick Scooter", price: 47920, originalPrice: 63920, category: "Electric Scooters", badge: "Portable", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1582231242350-0239f1c79a1f?q=80&w=400&h=300&fit=crop", desc: "Aviation-grade aluminium kick scooter with 350W motor. Folds in seconds, perfect for mixed commuting.", rating: 4.5, reviews: 4300 },
-    { name: "MotoE Zero 5000", price: 719920, originalPrice: 879920, category: "Electric Scooters", badge: "Premium", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1612450791763-71887e5bba98?q=80&w=400&h=300&fit=crop", desc: "Naked electric bike equivalent to 125cc performance. Instant torque and smart connectivity suite.", rating: 4.9, reviews: 1670 },
-    { name: "PedalAssist E-Moped", price: 143920, originalPrice: 175920, category: "Electric Scooters", badge: "Hybrid", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558216393-f0022d4314c6?q=80&w=400&h=300&fit=crop", desc: "Charming vintage-style moped with electric pedal-assist. Features heavy-duty racks for groceries.", rating: 4.4, reviews: 1450 },
-
-    // === Pedals ===
-    { name: "ClipForce SPD Pedals", price: 4720, originalPrice: 6320, category: "Pedals", badge: "Pro Choice", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1593710926639-65691bc9a96e?q=80&w=400&h=300&fit=crop", desc: "Chromoly steel axles with dual-sided SPD entry and adjustable tension for efficient power transfer.", rating: 4.7, reviews: 2100 },
-    { name: "FlatGrip Platform Pedals", price: 2560, originalPrice: null, category: "Pedals", badge: "MTB Pick", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1593710926639-65691bc9a96e?q=80&w=400&h=300&fit=crop", desc: "Wide aluminium platform with replaceable steel pins. Concave profile provides maximum foot stability.", rating: 4.5, reviews: 3400 },
-
-    // === Fenders & Mudguards ===
-    { name: "FullWrap Fender Set", price: 2240, originalPrice: 3120, category: "Fenders", badge: "All-Weather", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1558223175-0b41510afcb6?q=80&w=400&h=300&fit=crop", desc: "Durable matte black polycarbonate fenders with stainless stays. Fits tire widths up to 45mm.", rating: 4.4, reviews: 2900 },
-    { name: "QuickSnap Clip-On Mudguard", price: 1200, originalPrice: null, category: "Fenders", badge: "Quick Fit", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558223175-0b41510afcb6?q=80&w=400&h=300&fit=crop", desc: "Lightweight tool-free fender. Snaps onto seatposts in seconds for instant protection from spray.", rating: 4.2, reviews: 4100 },
-
-    // === Racks & Carriers ===
-    { name: "TourRack Rear Carrier", price: 3600, originalPrice: 4720, category: "Racks & Carriers", badge: "Essential", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=400&h=300&fit=crop", desc: "Heavy-duty aluminium alloy rear rack. 30kg load capacity with universal mounting points for panniers and child seats.", rating: 4.6, reviews: 2340 },
-    { name: "CarMount Pro Bike Rack", price: 10320, originalPrice: 13520, category: "Racks & Carriers", badge: "For Cars", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1593710926639-65691bc9a96e?q=80&w=400&h=300&fit=crop", desc: "Premium trunk-mount carrier for up to 3 bikes. Features thick foam protection and adjustable security straps.", rating: 4.5, reviews: 1780 },
-
-    // === Mirrors ===
-    { name: "WideView Bar-End Mirror", price: 1440, originalPrice: 2000, category: "Mirrors", badge: "Safety", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1558223175-0b41510afcb6?q=80&w=400&h=300&fit=crop", desc: "High-definition convex mirror with a vibration-resistant bar-end mount. Provides a 180-degree unobstructed rear view.", rating: 4.3, reviews: 3200 },
-
-    // === Phone Mounts ===
-    { name: "GripLock Phone Mount Pro", price: 2320, originalPrice: 3120, category: "Phone Mounts", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1610484832539-715bd888be62?q=80&w=400&h=300&fit=crop", desc: "Shock-absorbing silicone mount with a 360-degree ball joint. Fits any handlebar from 20-35mm.", rating: 4.6, reviews: 5600 },
-    { name: "MagSnap Wireless Mount", price: 3920, originalPrice: 5200, category: "Phone Mounts", badge: "Premium", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1627389955609-702444b1c67d?q=80&w=400&h=300&fit=crop", desc: "MagSafe-ready magnetic mount with 15W Qi wireless charging. Waterproof IP67 rated connector.", rating: 4.7, reviews: 1890 },
-
-    // === Chain & Drivetrain Care ===
-    { name: "ChainLube Pro Wet/Dry Kit", price: 1760, originalPrice: 2560, category: "Chain Care", badge: "Must-Have", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1541625602330-2277a1cd1f59?q=80&w=400&h=300&fit=crop", desc: "Professional maintenance kit including 120ml ceramic dry lube and 120ml extreme wet weather oil.", rating: 4.5, reviews: 3800 },
-    { name: "ChainScrub Cleaning Tool", price: 1200, originalPrice: null, category: "Chain Care", badge: "Easy Clean", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1541625602330-2277a1cd1f59?q=80&w=400&h=300&fit=crop", desc: "Triple-brush chain cleaner with reservoir. Effectively removes grit and old oil without removing the chain.", rating: 4.3, reviews: 4500 },
-
-    // === Cycling Sunglasses ===
-    { name: "AeroVision Sport Glasses", price: 6320, originalPrice: 8720, category: "Cycling Sunglasses", badge: "UV400", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Photochromic lenses auto-adjust to light. Anti-fog coating with swappable nose pieces.", rating: 4.6, reviews: 2100 },
-    { name: "NightRider Clear Lens", price: 3120, originalPrice: null, category: "Cycling Sunglasses", badge: "Night Ride", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop", desc: "Yellow-tinted lenses enhance contrast at dusk. Wraparound design blocks wind and debris.", rating: 4.4, reviews: 1560 },
-
-    // === Protective Gear ===
-    { name: "ArmorFlex Knee Guards", price: 3600, originalPrice: 4720, category: "Protective Gear", badge: "Safety+", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=400&h=300&fit=crop", desc: "D3O impact material hardens on impact. Breathable mesh straps with silicone grip bands.", rating: 4.7, reviews: 1890 },
-    { name: "ElbowShield Pro Guards", price: 2800, originalPrice: 3920, category: "Protective Gear", badge: "MTB Armor", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=400&h=300&fit=crop", desc: "CE-certified elbow protection with pre-curved fit. Lightweight at just 180g per guard.", rating: 4.5, reviews: 1230 },
-    { name: "FullBody Armor Jacket", price: 10320, originalPrice: 14320, category: "Protective Gear", badge: "Max Protect", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=400&h=300&fit=crop", desc: "Chest, back, shoulder and elbow CE armor. Mesh construction keeps you cool on downhill runs.", rating: 4.8, reviews: 780 },
-
-    // === Handlebar Grips & Tape ===
-    { name: "ErgoPro Lock-On Grips", price: 1760, originalPrice: 2320, category: "Grips & Tape", badge: "Comfort", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1591535496431-72f126154366?q=80&w=400&h=300&fit=crop", desc: "Ergonomically shaped dual-density rubber grips. Features aluminium lock-on collars for secure, slip-free performance.", rating: 4.5, reviews: 3400 },
-    { name: "CorkWrap Bar Tape", price: 1440, originalPrice: null, category: "Grips & Tape", badge: "Road Pick", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1533162002102-1a48c66e288e?q=80&w=400&h=300&fit=crop", desc: "Synthetic cork bar tape with a vibration-dampening gel backing. Superior grip in both dry and wet conditions.", rating: 4.4, reviews: 2100 },
-
-    // === Motorcycle Helmets ===
-    { name: "FullFace Stealth Helmet", price: 15120, originalPrice: 19920, category: "Motorcycle Helmets", badge: "DOT/ECE", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=400&h=300&fit=crop", desc: "Advanced polycarbonate composite shell with a dual-density EPS liner. Features an anti-scratch pinpoint visor and integrated sun shield.", rating: 4.8, reviews: 4200 },
-    { name: "OpenFace Retro Helmet", price: 9520, originalPrice: 11920, category: "Motorcycle Helmets", badge: "Classic", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1590425712128-444aa16e3926?q=80&w=400&h=300&fit=crop", desc: "Lightweight fiberglass shell in heritage matte cream. Features a premium leather interior and chrome trim for a timeless aesthetic.", rating: 4.6, reviews: 2300 },
-    { name: "ModularFlip Adventure Helmet", price: 19920, originalPrice: 26320, category: "Motorcycle Helmets", badge: "Versatile", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1582531093125-978c4a176e5d?q=80&w=400&h=300&fit=crop", desc: "Toure-ready flip-up design with a removable peak visor. Includes a Pinlock anti-fog insert and Bluetooth-ready recessed pockets.", rating: 4.7, reviews: 1670 },
-
-    // === Motorcycle Gloves ===
-    { name: "LeatherGrip Touring Gloves", price: 5520, originalPrice: 7120, category: "Motorcycle Gloves", badge: "Premium", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=400&h=300&fit=crop", desc: "Abrasion-resistant goatskin leather with carbon fiber hard-knuckle protectors. Conductive fingertips for smartphone use.", rating: 4.7, reviews: 2560 },
-    { name: "SummerMesh Riding Gloves", price: 3120, originalPrice: null, category: "Motorcycle Gloves", badge: "Hot Weather", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=400&h=300&fit=crop", desc: "Highly breathable 3D air-mesh construction with TPR palm sliders. Pre-curved fingers ensure a natural grip on the bars.", rating: 4.5, reviews: 3100 },
-
-    // === Motorcycle Jackets ===
-    { name: "ArmorRide Leather Jacket", price: 23920, originalPrice: 31920, category: "Motorcycle Jackets", badge: "Best Seller", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=400&h=300&fit=crop", desc: "1.2mm premium cowhide leather with CE Level 2 armor. Features accordion stretch panels and a removable quilted thermal liner.", rating: 4.9, reviews: 1890 },
-    { name: "TextileTour All-Season Jacket", price: 15120, originalPrice: 19920, category: "Motorcycle Jackets", badge: "All-Weather", badgeClass: "badge-deal", img: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=400&h=300&fit=crop", desc: "600D high-impact poly-fabric with a waterproof breathable membrane. Massive zippered vents for warm days and high visibility hits.", rating: 4.6, reviews: 2340 },
-
-    // === Motorcycle Boots ===
-    { name: "CrusaderRide Boots", price: 12720, originalPrice: 15920, category: "Motorcycle Boots", badge: "Armored", badgeClass: "badge-best", img: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=400&h=300&fit=crop", desc: "Touring-standard full-grain leather with TPU shin and ankle protection. Reinforced toe box and anti-slip vulcanized rubber sole.", rating: 4.7, reviews: 1670 },
-    { name: "UrbanStealth Short Boots", price: 7920, originalPrice: 10320, category: "Motorcycle Boots", badge: "City Style", badgeClass: "badge-new", img: "https://images.unsplash.com/photo-1560343090-f0409e92791a?q=80&w=400&h=300&fit=crop", desc: "Low-profile leather sneakers with hidden impact-certified ankle padding. Waterproof membrane and reflective heel pulls.", rating: 4.5, reviews: 2100 }
-];
-
-
-// --- Liked products state (stored in localStorage) ---
-let likedProducts = JSON.parse(localStorage.getItem('2w_liked') || '[]');
-
-function isLiked(productName) {
-    return likedProducts.includes(productName);
-}
-
-function toggleLike(productName, btn) {
-    const idx = likedProducts.indexOf(productName);
-    if (idx > -1) {
-        likedProducts.splice(idx, 1);
-        btn.classList.remove('liked');
-        btn.innerHTML = '<i class="far fa-heart"></i>';
-    } else {
-        likedProducts.push(productName);
-        btn.classList.add('liked');
-        btn.innerHTML = '<i class="fas fa-heart"></i>';
-    }
-    localStorage.setItem('2w_liked', JSON.stringify(likedProducts));
-}
-
-// --- Generate Star HTML ---
-function renderStars(rating) {
-    let html = '';
-    const full = Math.floor(rating);
-    const hasHalf = rating - full >= 0.3;
-    const empty = 5 - full - (hasHalf ? 1 : 0);
-
-    for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
-    if (hasHalf) html += '<i class="fas fa-star-half-alt"></i>';
-    for (let i = 0; i < empty; i++) html += '<i class="far fa-star empty"></i>';
-    return html;
-}
-
-// --- Format Price ---
-function formatPrice(p) {
-    return '₹' + p.toLocaleString('en-IN', { minimumFractionDigits: 0 });
-}
-
-// --- Render All Product Cards ---
 function renderAllProducts(products) {
-    const grid = document.getElementById('products-grid');
-    if (!grid) return;
+    if (!productsGrid) return;
+    productsGrid.innerHTML = '';
+    
+    if (products.length === 0) {
+        productsGrid.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <p>No products found matching your criteria.</p>
+                <button class="btn-primary" onclick="filterProducts('all')">View All Products</button>
+            </div>
+        `;
+        if (resultsCount) resultsCount.innerText = '0';
+        return;
+    }
 
-    grid.innerHTML = '';
-
-    products.forEach((p, idx) => {
-        const discount = p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
-        const liked = isLiked(p.name);
+    products.forEach(p => {
+        const numericPrice = typeof p.price === 'number' ? p.price : parseInt(p.price.toString().replace(/[^0-9]/g, ''));
+        const formattedPrice = '₹' + numericPrice.toLocaleString('en-IN');
+        const badgeText = p.badge || "New";
+        const badgeClass = p.badgeClass || "badge-new";
 
         const card = document.createElement('div');
-        card.className = 'all-product-card';
-        card.dataset.index = idx;
+        card.className = 'product-card';
+        card.setAttribute('data-aos', 'fade-up');
+        card.onclick = () => {
+            window.location.href = `2_Wheelers_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formattedPrice)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&badge=${encodeURIComponent(badgeText)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent('₹' + p.originalPrice.toLocaleString('en-IN')) : ''}&desc=${encodeURIComponent(p.desc)}`;
+        };
 
+        card.dataset.id = p.id;
         card.innerHTML = `
-            <div class="apc-image-wrap">
-                <img src="${p.img}" alt="${p.name}" loading="lazy">
-                <span class="apc-badge ${p.badgeClass}">${p.badge}</span>
-                <button class="apc-like-btn ${liked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.name.replace(/'/g, "\\'")}', this)">
-                    <i class="${liked ? 'fas' : 'far'} fa-heart"></i>
+            <div class="image-wrapper">
+                <img src="${p.img}" class="product-image" alt="${p.name}">
+                <span class="product-badge ${badgeClass}">${badgeText}</span>
+                <button class="like-btn ${isLiked(p.name) ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.name.replace(/'/g, "\\'")}', this)">
+                    <i class="${isLiked(p.name) ? 'fas' : 'far'} fa-heart"></i>
                 </button>
             </div>
-            <div class="apc-info">
-                <div class="apc-category">${p.category}</div>
-                <div class="apc-name">${p.name}</div>
-                <div class="apc-desc">${p.desc}</div>
-                <div class="apc-rating">
-                    <div class="apc-stars">${renderStars(p.rating)}</div>
-                    <span class="apc-rating-text">${p.rating} (${p.reviews.toLocaleString()})</span>
+            <div class="product-info">
+                <div class="category-info">${p.category}</div>
+                <h3>${p.name}</h3>
+                <div class="rating">
+                    <i class="fas fa-star"></i> ${p.rating} <span>(${p.reviews.toLocaleString()})</span>
                 </div>
-                <div class="apc-price-row">
-                    <div>
-                        <span class="apc-price">${formatPrice(p.price)}</span>
-                        ${p.originalPrice ? `<span class="apc-original-price">${formatPrice(p.originalPrice)}</span>` : ''}
-                    </div>
-                    ${discount > 0 ? `<span class="apc-discount">${discount}% OFF</span>` : ''}
+                <div class="product-price">
+                    <span class="price-current">${formattedPrice}</span>
+                    ${p.originalPrice ? `<span class="price-original">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}
                 </div>
-                <div class="apc-actions">
-                    <button class="apc-btn-cart" onclick="event.stopPropagation(); addToCart('${p.name.replace(/'/g, "\\'")}', '${formatPrice(p.price)}', '${p.img}')">
-                        <i class="fas fa-shopping-cart"></i> Add
+                <div class="action-buttons">
+                    <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${formattedPrice}', '${p.img}')">
+                        <i class="fas fa-shopping-cart"></i> ADD
                     </button>
-                    <button class="apc-btn-buy" onclick="event.stopPropagation(); buyNow('${p.name.replace(/'/g, "\\'")}', '${formatPrice(p.price)}', '${p.img}')">
-                        <i class="fas fa-bolt"></i> Buy
+                    <button class="btn-buy-now" onclick="event.stopPropagation(); buyNow('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${formattedPrice}', '${p.img}')">
+                        <i class="fas fa-bolt"></i> Buy Now
                     </button>
                 </div>
             </div>
         `;
-
-        // Click card → go to product details
-        card.addEventListener('click', () => {
-            window.location.href = `2_Wheelers_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formatPrice(p.price))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent(formatPrice(p.originalPrice)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}`;
-        });
-
-        grid.appendChild(card);
+        productsGrid.appendChild(card);
     });
 
-    // Update results count
-    const countEl = document.getElementById('results-count');
-    if (countEl) countEl.textContent = products.length;
+    if (resultsCount) resultsCount.innerText = products.length;
+    updateCardIcons(); // Sync button states after render
 }
 
-// --- Filter Logic ---
-let activeFilter = 'all';
+// Live Search Logic
+function initSearch() {
+    const searchInput = document.getElementById('navSearchInput');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = allProducts.filter(p => 
+            p.name.toLowerCase().includes(query) || 
+            p.category.toLowerCase().includes(query)
+        );
+        renderAllProducts(filtered);
+    });
+}
 
 function filterProducts(category) {
     activeFilter = category;
+    const tagline = document.getElementById('search-tagline');
+    const title = document.getElementById('search-title');
 
     // Update active button styling
+    const filterMap = {
+        'electric': 'Electric Bikes',
+        'mountain': 'Mountain Bikes',
+        'road': 'Road Bikes',
+        'helmet': 'Cycling Helmets',
+        'jacket': 'Motorcycle Jackets',
+        'glove': 'Motorcycle Gloves',
+        'boot': 'Motorcycle Boots',
+        'protective': 'Protective Gear',
+        'light': 'Bike Lights',
+        'apparel': 'Cycling Apparel',
+        'shoes': 'Cycling Shoes',
+        'kids': 'Kids Gear',
+        'tool': 'Bike Tools',
+        'bag': 'Panniers & Bags',
+        'phone': 'Phone Mounts',
+        'pedal': 'Pedals',
+        'chain': 'Chain Care',
+        'sunglasses': 'Cycling Sunglasses',
+        'fender': 'Fenders',
+        'rack': 'Racks & Carriers',
+        'mirror': 'Mirrors',
+        'grip': 'Grips & Tape',
+        'motorcycle': 'Motorcycles',
+        'scooter': 'Scooters',
+        'electric-scooter': 'Electric Scooters',
+        'deals': 'deals',
+        'featured': 'featured'
+    };
+
     document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === category);
+        const btnFilter = btn.dataset.filter;
+        btn.classList.toggle('active', btnFilter === category || filterMap[btnFilter] === category);
     });
 
+    let filtered = [];
     if (category === 'all') {
-        renderAllProducts(allProducts);
+        filtered = [...allProducts];
+        if (tagline) tagline.innerText = "EXPLORE OUR COLLECTION";
+        if (title) title.innerText = "All Products";
+    } else if (category === 'deals') {
+        filtered = allProducts.filter(p => p.originalPrice);
+        if (tagline) tagline.innerText = "LIMITED TIME OFFERS";
+        if (title) title.innerText = "Today's Top Deals";
+    } else if (category === 'featured') {
+        filtered = [...allProducts].sort((a, b) => b.reviews - a.reviews);
+        if (tagline) tagline.innerText = "RIDER FAVORITES";
+        if (title) title.innerText = "Best Sellers of the Week";
+    } else if (category === 'liked') {
+        const liked = JSON.parse(localStorage.getItem('2wheelers_liked') || '[]');
+        filtered = allProducts.filter(p => liked.includes(p.name));
+        if (tagline) tagline.innerText = "YOUR WISHLIST";
+        if (title) title.innerText = "Liked Products";
     } else {
-        const filtered = allProducts.filter(p => p.category.toLowerCase().includes(category.toLowerCase()));
-        renderAllProducts(filtered);
+        filtered = allProducts.filter(p => p.category.toLowerCase().includes(category.toLowerCase()));
+        if (tagline) tagline.innerText = `EXPLORE ${category.toUpperCase()}`;
+        if (title) title.innerText = category;
     }
+
+    applySort(filtered);
 }
 
-// --- Sort Logic ---
-function sortProducts(criteria) {
-    let sorted = [...allProducts];
-    if (activeFilter !== 'all') {
-        sorted = sorted.filter(p => p.category.toLowerCase().includes(activeFilter.toLowerCase()));
-    }
-
-    switch (criteria) {
+function applySort(products) {
+    let sorted = [...products];
+    switch (currentSort) {
         case 'price-low':
-            sorted.sort((a, b) => a.price - b.price);
+            sorted.sort((a, b) => {
+                const priceA = typeof a.price === 'number' ? a.price : parseInt(a.price.toString().replace(/[^0-9]/g, ''));
+                const priceB = typeof b.price === 'number' ? b.price : parseInt(b.price.toString().replace(/[^0-9]/g, ''));
+                return priceA - priceB;
+            });
             break;
         case 'price-high':
-            sorted.sort((a, b) => b.price - a.price);
+            sorted.sort((a, b) => {
+                const priceA = typeof a.price === 'number' ? a.price : parseInt(a.price.toString().replace(/[^0-9]/g, ''));
+                const priceB = typeof b.price === 'number' ? b.price : parseInt(b.price.toString().replace(/[^0-9]/g, ''));
+                return priceB - priceA;
+            });
             break;
         case 'rating':
             sorted.sort((a, b) => b.rating - a.rating);
@@ -297,129 +179,99 @@ function sortProducts(criteria) {
         case 'reviews':
             sorted.sort((a, b) => b.reviews - a.reviews);
             break;
-        default: // 'featured' — original order
-            break;
     }
-
     renderAllProducts(sorted);
 }
 
-// --- Back to Top Button ---
-function initBackToTop() {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
-
-    window.addEventListener('scroll', () => {
-        btn.classList.toggle('visible', window.scrollY > 400);
-    });
-
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+function toggleLike(pName, btn) {
+    let liked = JSON.parse(localStorage.getItem('2wheelers_liked') || '[]');
+    const idx = liked.indexOf(pName);
+    if (idx > -1) {
+        liked.splice(idx, 1);
+        btn.classList.remove('liked');
+        btn.innerHTML = '<i class="far fa-heart"></i>';
+    } else {
+        liked.push(pName);
+        btn.classList.add('liked');
+        btn.innerHTML = '<i class="fas fa-heart"></i>';
+    }
+    localStorage.setItem('2wheelers_liked', JSON.stringify(liked));
 }
 
-// --- Init ---
-document.addEventListener('DOMContentLoaded', () => {
-    renderAllProducts(allProducts);
-    initBackToTop();
-    initCustomDropdown();
-
-    // Filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => filterProducts(btn.dataset.filter));
-    });
-});
-
-// --- Custom Dropdown Logic ---
-function initCustomDropdown() {
-    const dropdown = document.getElementById('sort-dropdown');
-    const trigger = document.getElementById('dropdown-trigger');
-    const menu = document.getElementById('dropdown-menu');
-    const label = document.getElementById('dropdown-label');
-    const backdrop = document.getElementById('dropdown-backdrop');
-    const items = menu ? menu.querySelectorAll('.dropdown-item') : [];
-
-    if (!dropdown || !trigger || !menu) return;
-
-    function openDropdown() {
-        dropdown.classList.add('open');
-        if (backdrop) backdrop.classList.add('visible');
-    }
-
-    function closeDropdown() {
-        dropdown.classList.remove('open');
-        if (backdrop) backdrop.classList.remove('visible');
-    }
-
-    trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdown.classList.contains('open') ? closeDropdown() : openDropdown();
-    });
-
-    if (backdrop) {
-        backdrop.addEventListener('click', closeDropdown);
-    }
-
-    document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target)) closeDropdown();
-    });
-
-    // Keyboard: Escape to close
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeDropdown();
-    });
-
-    items.forEach(item => {
-        item.addEventListener('click', () => {
-            const value = item.dataset.value;
-            const text = item.querySelector('span').textContent;
-            
-            // Update label
-            label.textContent = 'Sort: ' + text;
-
-            // Update active state
-            items.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-
-            // Close dropdown
-            closeDropdown();
-
-            // Trigger sort
-            sortProducts(value);
-        });
-    });
-    
+function isLiked(pName) {
+    const liked = JSON.parse(localStorage.getItem('2wheelers_liked') || '[]');
+    return liked.includes(pName);
 }
 
-function buyNow(pName, pPrice, pImg) {
+function buyNow(pId, pName, pPrice, pImg) {
     const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, ''));
     const product = {
+        id: pId,
         name: pName,
         price: numericPrice,
-        image: pImg
+        image: pImg,
+        quantity: 1
     };
+    // Direct purchase uses a temp cart for checkout
     sessionStorage.setItem('um_cart', JSON.stringify([product]));
     window.location.href = '../../templates/payment_gateway.html';
 }
 
-function addToCart(pName, pPrice, pImg) {
+function addToCart(pId, pName, pPrice, pImg) {
     const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, ''));
-    let cart = JSON.parse(sessionStorage.getItem('um_cart') || '[]');
-    cart.push({
-        name: pName,
-        price: numericPrice,
-        image: pImg
-    });
-    sessionStorage.setItem('um_cart', JSON.stringify(cart));
-    if (window.updateCartBadge) window.updateCartBadge();
+    let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
     
-    // Simple toast notification
+    const existingIndex = cart.findIndex(item => (pId && item.id === pId) || (!pId && item.name === pName));
+    if (existingIndex > -1) {
+        cart.splice(existingIndex, 1);
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} removed from cart!`, false);
+    } else {
+        cart.push({
+            id: pId,
+            name: pName,
+            price: numericPrice,
+            image: pImg,
+            quantity: 1
+        });
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} added to cart!`, true);
+    }
+    
+    if (window.updateCartBadge) window.updateCartBadge();
+    updateCardIcons(); // Real-time UI update
+}
+
+function updateCardIcons() {
+    let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    const cartIds = cart.map(item => item.id);
+    const cartNames = cart.map(item => item.name);
+    
+    document.querySelectorAll('.btn-add-cart').forEach(btn => {
+        const card = btn.closest('.product-card');
+        if (!card) return;
+        const pId = card.dataset.id;
+        const pName = card.querySelector('h3').innerText;
+        
+        const isInCart = (pId && cartIds.includes(pId)) || (!pId && cartNames.includes(pName));
+        
+        if (isInCart) {
+            btn.innerHTML = '<i class="fas fa-check"></i> ADDED';
+            btn.classList.add('added');
+        } else {
+            btn.innerHTML = '<i class="fas fa-shopping-cart"></i> ADD';
+            btn.classList.remove('added');
+        }
+    });
+}
+
+function showToast(msg, isAdd = true) {
     const toast = document.createElement('div');
     toast.style.cssText = `
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background: var(--primary-green);
+        background: ${isAdd ? 'var(--primary-green)' : '#e11d48'};
         color: white;
         padding: 1rem 2rem;
         border-radius: 12px;
@@ -427,7 +279,7 @@ function addToCart(pName, pPrice, pImg) {
         z-index: 10000;
         animation: slideIn 0.3s ease-out;
     `;
-    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${pName} added to cart!`;
+    toast.innerHTML = `<i class="fas ${isAdd ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${msg}`;
     document.body.appendChild(toast);
     
     setTimeout(() => {
@@ -436,19 +288,106 @@ function addToCart(pName, pPrice, pImg) {
     }, 3000);
 }
 
-// Add animations for toast if not already present
-if (!document.getElementById('toast-styles')) {
-    const style = document.createElement('style');
-    style.id = 'toast-styles';
-    style.innerHTML = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-}
+// Sorting logic
+document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const val = item.dataset.value;
+        currentSort = val;
+        
+        // UI Update
+        document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        const label = document.getElementById('dropdown-label');
+        if (label) label.innerText = `Sort: ${item.querySelector('span').innerText}`;
+        
+        filterProducts(activeFilter);
+    });
+});
+
+// Category pills logic
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterProducts(btn.dataset.filter);
+    });
+});
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+    // Check for URL parameters for filtering or searching
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get('filter');
+    const searchParam = urlParams.get('search');
+
+    if (searchParam) {
+        // Handle Search
+        const query = searchParam.toLowerCase();
+        const results = allProducts.filter(p => 
+            p.name.toLowerCase().includes(query) || 
+            p.category.toLowerCase().includes(query) ||
+            p.desc.toLowerCase().includes(query)
+        );
+        renderAllProducts(results);
+        
+        // Update UI
+        const resultsTagline = document.getElementById('search-tagline');
+        const resultsTitle = document.getElementById('search-title');
+        if (resultsTagline) resultsTagline.innerText = "SEARCH RESULTS";
+        if (resultsTitle) resultsTitle.innerText = `Searching for "${searchParam.toUpperCase()}"`;
+        activeFilter = 'all'; // Reset filter state
+    } else if (filterParam) {
+        // Map common filter IDs to categories
+        const filterMap = {
+            'electric': 'Electric Bikes',
+            'mountain': 'Mountain Bikes',
+            'road': 'Road Bikes',
+            'helmet': 'Cycling Helmets',
+            'jacket': 'Motorcycle Jackets',
+            'glove': 'Motorcycle Gloves',
+            'boot': 'Motorcycle Boots',
+            'protective': 'Protective Gear',
+            'light': 'Bike Lights',
+            'apparel': 'Cycling Apparel',
+            'shoes': 'Cycling Shoes',
+            'kids': 'Kids Gear',
+            'tool': 'Bike Tools',
+            'bag': 'Panniers & Bags',
+            'phone': 'Phone Mounts',
+            'pedal': 'Pedals',
+            'chain': 'Chain Care',
+            'sunglasses': 'Cycling Sunglasses',
+            'fender': 'Fenders',
+            'rack': 'Racks & Carriers',
+            'mirror': 'Mirrors',
+            'grip': 'Grips & Tape',
+            'motorcycle': 'Motorcycles',
+            'scooter': 'Scooters',
+            'electric-scooter': 'Electric Scooters',
+            'deals': 'deals',
+            'featured': 'featured'
+        };
+        const targetCategory = filterMap[filterParam] || filterParam;
+        filterProducts(targetCategory);
+        
+        // Update active state on filter buttons if applicable
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            const btnFilter = btn.dataset.filter;
+            if (btnFilter === filterParam || btnFilter === targetCategory || filterMap[btnFilter] === targetCategory) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    } else {
+        renderAllProducts(allProducts);
+    }
+    initSearch(); // Start listening for live search
+
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true
+        });
+    }
+});

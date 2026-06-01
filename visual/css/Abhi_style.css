@@ -11,6 +11,10 @@
     --transition: all 0.3s ease;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -355,12 +359,17 @@ header {
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
+    outline: none;
+}
+
+.btn-add-cart:active, .btn-buy-now:active {
+    transform: scale(0.95);
 }
 
 .btn-add-cart {
@@ -372,6 +381,12 @@ header {
 .btn-add-cart:hover {
     background-color: var(--accent-green);
     color: white;
+}
+
+.btn-add-cart.added {
+    background-color: var(--primary-green);
+    color: white;
+    border-color: var(--primary-green);
 }
 
 .btn-buy-now {

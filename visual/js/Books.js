@@ -219,7 +219,7 @@ function scrollToGenre(genreId) {
         const offset = target.offsetTop - 120; // Adjusted for sticky nav
         window.scrollTo({ top: offset, behavior: 'smooth' });
     }
-    
+
     // Update active state in nav
     document.querySelectorAll('.genre-tab').forEach(tab => {
         tab.classList.toggle('active', tab.getAttribute('onclick').includes(`'${genreId}'`));
@@ -231,11 +231,11 @@ window.addEventListener('scroll', () => {
     const genreTabs = document.querySelector('.genre-tabs');
     const catBar = document.getElementById('categoryNavBar');
     if (!genreTabs || !catBar) return;
-    
+
     // Get current top of cat bar (which is updated by navbar.js)
     const catBarTop = parseInt(window.getComputedStyle(catBar).top);
     const catBarHeight = catBar.getBoundingClientRect().height;
-    
+
     // Set genre tabs to be directly below it
     genreTabs.style.top = `${catBarTop + catBarHeight}px`;
 });
@@ -269,8 +269,8 @@ function renderDynamicGenres() {
             </div>
             <div class="product-scroll-container">
                 ${genre.products.map(p => {
-                    const b = badgesPool[Math.floor(Math.random() * badgesPool.length)];
-                    return `
+            const b = badgesPool[Math.floor(Math.random() * badgesPool.length)];
+            return `
                     <div class="product-card" onclick="window.location.href='Books_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(genre.title)}&badge=${encodeURIComponent(b.text)}'">
                         <div class="image-wrapper">
                             <img src="${p.img}" class="product-image" alt="${p.name}">
@@ -298,7 +298,7 @@ function renderDynamicGenres() {
                             </div>
                         </div>
                     </div>`;
-                }).join('')}
+        }).join('')}
             </div>
         `;
         container.appendChild(section);
@@ -365,7 +365,7 @@ function isLiked(pName) {
 function addToCart(pName, pPrice, pImg, btn) {
     const numericPrice = parseInt(String(pPrice).replace(/[^0-9]/g, ''));
     let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-    
+
     const existingIndex = cart.findIndex(item => item.name === pName);
 
     if (existingIndex > -1) {
@@ -373,28 +373,28 @@ function addToCart(pName, pPrice, pImg, btn) {
         cart.splice(existingIndex, 1);
         localStorage.setItem('pbssd_cart', JSON.stringify(cart));
         showToast(`${pName} removed from cart!`, false);
-        
+
         if (btn) {
             btn.classList.remove('added');
             btn.innerHTML = `<i class="fas fa-shopping-cart"></i> Add`;
         }
     } else {
         // Add to cart
-        cart.push({ 
-            name: pName, 
-            price: numericPrice, 
+        cart.push({
+            name: pName,
+            price: numericPrice,
             image: pImg,
-            quantity: 1 
+            quantity: 1
         });
         localStorage.setItem('pbssd_cart', JSON.stringify(cart));
         showToast(`${pName} added to cart!`, true);
-        
+
         if (btn) {
             btn.classList.add('added');
             btn.innerHTML = `<i class="fas fa-check"></i> Added`;
         }
     }
-    
+
     if (window.updateCartBadge) window.updateCartBadge();
     syncHardcodedButtons(); // Sync all other instances on the page
 }
@@ -458,7 +458,7 @@ function syncHardcodedButtons() {
                 const pName = match[1];
                 const inCart = cart.some(item => item.name === pName);
                 btn.classList.toggle('added', inCart);
-                
+
                 // Keep the icon and text consistent with the design
                 if (inCart) {
                     btn.innerHTML = `<i class="fas fa-check"></i> Added`;

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../css/Abhi_style.css">
     <!-- Page CSS -->
     <link rel="stylesheet" href="../css/2_Wheelers_AllProducts.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body style="background: #fafffe; overflow-x: hidden;">
@@ -99,30 +100,41 @@
             <button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> All</button>
             <button class="filter-btn" data-filter="motorcycle"><i class="fas fa-motorcycle"></i> Motorcycles</button>
             <button class="filter-btn" data-filter="scooter"><i class="fas fa-bicycle"></i> Scooters</button>
-            <button class="filter-btn" data-filter="electric"><i class="fas fa-bolt"></i> Electric</button>
-            <button class="filter-btn" data-filter="mountain"><i class="fas fa-mountain"></i> Mountain</button>
-            <button class="filter-btn" data-filter="road"><i class="fas fa-road"></i> Road</button>
-            <button class="filter-btn" data-filter="helmet"><i class="fas fa-hard-hat"></i> Helmets</button>
-            <button class="filter-btn" data-filter="jacket"><i class="fas fa-vest-patches"></i> Jackets</button>
-            <button class="filter-btn" data-filter="glove"><i class="fas fa-hand-sparkles"></i> Gloves</button>
-            <button class="filter-btn" data-filter="boot"><i class="fas fa-boot"></i> Boots</button>
-            <button class="filter-btn" data-filter="protective"><i class="fas fa-shield-alt"></i> Armor</button>
-            <button class="filter-btn" data-filter="light"><i class="fas fa-lightbulb"></i> Lights</button>
-            <button class="filter-btn" data-filter="apparel"><i class="fas fa-tshirt"></i> Apparel</button>
-            <button class="filter-btn" data-filter="shoes"><i class="fas fa-shoe-prints"></i> Shoes</button>
-            <button class="filter-btn" data-filter="kids"><i class="fas fa-child"></i> Kids</button>
-            <button class="filter-btn" data-filter="tool"><i class="fas fa-wrench"></i> Tools</button>
-            <button class="filter-btn" data-filter="bag"><i class="fas fa-suitcase"></i> Bags</button>
+            <button class="filter-btn" data-filter="electric-scooter"><i class="fas fa-plug"></i> Electric Scooters</button>
+            <button class="filter-btn" data-filter="electric"><i class="fas fa-bolt"></i> Electric Bikes</button>
+            <button class="filter-btn" data-filter="mountain"><i class="fas fa-mountain"></i> Mountain Bikes</button>
+            <button class="filter-btn" data-filter="road"><i class="fas fa-road"></i> Road Bikes</button>
+            <button class="filter-btn" data-filter="helmet"><i class="fas fa-hard-hat"></i> Cycling Helmets</button>
+            <button class="filter-btn" data-filter="jacket"><i class="fas fa-vest-patches"></i> Motorcycle Jackets</button>
+            <button class="filter-btn" data-filter="glove"><i class="fas fa-hand-sparkles"></i> Motorcycle Gloves</button>
+            <button class="filter-btn" data-filter="boot"><i class="fas fa-boot"></i> Motorcycle Boots</button>
+            <button class="filter-btn" data-filter="protective"><i class="fas fa-shield-alt"></i> Protective Gear</button>
+            <button class="filter-btn" data-filter="light"><i class="fas fa-lightbulb"></i> Bike Lights</button>
+            <button class="filter-btn" data-filter="apparel"><i class="fas fa-tshirt"></i> Cycling Apparel</button>
+            <button class="filter-btn" data-filter="shoes"><i class="fas fa-shoe-prints"></i> Cycling Shoes</button>
+            <button class="filter-btn" data-filter="kids"><i class="fas fa-child"></i> Kids Gear</button>
+            <button class="filter-btn" data-filter="tool"><i class="fas fa-wrench"></i> Bike Tools</button>
+            <button class="filter-btn" data-filter="bag"><i class="fas fa-suitcase"></i> Panniers & Bags</button>
             <button class="filter-btn" data-filter="phone"><i class="fas fa-mobile-alt"></i> Phone Mounts</button>
             <button class="filter-btn" data-filter="pedal"><i class="fas fa-circle-notch"></i> Pedals</button>
             <button class="filter-btn" data-filter="chain"><i class="fas fa-link"></i> Chain Care</button>
-            <button class="filter-btn" data-filter="sunglasses"><i class="fas fa-glasses"></i> Sunglasses</button>
+            <button class="filter-btn" data-filter="sunglasses"><i class="fas fa-glasses"></i> Cycling Sunglasses</button>
             <button class="filter-btn" data-filter="fender"><i class="fas fa-water"></i> Fenders</button>
-            <button class="filter-btn" data-filter="rack"><i class="fas fa-truck-loading"></i> Racks</button>
+            <button class="filter-btn" data-filter="rack"><i class="fas fa-truck-loading"></i> Racks & Carriers</button>
             <button class="filter-btn" data-filter="mirror"><i class="fas fa-eye"></i> Mirrors</button>
-            <button class="filter-btn" data-filter="grip"><i class="fas fa-hand-rock"></i> Grips</button>
+            <button class="filter-btn" data-filter="grip"><i class="fas fa-hand-rock"></i> Grips & Tape</button>
         </div>
     </div>
+
+    <!-- Dynamic Section Header -->
+    <section class="container" style="padding-top: 2rem; padding-bottom: 0;">
+        <div class="section-header" style="margin-bottom: 0;">
+            <div>
+                <span class="section-tagline" id="search-tagline">EXPLORE OUR COLLECTION</span>
+                <h2 id="search-title">All Products</h2>
+            </div>
+        </div>
+    </section>
 
     <!-- Products Grid -->
     <div class="products-grid-wrapper">
@@ -176,7 +188,8 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/2_Wheelers_Data.js"></script>
     <script src="../js/2_Wheelers_AllProducts.js" defer></script>
 </body>
-
 </html>

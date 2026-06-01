@@ -1,65 +1,9 @@
 // =============================================
-// 2_Wheelers.js — Hero Carousel + Dynamic Products
-// Theme: Bikes & Cycles (White & Green)
+// 2_Wheelers.js — Fully Dynamic Landing Page
 // =============================================
 
-// Hero Carousel Data — Bikes & Cycles
-const heroProducts = [
-    {
-        name: "Apex Mountain Pro X9",
-        price: "₹1,03,920",
-        tag: "BEST SELLER",
-        img: "../assets/hero_bike_1.png",
-        link: "2_Wheelers_ProductDetails.html?name=Apex%20Mountain%20Pro%20X9&price=₹1,03,920&img=../assets/hero_bike_1.png&cat=Mountain%20Bikes&rating=4.8&reviews=2450&originalPrice=₹1,75,920&desc=Full%20suspension%20carbon%20fiber%20frame%20with%2029-inch%20wheels.&badge=Best%20Seller",
-        bg: "linear-gradient(135deg, rgba(9, 18, 9, 0.92), rgba(13, 38, 13, 0.88)), url('../assets/hero_bike_1.png')",
-        desc: "Conquer every trail with the Apex Mountain Pro X9. Full suspension, carbon fiber frame, and 29-inch wheels built for the toughest terrain."
-    },
-    {
-        name: "Velocity Road Racer",
-        price: "₹71,920",
-        tag: "TRENDING NOW",
-        img: "../assets/hero_bike_2.png",
-        link: "../template/2_Wheelers_ProductDetails.html?name=Velocity%20Road%20Racer&price=₹71,920&img=../assets/hero_bike_2.png&cat=Road%20Bikes&rating=4.7&reviews=1890&originalPrice=₹1,03,920&badge=Trending",
-        bg: "linear-gradient(135deg, rgba(7, 15, 7, 0.9), rgba(20, 40, 20, 0.85)), url('../assets/hero_bike_2.png')",
-        desc: "Aerodynamic design meets lightweight engineering. Dominate every road with precision Shimano gears and a featherweight alloy frame."
-    },
-    {
-        name: "EcoVolt E-Bike 500",
-        price: "₹1,31,920",
-        tag: "NEW ARRIVAL",
-        img: "../assets/hero_ebike.png",
-        link: "../template/2_Wheelers_ProductDetails.html?name=EcoVolt%20E-Bike%20500&price=₹1,31,920&img=../assets/hero_ebike.png&cat=Electric%20Bikes&rating=4.9&reviews=3120&originalPrice=₹1,75,920&badge=New%20Arrival",
-        bg: "linear-gradient(135deg, rgba(5, 12, 5, 0.92), rgba(15, 35, 15, 0.88)), url('../assets/hero_ebike.png')",
-        desc: "Go farther, go greener. 500W motor, 80km range, and regenerative braking — the future of urban commuting is electric."
-    },
-    {
-        name: "CityGlide Hybrid 7",
-        price: "₹43,920",
-        tag: "BEST DEAL",
-        img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=600&h=600&fit=crop",
-        link: "../template/2_Wheelers_ProductDetails.html?name=CityGlide%20Hybrid%207&price=₹43,920&img=https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop&cat=Hybrid%20Bikes&rating=4.5&reviews=1560&originalPrice=₹59,920&badge=Best%20Deal",
-        bg: "linear-gradient(135deg, rgba(10, 20, 10, 0.88), rgba(25, 50, 25, 0.82))",
-        desc: "The perfect blend of comfort and speed. 21-speed drivetrain, ergonomic saddle, and puncture-resistant tires for everyday adventures."
-    },
-    {
-        name: "KidStar BMX Blaze",
-        price: "₹22,320",
-        tag: "KIDS FAVORITE",
-        img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=600&h=600&fit=crop",
-        link: "../template/2_Wheelers_ProductDetails.html?name=KidStar%20BMX%20Blaze&price=₹22,320&img=https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop&cat=BMX%20Bikes&rating=4.6&reviews=980&originalPrice=₹31,920&badge=Kids%20Favorite",
-        bg: "linear-gradient(135deg, rgba(8, 16, 8, 0.9), rgba(18, 36, 18, 0.85))",
-        desc: "Built tough for young riders. Reinforced steel frame, trick-ready pegs, and vibrant green graphics that pop on the skatepark."
-    },
-    {
-        name: "TrailBlazer Fat Tire",
-        price: "₹79,120",
-        tag: "ADVENTURE READY",
-        img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=600&h=600&fit=crop",
-        link: "../template/2_Wheelers_ProductDetails.html?name=TrailBlazer%20Fat%20Tire&price=₹79,120&img=https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop&cat=Fat%20Tire%20Bikes&rating=4.7&reviews=1240&originalPrice=₹1,03,920&badge=Adventure%20Ready",
-        bg: "linear-gradient(135deg, rgba(6, 14, 6, 0.9), rgba(22, 44, 22, 0.86))",
-        desc: "4.8-inch fat tires crush sand, snow, and mud. Hydro disc brakes and a dropper post make this beast unstoppable anywhere."
-    }
-];
+// Hero Products will be derived from Master Database
+let heroProducts = [];
 
 // DOM Elements
 const carouselInner = document.getElementById('hero-carousel-inner');
@@ -70,19 +14,44 @@ const progressFill = document.getElementById('carousel-progress-fill');
 
 let currentHeroSlide = 0;
 let carouselTimer;
-const SLIDE_DURATION = 5000; // 5 seconds auto-slide (gives user time to interact)
+const SLIDE_DURATION = 5000;
 
-// ---- Swipe / Drag State ----
-let isDragging = false;
-let dragStartX = 0;
-let dragCurrentX = 0;
-let dragStartTime = 0;
-const SWIPE_THRESHOLD = 50;       // min px to count as swipe
-const VELOCITY_THRESHOLD = 0.3;   // px/ms — fast flick triggers even short swipes
+// Filter State
+let currentSort = 'featured';
+let activeFilter = 'all';
 
 // Render Hero Carousel
 function renderHeroCarousel() {
     if (!carouselInner || !carouselDots) return;
+    
+    // Derived Hero Products (ensure we have data)
+    if (typeof allProducts !== 'undefined' && allProducts.length > 0) {
+        heroProducts = allProducts.slice(0, 6).map((p, i) => {
+            // Curated high-end backgrounds for different categories
+            let bgImg = '';
+            if (p.category.includes('Electric')) {
+                bgImg = "url('https://images.unsplash.com/photo-1558981403-c5f91cbcf523?q=80&w=1600&h=900&fit=crop')";
+            } else if (p.category.includes('Mountain')) {
+                bgImg = "url('https://images.unsplash.com/photo-1544191133-728b7f83733a?q=80&w=1600&h=900&fit=crop')";
+            } else if (p.category.includes('Road')) {
+                bgImg = "url('https://images.unsplash.com/photo-1471506480208-8a93acc6c0bb?q=80&w=1600&h=900&fit=crop')";
+            } else {
+                bgImg = "url('https://images.unsplash.com/photo-1558981285-6f0c94958bb6?q=80&w=1600&h=900&fit=crop')";
+            }
+
+            return {
+                ...p,
+                tag: p.badge || "FEATURED",
+                bg: `linear-gradient(rgba(7, 15, 7, 0.8), rgba(7, 15, 7, 0.6)), ${bgImg}`
+            };
+        });
+    } else {
+        console.warn("2_Wheelers_Data.js: allProducts not found or empty.");
+        return;
+    }
+
+    carouselInner.innerHTML = '';
+    carouselDots.innerHTML = '';
 
     heroProducts.forEach((product, index) => {
         const slide = document.createElement('div');
@@ -90,6 +59,8 @@ function renderHeroCarousel() {
         slide.style.backgroundImage = product.bg;
         slide.style.backgroundSize = 'cover';
         slide.style.backgroundPosition = 'center';
+
+        const formattedPrice = '₹' + (typeof product.price === 'number' ? product.price.toLocaleString('en-IN') : product.price);
 
         slide.innerHTML = `
             <div class="hero-content">
@@ -102,8 +73,8 @@ function renderHeroCarousel() {
                     <div class="hero-card">
                         <img src="${product.img}" alt="${product.name}">
                         <h3>${product.name}</h3>
-                        <p class="hero-price">${product.price}</p>
-                        <button class="btn-light" onclick="window.location.href='${product.link}'">VIEW PRODUCT</button>
+                        <p class="hero-price">${formattedPrice}</p>
+                        <button class="btn-light" onclick="window.location.href='2_Wheelers_ProductDetails.html?name=${encodeURIComponent(product.name)}&price=${encodeURIComponent(formattedPrice)}&img=${encodeURIComponent(product.img)}&cat=${encodeURIComponent(product.category)}&rating=${product.rating}&reviews=${product.reviews}${product.originalPrice ? '&originalPrice=₹' + product.originalPrice.toLocaleString('en-IN') : ''}&desc=${encodeURIComponent(product.desc)}&badge=${encodeURIComponent(product.badge || '')}'">VIEW PRODUCT</button>
                     </div>
                 </div>
             </div>
@@ -112,7 +83,6 @@ function renderHeroCarousel() {
 
         const dot = document.createElement('button');
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-        dot.dataset.index = index;
         dot.onclick = () => showHeroSlide(index, index > currentHeroSlide ? 'next' : 'prev');
         carouselDots.appendChild(dot);
     });
@@ -120,26 +90,21 @@ function renderHeroCarousel() {
     if (prevBtn) prevBtn.onclick = () => { prevHeroSlide(); };
     if (nextBtn) nextBtn.onclick = () => { nextHeroSlide(); };
 
-    // Attach touch + mouse swipe handlers
     initSwipeHandlers();
-
     startCarouselAutoPlay();
 }
 
-// Show Slide — circular loop via modulo
 function showHeroSlide(index, direction) {
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.carousel-dot');
+    if (slides.length === 0) return;
 
-    // Wrap index for circular loop
     index = ((index % heroProducts.length) + heroProducts.length) % heroProducts.length;
 
     if (index === currentHeroSlide) return;
 
     slides.forEach(s => {
         s.classList.remove('next-slide', 'prev-slide', 'active');
-        s.style.transform = '';
-        s.style.opacity = '';
     });
     dots.forEach(d => d.classList.remove('active'));
 
@@ -149,299 +114,593 @@ function showHeroSlide(index, direction) {
     activeSlide.classList.add(direction === 'next' ? 'next-slide' : 'prev-slide');
     dots[currentHeroSlide].classList.add('active');
 
-    startCarouselAutoPlay();
+    resetCarouselAutoPlay();
 }
 
-function nextHeroSlide() {
-    let next = (currentHeroSlide + 1) % heroProducts.length;
-    showHeroSlide(next, 'next');
-}
+function nextHeroSlide() { showHeroSlide(currentHeroSlide + 1, 'next'); }
+function prevHeroSlide() { showHeroSlide(currentHeroSlide - 1, 'prev'); }
 
-function prevHeroSlide() {
-    let prev = (currentHeroSlide - 1 + heroProducts.length) % heroProducts.length;
-    showHeroSlide(prev, 'prev');
-}
-
-// Auto-Play with Progress Bar
 function startCarouselAutoPlay() {
-    clearInterval(carouselTimer);
-
+    if (carouselTimer) clearInterval(carouselTimer);
     if (progressFill) {
         progressFill.style.transition = 'none';
         progressFill.style.width = '0%';
-        progressFill.offsetHeight; // force reflow
+        progressFill.offsetHeight; // Reflow
         progressFill.style.transition = `width ${SLIDE_DURATION}ms linear`;
         progressFill.style.width = '100%';
     }
-
     carouselTimer = setInterval(nextHeroSlide, SLIDE_DURATION);
 }
 
-function pauseCarouselAutoPlay() {
-    clearInterval(carouselTimer);
-    if (progressFill) {
-        progressFill.style.transition = 'none';
-        progressFill.style.width = progressFill.offsetWidth + 'px'; // freeze
-    }
+function resetCarouselAutoPlay() {
+    startCarouselAutoPlay();
 }
 
-// =============================================
-// Touch + Mouse Swipe / Drag Handlers
-// =============================================
 function initSwipeHandlers() {
-    const carousel = document.querySelector('.hero-carousel');
-    if (!carousel) return;
+    let isDragging = false, dragStartX = 0, dragStartTime = 0;
+    const SLIDE_THRESHOLD = 50;
 
-    // Prevent image dragging interfering
-    carousel.addEventListener('dragstart', e => e.preventDefault());
+    const start = (e) => {
+        isDragging = true;
+        dragStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        dragStartTime = Date.now();
+        if (carouselInner) carouselInner.style.cursor = 'grabbing';
+    };
 
-    // --- Touch Events ---
-    carousel.addEventListener('touchstart', onDragStart, { passive: true });
-    carousel.addEventListener('touchmove', onDragMove, { passive: false });
-    carousel.addEventListener('touchend', onDragEnd);
-    carousel.addEventListener('touchcancel', onDragEnd);
+    const end = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        if (carouselInner) carouselInner.style.cursor = 'grab';
+        const endX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
+        const diff = endX - dragStartX;
+        const time = Date.now() - dragStartTime;
 
-    // --- Mouse Events ---
-    carousel.addEventListener('mousedown', onDragStart);
-    carousel.addEventListener('mousemove', onDragMove);
-    carousel.addEventListener('mouseup', onDragEnd);
-    carousel.addEventListener('mouseleave', onDragEnd);
-}
-
-function getClientX(e) {
-    return e.touches ? e.touches[0].clientX : e.clientX;
-}
-
-function onDragStart(e) {
-    // Don't hijack button clicks
-    if (e.target.closest('.carousel-control, .carousel-dot, .btn-light, .add-to-cart')) return;
-
-    isDragging = true;
-    dragStartX = getClientX(e);
-    dragCurrentX = dragStartX;
-    dragStartTime = Date.now();
-
-    pauseCarouselAutoPlay();
-
-    // Add grabbing cursor
-    document.querySelector('.hero-carousel').style.cursor = 'grabbing';
-
-    // Show active slide immediately for drag feedback
-    const activeSlide = document.querySelectorAll('.carousel-slide')[currentHeroSlide];
-    if (activeSlide) {
-        activeSlide.style.transition = 'none';
-    }
-}
-
-function onDragMove(e) {
-    if (!isDragging) return;
-
-    // Prevent vertical scroll while swiping horizontally
-    if (e.cancelable && e.touches) e.preventDefault();
-
-    dragCurrentX = getClientX(e);
-    const deltaX = dragCurrentX - dragStartX;
-
-    // Visual drag feedback — shift the active slide
-    const activeSlide = document.querySelectorAll('.carousel-slide')[currentHeroSlide];
-    if (activeSlide) {
-        const dampedDelta = deltaX * 0.4; // Dampen for smooth feel
-        activeSlide.style.transform = `translateX(${dampedDelta}px)`;
-        // Slight opacity reduction while dragging
-        activeSlide.style.opacity = `${1 - Math.abs(deltaX) / 1500}`;
-    }
-}
-
-function onDragEnd(e) {
-    if (!isDragging) return;
-    isDragging = false;
-
-    document.querySelector('.hero-carousel').style.cursor = '';
-
-    const deltaX = dragCurrentX - dragStartX;
-    const elapsed = Date.now() - dragStartTime;
-    const velocity = Math.abs(deltaX) / elapsed; // px/ms
-
-    // Reset the visual offset on the current slide
-    const activeSlide = document.querySelectorAll('.carousel-slide')[currentHeroSlide];
-    if (activeSlide) {
-        activeSlide.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-        activeSlide.style.transform = '';
-        activeSlide.style.opacity = '';
-    }
-
-    // Determine swipe direction — threshold or velocity based
-    if (Math.abs(deltaX) > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
-        if (deltaX < 0) {
-            // Swiped LEFT → go to NEXT slide (circular)
-            nextHeroSlide();
-        } else {
-            // Swiped RIGHT → go to PREV slide (circular)
-            prevHeroSlide();
+        if (Math.abs(diff) > SLIDE_THRESHOLD || (Math.abs(diff) > 20 && time < 250)) {
+            diff > 0 ? prevHeroSlide() : nextHeroSlide();
         }
-    } else {
-        // Didn't swipe far enough — snap back and resume auto-play
-        startCarouselAutoPlay();
+    };
+
+    if (carouselInner) {
+        carouselInner.addEventListener('mousedown', start);
+        window.addEventListener('mouseup', end);
+        carouselInner.addEventListener('touchstart', start, { passive: true });
+        carouselInner.addEventListener('touchend', end, { passive: true });
     }
 }
 
-// =============================================
-// Dynamic Product Categories — 2 Wheelers
-// =============================================
+// Sync genre tabs with the dynamic category-nav-bar position
+window.addEventListener('scroll', () => {
+    const genreTabs = document.querySelector('.genre-tabs');
+    const catBar = document.getElementById('categoryNavBar');
+    if (!genreTabs || !catBar) return;
 
-const categories = [
-    { name: "Premium Mountain Bikes", tagline: "CONQUER EVERY TRAIL" },
-    { name: "Road & Racing Bikes", tagline: "SPEED MACHINES" },
-    { name: "Electric Bikes", tagline: "RIDE THE FUTURE" },
-    { name: "Cycling Helmets", tagline: "SAFETY FIRST" },
-    { name: "Bike Locks & Security", tagline: "PROTECT YOUR RIDE" },
-    { name: "Cycling Gloves", tagline: "GRIP & COMFORT" },
-    { name: "Bike Lights & Reflectors", tagline: "BE SEEN, BE SAFE" },
-    { name: "Tyres & Inner Tubes", tagline: "ROLL ON" },
-    { name: "Cycling Apparel", tagline: "RIDE IN STYLE" },
-    { name: "Bike Repair Kits", tagline: "FIX IT FAST" },
-    { name: "Water Bottles & Cages", tagline: "STAY HYDRATED" },
-    { name: "Saddles & Seats", tagline: "COMFORT ZONE" },
-    { name: "Bike Pumps", tagline: "PRESSURE PERFECT" },
-    { name: "Cycling Shoes", tagline: "PEDAL POWER" },
-    { name: "Bike Stands & Storage", tagline: "PARK SMART" },
-    { name: "GPS & Bike Computers", tagline: "TRACK YOUR RIDE" },
-    { name: "Kids Bikes & Gear", tagline: "LITTLE RIDERS" },
-    { name: "Bike Bells & Horns", tagline: "RING THE RIDE" },
-    { name: "Panniers & Bike Bags", tagline: "CARRY IT ALL" }
+    const catBarTop = parseInt(window.getComputedStyle(catBar).top) || 142;
+    const catBarHeight = catBar.getBoundingClientRect().height;
+
+    genreTabs.style.top = `${catBarTop + catBarHeight}px`;
+});
+
+function scrollToGenre(genreId) {
+    if (genreId === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+    // Try multiple ID patterns
+    const target = document.getElementById(`section-${genreId}`) ||
+        document.getElementById(`sec-${genreId}`) ||
+        document.getElementById(genreId.toLowerCase().replace(/\s+/g, '-'));
+
+    if (target) {
+        const offset = target.offsetTop - 120; // Adjusted for sticky nav
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+}
+
+const brands = [
+    { name: "Giant Bicycles", genre: "Road & Mountain", bio: "The world's largest bicycle manufacturer, setting standards in carbon and alloy.", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=200&h=200&fit=crop" },
+    { name: "Specialized", genre: "Premium Performance", bio: "Built for riders, by riders. Innovating in aerodynamics and professional racing gear.", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=200&h=200&fit=crop" },
+    { name: "Trek Bikes", genre: "Hybrid & Electric", bio: "American engineering focused on sustainability and off-road excellence.", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=200&h=200&fit=crop" }
 ];
 
-const products = [
-    { name: "Pro Edition", price: "₹11,999", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&h=300&fit=crop" },
-    { name: "Trail Master", price: "₹7,120", img: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&h=300&fit=crop" },
-    { name: "Urban Cruiser", price: "₹15,920", img: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?q=80&w=400&h=300&fit=crop" },
-    { name: "Speed Elite", price: "₹19,960", img: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=80&w=400&h=300&fit=crop" }
-];
+function renderBrandSpotlight() {
+    const grid = document.getElementById('brand-spotlight-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    brands.forEach(brand => {
+        const card = document.createElement('div');
+        card.className = 'author-card';
+        card.innerHTML = `
+            <img src="${brand.img}" alt="${brand.name}" class="author-avatar">
+            <h4>${brand.name}</h4>
+            <div class="author-genre">${brand.genre}</div>
+            <p class="author-bio">${brand.bio}</p>
+        `;
+        grid.appendChild(card);
+    });
+}
 
-const badges = [
-    { text: "Best Seller", class: "badge-best" },
-    { text: "Top Pick", class: "badge-deal" },
-    { text: "New", class: "badge-new" },
-    { text: "Trending", class: "badge-best" }
-];
+function renderGenreTabs() {
+    const navContainer = document.getElementById('dynamic-nav-pills');
+    if (!navContainer) return;
 
-function renderDynamicCategories() {
-    const container = document.getElementById('dynamic-categories');
+    // Fixed / Core Tabs
+    const coreTabs = [
+        { id: 'hero', name: 'Featured', icon: 'fas fa-home' },
+        { id: 'shop', name: 'All', icon: 'fas fa-th' },
+        { type: 'link', href: '2_Wheelers_AllProducts.html', name: 'Catalog', icon: 'fas fa-external-link-alt' }
+    ];
+
+    // Dynamic Category Tabs from DB
+    const allowedCategories = [
+        'Motorcycles', 'Electric Bikes', 'Electric Scooters', 'Scooters', 'Mountain Bikes', 
+        'Road Bikes', 'Cycling Helmets', 'Motorcycle Jackets', 'Motorcycle Gloves', 
+        'Motorcycle Boots', 'Protective Gear', 'Bike Lights', 'Cycling Apparel', 
+        'Cycling Shoes', 'Kids Gear', 'Bike Tools', 'Panniers & Bags', 
+        'Phone Mounts', 'Pedals', 'Chain Care', 'Cycling Sunglasses', 
+        'Fenders', 'Racks & Carriers', 'Mirrors', 'Grips & Tape'
+    ];
+    const categories = [...new Set(allProducts.map(p => p.category))]
+        .filter(cat => allowedCategories.includes(cat));
+    
+    // Sort based on allowedCategories order
+    categories.sort((a, b) => allowedCategories.indexOf(a) - allowedCategories.indexOf(b));
+
+    // Icon mapping for categories
+    const iconMap = {
+        'Motorcycles': 'fas fa-motorcycle',
+        'Electric Bikes': 'fas fa-bolt',
+        'Mountain Bikes': 'fas fa-mountain',
+        'Road Bikes': 'fas fa-road',
+        'Scooters': 'fas fa-moped',
+        'Electric Scooters': 'fas fa-plug',
+        'Cycling Helmets': 'fas fa-helmet-safety',
+        'Kids Gear': 'fas fa-child',
+        'Bike Accessories': 'fas fa-gear'
+    };
+
+    let html = '';
+
+    // Render Core Tabs
+    coreTabs.forEach(tab => {
+        if (tab.type === 'link') {
+            html += `<button class="filter-btn" onclick="window.location.href='${tab.href}'"><i class="${tab.icon}"></i> ${tab.name}</button>`;
+        } else {
+            html += `<button class="filter-btn ${tab.id === 'hero' ? 'active' : ''}" onclick="scrollToGenre('${tab.id}')"><i class="${tab.icon}"></i> ${tab.name}</button>`;
+        }
+    });
+
+    // Render Category Tabs
+    categories.forEach(cat => {
+        const id = cat.toLowerCase().replace(/\s+/g, '-');
+        const icon = iconMap[cat] || 'fas fa-tag';
+        html += `<button class="filter-btn" onclick="scrollToGenre('${id}')"><i class="${icon}"></i> ${cat}</button>`;
+    });
+
+    navContainer.innerHTML = html;
+}
+
+function toggleLike(pName, btn) {
+    let liked = JSON.parse(localStorage.getItem('2wheelers_liked') || '[]');
+    const idx = liked.indexOf(pName);
+    if (idx > -1) {
+        liked.splice(idx, 1);
+        btn.classList.remove('liked');
+        btn.innerHTML = '<i class="far fa-heart"></i>';
+    } else {
+        liked.push(pName);
+        btn.classList.add('liked');
+        btn.innerHTML = '<i class="fas fa-heart"></i>';
+    }
+    localStorage.setItem('2wheelers_liked', JSON.stringify(liked));
+}
+
+function isLiked(pName) {
+    const liked = JSON.parse(localStorage.getItem('2wheelers_liked') || '[]');
+    return liked.includes(pName);
+}
+
+function syncLikes() {
+    const liked = JSON.parse(localStorage.getItem('2wheelers_liked') || '[]');
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes('toggleLike')) {
+            const match = onclickAttr.match(/toggleLike\('([^']+)'/);
+            if (match && match[1]) {
+                const pName = match[1];
+                const isItemLiked = liked.includes(pName);
+                btn.classList.toggle('liked', isItemLiked);
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fas', isItemLiked);
+                    icon.classList.toggle('far', !isItemLiked);
+                }
+            }
+        }
+    });
+}
+
+function isInCart(pId, pName) {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    return cart.some(item => (pId && item.id === pId) || (!pId && item.name === pName));
+}
+
+function renderProductCard(p) {
+    const numericPrice = typeof p.price === 'number' ? p.price : parseInt(p.price.toString().replace(/[^0-9]/g, ''));
+    const formattedPrice = '₹' + numericPrice.toLocaleString('en-IN');
+    const badgeText = p.badge || "New";
+    const badgeClass = p.badgeClass || "badge-new";
+
+    return `
+        <div class="product-card" data-aos="fade-up" onclick="window.location.href='2_Wheelers_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formattedPrice)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&badge=${encodeURIComponent(badgeText)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent('₹' + p.originalPrice.toLocaleString('en-IN')) : ''}&desc=${encodeURIComponent(p.desc)}'">
+            <div class="image-wrapper">
+                <img src="${p.img}" class="product-image" alt="${p.name}">
+                <span class="product-badge ${badgeClass}">${badgeText}</span>
+                <button class="like-btn ${isLiked(p.name) ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.name.replace(/'/g, "\\'")}', this)">
+                    <i class="${isLiked(p.name) ? 'fas' : 'far'} fa-heart"></i>
+                </button>
+            </div>
+            <div class="product-info">
+                <p class="product-brand">${p.category}</p>
+                <h3>${p.name}</h3>
+                <div class="rating">
+                    <i class="fas fa-star"></i> ${p.rating} <span>(${p.reviews.toLocaleString()})</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">${formattedPrice}</span>
+                    ${p.originalPrice ? `<span class="price-original">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-add-cart ${isInCart(p.id, p.name) ? 'added' : ''}" onclick="event.stopPropagation(); addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${formattedPrice}', '${p.img}', this)">
+                        <i class="fas ${isInCart(p.id, p.name) ? 'fa-check' : 'fa-shopping-cart'}"></i> ${isInCart(p.id, p.name) ? 'ADDED' : 'ADD'}
+                    </button>
+                    <button class="btn-buy-now" onclick="event.stopPropagation(); buyNow('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${formattedPrice}', '${p.img}')">
+                        <i class="fas fa-bolt"></i> Buy
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderSection(containerId, title, tagline, products, viewAllLink, bg = '#ffffff') {
+    const container = document.getElementById(containerId);
     if (!container) return;
 
-    categories.forEach((catObj, index) => {
+    container.innerHTML = `
+        <section class="container" id="section-${containerId.replace('-container', '')}" style="background: ${bg};">
+            <div class="section-header">
+                <div>
+                    <span class="section-tagline">${tagline.toUpperCase()}</span>
+                    <h2>${title}</h2>
+                </div>
+                <a href="${viewAllLink}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="product-scroll-container">
+                ${products.map(p => renderProductCard(p)).join('')}
+            </div>
+        </section>
+    `;
+}
+
+function renderDynamicContent() {
+    // 1. Top Deals (Products with originalPrice)
+    const topDeals = allProducts.filter(p => p.originalPrice).slice(0, 4);
+    renderSection('top-deals-container', "Today's Top Deals", "LIMITED TIME OFFERS", topDeals, "2_Wheelers_AllProducts.html?filter=deals");
+
+    // 2. Best Sellers (High rating/reviews)
+    const bestSellers = [...allProducts].sort((a, b) => b.reviews - a.reviews).slice(0, 4);
+    renderSection('best-sellers-container', "Best Sellers of the Week", "RIDER FAVORITES", bestSellers, "2_Wheelers_AllProducts.html?filter=featured", "var(--light-green)");
+
+    // 3. Signature Gallery (Featured motorcycles)
+    const signatureBikes = allProducts.filter(p => p.category === "Motorcycles").slice(0, 4);
+    renderSection('signature-gallery-container', "Motorcycles", "PREMIUM COLLECTION", signatureBikes, "2_Wheelers_AllProducts.html?filter=motorcycle");
+    // Explicitly set ID for scrolling from nav
+    const sigSection = document.getElementById('section-signature-gallery');
+    if (sigSection) sigSection.id = 'sec-motorcycles';
+
+    // 4. ALL Dynamic Categories from Database (Excluding those already rendered)
+    const container = document.getElementById('dynamic-categories');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Allowed categories that match the filter buttons in AllProducts
+    const allowedCategories = [
+        'Electric Bikes', 'Electric Scooters', 'Scooters', 'Mountain Bikes', 
+        'Road Bikes', 'Cycling Helmets', 'Motorcycle Jackets', 'Motorcycle Gloves', 
+        'Motorcycle Boots', 'Protective Gear', 'Bike Lights', 'Cycling Apparel', 
+        'Cycling Shoes', 'Kids Gear', 'Bike Tools', 'Panniers & Bags', 
+        'Phone Mounts', 'Pedals', 'Chain Care', 'Cycling Sunglasses', 
+        'Fenders', 'Racks & Carriers', 'Mirrors', 'Grips & Tape'
+    ];
+
+    // Get unique categories that are in the allowed list and not already rendered (Motorcycles)
+    const categories = [...new Set(allProducts.map(p => p.category))]
+        .filter(cat => cat !== 'Motorcycles' && allowedCategories.includes(cat));
+
+    // Sort them so Bikes come first
+    categories.sort((a, b) => {
+        const orderA = allowedCategories.indexOf(a);
+        const orderB = allowedCategories.indexOf(b);
+        return orderA - orderB;
+    });
+
+    categories.forEach((cat, index) => {
+        const catProducts = allProducts.filter(p => p.category === cat).slice(0, 5);
+        if (catProducts.length === 0) return;
+
+        // Mapping of DB categories to AllProducts filter parameters
+        const filterMap = {
+            'Kids Gear': 'kids',
+            'Electric Bikes': 'electric',
+            'Electric Scooters': 'electric-scooter',
+            'Scooters': 'scooter',
+            'Mountain Bikes': 'mountain',
+            'Road Bikes': 'road',
+            'Cycling Helmets': 'helmet',
+            'Motorcycle Jackets': 'jacket',
+            'Motorcycle Gloves': 'glove',
+            'Motorcycle Boots': 'boot',
+            'Protective Gear': 'protective',
+            'Bike Lights': 'light',
+            'Cycling Apparel': 'apparel',
+            'Cycling Shoes': 'shoes',
+            'Bike Tools': 'tool',
+            'Panniers & Bags': 'bag',
+            'Phone Mounts': 'phone',
+            'Pedals': 'pedal',
+            'Chain Care': 'chain',
+            'Cycling Sunglasses': 'sunglasses',
+            'Fenders': 'fender',
+            'Racks & Carriers': 'rack',
+            'Mirrors': 'mirror',
+            'Grips & Tape': 'grip'
+        };
+        const filterVal = filterMap[cat] || cat;
+
+        const sectionId = cat.toLowerCase().replace(/\s+/g, '-');
         const section = document.createElement('section');
         section.className = 'container';
-        // Alternate white and light-green backgrounds
+        section.id = `sec-${sectionId}`;
         section.style.background = index % 2 === 0 ? '#ffffff' : 'var(--light-green)';
 
         section.innerHTML = `
             <div class="section-header">
                 <div>
-                    <span class="section-tagline">${catObj.tagline}</span>
-                    <h2>${catObj.name}</h2>
+                    <span class="section-tagline">EXPLORE ${cat.toUpperCase()}</span>
+                    <h2>${cat}</h2>
                 </div>
-                <a href="2_Wheelers_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                <a href="2_Wheelers_AllProducts.html?filter=${encodeURIComponent(filterVal)}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="product-scroll-container">
-                ${products.map(p => {
-            const b = badges[Math.floor(Math.random() * badges.length)];
-            const rating = (4 + Math.random()).toFixed(1);
-            const reviews = Math.floor(Math.random() * 2000) + 500;
-            return `
-                    <div class="product-card" onclick="window.location.href='2_Wheelers_ProductDetails.html?name=${encodeURIComponent(catObj.name + ' ' + p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(catObj.name)}&badge=${encodeURIComponent(b.text)}&rating=${rating}&reviews=${reviews}'">
-                        <div class="image-wrapper">
-                            <img src="${p.img}" class="product-image" alt="${p.name}">
-                            <span class="product-badge ${b.class}">${b.text}</span>
-                        </div>
-                        <div class="product-info">
-                            <h3>${p.name}</h3>
-                            <div class="rating">
-                                <i class="fas fa-star"></i> ${rating} <span>(${reviews})</span>
-                            </div>
-                            <div class="product-price">
-                                <span class="price-current">${p.price}</span>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('${p.name}', '${p.price}', '${p.img}')">
-                                    <i class="fas fa-shopping-cart"></i> Add
-                                </button>
-                                <button class="btn-buy-now" onclick="event.stopPropagation(); buyNow('${p.name}', '${p.price}', '${p.img}')">
-                                    <i class="fas fa-bolt"></i> Buy
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-        }).join('')}
+                ${catProducts.map(p => renderProductCard(p)).join('')}
             </div>
         `;
         container.appendChild(section);
     });
+
+    // 5. Final "Explore All" Section
+    const allMix = [...allProducts].sort(() => 0.5 - Math.random()).slice(0, 5);
+    const finalSec = document.createElement('div');
+    finalSec.id = 'sec-shop';
+    container.appendChild(finalSec);
+    renderSection(finalSec.id, "Explore Our Full Collection", "ALL PRODUCTS", allMix, "2_Wheelers_AllProducts.html", 'var(--light-green)');
 }
 
-function buyNow(pName, pPrice, pImg) {
+function buyNow(pId, pName, pPrice, pImg) {
     const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, ''));
-    const product = {
-        name: pName,
-        price: numericPrice,
-        image: pImg
-    };
-    sessionStorage.setItem('um_cart', JSON.stringify([product]));
+    // Direct purchase uses a temp cart for checkout session
+    sessionStorage.setItem('um_cart', JSON.stringify([{ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 }]));
     window.location.href = '../../templates/payment_gateway.html';
 }
 
-function addToCart(pName, pPrice, pImg) {
+function addToCart(pId, pName, pPrice, pImg, btn) {
     const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, ''));
-    let cart = JSON.parse(sessionStorage.getItem('um_cart') || '[]');
-    cart.push({
-        name: pName,
-        price: numericPrice,
-        image: pImg
-    });
-    sessionStorage.setItem('um_cart', JSON.stringify(cart));
+    let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+
+    const existingIndex = cart.findIndex(item => (pId && item.id === pId) || (!pId && item.name === pName));
+    if (existingIndex > -1) {
+        cart.splice(existingIndex, 1);
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} removed from cart!`, false);
+        if (btn) {
+            btn.classList.remove('added');
+            btn.innerHTML = `<i class="fas fa-shopping-cart"></i> ADD`;
+        }
+    } else {
+        cart.push({ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 });
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} added to cart!`, true);
+        if (btn) {
+            btn.classList.add('added');
+            btn.innerHTML = `<i class="fas fa-check"></i> ADDED`;
+        }
+    }
+
     if (window.updateCartBadge) window.updateCartBadge();
-    
-    // Simple toast notification
+    syncHardcodedButtons();
+}
+
+function showToast(msg, isAdd = true) {
     const toast = document.createElement('div');
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: var(--primary-green);
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        z-index: 10000;
-        animation: slideIn 0.3s ease-out;
-    `;
-    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${pName} added to cart!`;
+    toast.className = 'toast-notification';
+    if (!isAdd) toast.style.background = '#e11d48';
+    toast.innerHTML = `<i class="fas ${isAdd ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${msg}`;
     document.body.appendChild(toast);
-    
     setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s ease-in forwards';
+        toast.classList.add('fade-out');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
-// Add animations for toast
-const style = document.createElement('style');
-style.innerHTML = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
+function syncHardcodedButtons() {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    const cartIds = cart.map(item => item.id);
+    const cartNames = cart.map(item => item.name);
 
-// Initialize on DOM ready
+    document.querySelectorAll('.btn-add-cart').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes('addToCart')) {
+            // New signature: addToCart('pId', 'pName', ...)
+            const match = onclickAttr.match(/addToCart\('([^']*)',\s*'([^']*)'/);
+            if (match) {
+                const pId = match[1];
+                const pName = match[2];
+                const inCart = (pId && cartIds.includes(pId)) || (!pId && cartNames.includes(pName));
+                
+                btn.classList.toggle('added', inCart);
+                btn.innerHTML = inCart ? `<i class="fas fa-check"></i> ADDED` : `<i class="fas fa-shopping-cart"></i> ADD`;
+            }
+        }
+    });
+}
+
+// Add Toast Styles
+if (!document.getElementById('dynamic-styles')) {
+    const style = document.createElement('style');
+    style.id = 'dynamic-styles';
+    style.innerHTML = `
+        .toast-notification {
+            position: fixed; bottom: 20px; right: 20px; background: var(--primary-green);
+            color: white; padding: 1rem 2rem; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+        }
+        .toast-notification.fade-out { animation: slideOut 0.3s ease-in forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    `;
+    document.head.appendChild(style);
+}
+
+// Init
 document.addEventListener('DOMContentLoaded', () => {
     renderHeroCarousel();
-    renderDynamicCategories();
+    renderDynamicContent();
+    renderBrandSpotlight();
+    renderGenreTabs(); // Render dynamic navigation pills
+    syncHardcodedButtons();
+    syncLikes();
+    initSearch(); // Initialize search listeners
     
+    // Initialize AOS with premium settings
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    }
 });
+
+function initSearch() {
+    const searchInputs = ['navSearchInput', 'searchInput'];
+    searchInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        applyFilter('search', query);
+                        // Close search overlay if open
+                        const overlay = document.getElementById('searchOverlay');
+                        if (overlay) overlay.classList.remove('active');
+                        document.getElementById('navBackdrop')?.classList.remove('active');
+                    }
+                }
+            });
+        }
+    });
+}
+
+function applyFilter(type, value) {
+    const section = document.getElementById('search-results-section');
+    const grid = document.getElementById('search-results-grid');
+    const tagline = document.getElementById('search-tagline');
+    const title = document.getElementById('search-title');
+
+    if (!section || !grid) return;
+
+    activeFilter = value;
+    section.style.display = 'block';
+
+    let results = [];
+    if (type === 'search') {
+        tagline.innerText = "SEARCH RESULTS";
+        title.innerText = `Searching for "${value.toUpperCase()}"`;
+        results = allProducts.filter(p =>
+            p.name.toLowerCase().includes(value.toLowerCase()) ||
+            p.category.toLowerCase().includes(value.toLowerCase()) ||
+            p.desc.toLowerCase().includes(value.toLowerCase())
+        );
+    } else {
+        tagline.innerText = "EXPLORE CATEGORY";
+        title.innerText = value;
+        results = allProducts.filter(p => p.category.toLowerCase() === value.toLowerCase());
+    }
+
+    renderFilteredResults(results);
+
+    const offset = section.offsetTop - 150;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+}
+
+function renderFilteredResults(products) {
+    const grid = document.getElementById('search-results-grid');
+    if (!grid) return;
+
+    // Apply Sort
+    let sorted = [...products];
+    switch (currentSort) {
+        case 'price-low': sorted.sort((a, b) => a.price - b.price); break;
+        case 'price-high': sorted.sort((a, b) => b.price - a.price); break;
+        case 'rating': sorted.sort((a, b) => b.rating - a.rating); break;
+        case 'reviews': sorted.sort((a, b) => b.reviews - a.reviews); break;
+    }
+
+    grid.innerHTML = sorted.length > 0
+        ? sorted.map(p => renderProductCard(p)).join('')
+        : `<div style="grid-column:1/-1; text-align:center; padding: 3rem; color: #666;">No products found matching your criteria.</div>`;
+}
+
+function clearFilter() {
+    const section = document.getElementById('search-results-section');
+    if (section) section.style.display = 'none';
+    activeFilter = 'all';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function initSortDropdown() {
+    const trigger = document.getElementById('dropdown-trigger');
+    const menu = document.getElementById('dropdown-menu');
+    const label = document.getElementById('dropdown-label');
+    const backdrop = document.getElementById('dropdown-backdrop');
+    if (!trigger || !menu) return;
+
+    trigger.onclick = () => {
+        menu.classList.toggle('show');
+        backdrop?.classList.toggle('show');
+    };
+
+    if (backdrop) backdrop.onclick = () => {
+        menu.classList.remove('show');
+        backdrop.classList.remove('show');
+    };
+
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.onclick = () => {
+            currentSort = item.dataset.value;
+            label.innerText = `Sort: ${item.querySelector('span').innerText}`;
+            document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            menu.classList.remove('show');
+            backdrop?.classList.remove('show');
+
+            // Re-render search results if open
+            if (document.getElementById('search-results-section').style.display !== 'none') {
+                applyFilter(activeFilter.includes(' ') ? 'category' : 'search', activeFilter);
+            }
+        };
+    });
+}
