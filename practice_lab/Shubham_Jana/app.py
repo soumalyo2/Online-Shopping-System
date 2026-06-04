@@ -6,7 +6,7 @@ app = Flask(__name__)
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
-        user="Shubham Jana",
+        user="root",
         password="Sulekha",
         database="simple_db"
     )
@@ -18,7 +18,7 @@ def index():
     cursor = conn.cursor()
 
     #Fatch all users from the database
-    cursor.execute("SELECT * FROM users")
+    cursor.execute("SELECT * FROM user")
     all_users = cursor.fetchall()
 
     cursor.close()
@@ -36,7 +36,7 @@ def add_user():
     cursor = conn.cursor()
     
     #Insert data into MySQL
-    cursor.execute("INSERT INTO users (name) VALUES (%s)",(name_from_form,))
+    cursor.execute("INSERT INTO user (name) VALUES (%s)",(name_from_form,))
     conn.commit() # Save changes to database
     
     cursor.close()
@@ -44,6 +44,22 @@ def add_user():
     
     # Redirect back to the home page to see the updated list
     return redirect(url_for('index'))
-
+    
+# Route 3: Delete a User by ID
+@app.route('/delete/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Run the SQL delete command matching the specific ID
+    cursor.execute("DELETE FROM user WHERE id = %s", (user_id,))
+    conn.commit() # Save changes to the database
+    
+    cursor.close()
+    conn.close()
+    
+    # Redirect back to the home page to refresh the list
+    return redirect(url_for('index'))
+    
 if __name__ == '__main__':
     app.run(debug=True)
