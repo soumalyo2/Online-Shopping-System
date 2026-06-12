@@ -1,0 +1,72 @@
+
+*{padding: 0;margin: 0;box-sizing: border-box;}
+
+
+body{font-family: "Roboto",sans-serif;font-size: 16px;line-height: 24px;color: #000;}
+ul{padding: 0;margin: 0;text-decoration: none;list-style-type: none;}
+a{transition: 0.5s;text-decoration: none;}
+h1,h2,h3,h4,h5,h6{margin: 0;line-height: 100%;}
+p{text-align: center;}
+img{max-width: 100%;height: auto;}
+
+.nav-w{padding: 3em 0;background-color: #a4a3a3;}
+/* profile left */
+.profile-description{height: 70vh;}
+.profile-left{background: #ffffff;box-shadow: 0px 3px 6px #00000029;border: 1px solid #F7F7F7;padding: 40px 0 0;height: 100%;display: flex;flex-direction: column;}
+.profile-pic {
+    color: transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+.profile-pic input {display: none;}
+.profile-pic img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.12);
+    border-radius: 50%;
+    z-index: 1;
+}
+.profile-pic .-label {cursor: pointer;height: 100%;width: 100%;border-radius: 50%;}
+.profile-pic:hover .-label {display: flex;justify-content: center;align-items: center;background-color: rgba(0, 0, 0, 0.4);z-index: 2;color: #fafafa;transition: background-color 0.2s ease-in-out;border-radius: 50%;margin-bottom: 0;}
+.profile-pic span {display: inline-flex;padding: 0.2em;height: 2em;}
+.profile-pic span i{margin-right: 5px;}
+.profile-username{margin: 25px 0 30px;padding: 0 15px;}
+.profile-username h3 {font-size: 21px;text-align: center;font-weight: 600;color: #050505;}
+.profile-username p {color: #848484;font-size: 11px;text-align: center;line-height: 18px;}
+.profile-activity {background: #F7F7F7;padding: 15px;height: 100%;}
+.profile-activity h4 {font-size: 17px;font-weight: 600;color: #000000;margin-bottom: 15px;}
+.profile-activity ul li {display: flex;justify-content: space-between;align-items: center;margin-top: 6px;}
+.profile-activity ul li a{display: contents;}
+.profile-activity ul li p {margin: 0px; font-size: 13px;font-weight: 500;color: #000000;}
+
+
+/* profile right */
+.profile-right .nav-tabs .nav-link {padding: 0.5rem 1rem;border: none;}
+.profile-right .nav-tabs .nav-link.active::after {left: 22%;bottom: -2.5px;}
+.nav-tabs .nav-link.active {color: rgb(0, 0, 0);border-bottom: 2px solid rgb(255, 73, 77);}
+.tab-content .form-control, .tab-content .form-select {border: 1px solid #090B71;border-radius: 6px;font-size: 14px;font-weight: 500;min-height: 42px;}
+.tab-content form label, .c-signin-form label {color: #151515;font-size: 14px;font-weight: 500;}
+.c-btn-sub {width: 170px;padding: 7px 15px;background-color: #090B71 !important;color: #ffffff;height: 40px;font-size: 14px;}
+.c-noImgbox {border: 1px solid #090B71;padding: 10px;margin-top: 4px;}
+.c-noImgbox img {width: 100%;height: 100%;}
+/* for custom file btn */
+
+.c-contentPart .nav-tabs .nav-link {font-size: 18px;font-weight: 600;color: #848484;text-align: center;}
+.c-includeBtn {position: relative;}
+.file {display: none;}
+.file-name {position: relative;overflow: hidden;line-height: 30px;padding: 5px;box-sizing: border-box;vertical-align: middle;width: 100%;border: 1px solid #090B71;border-radius: 0;height: calc(2em + 0.75rem + 2px);padding-right: 215px;text-overflow: ellipsis;font-size: 14px;font-weight: 500;}
+.c-filebtn {position: absolute;top: 1.2px;right: 1px;height: 39px;}
+.c-security {position: relative;}
+.c-passIcon {width: 41px; height: 41px;display: flex;justify-content: center;color: #a4a3a3; cursor: pointer;
+  align-items: center;position: absolute;bottom: 0;right: 0;}
+.c-security .form-control {padding-right: 45px;}
+
+.footer-w{padding: 3.3em 0;background-color: #a4a3a3;margin-top: 2em;}
