@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBAN MART — Fashion for Every Soul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Jost:wght@300;400;500;600&family=Lora:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/fashion.css">
+  <link rel="stylesheet" href="../css/navbar.css">
+  <style>
+    :root {
+      --primary-nature: #5A8A5A !important;
+      --accent-color: #5A8A5A !important;
+      --heading-font: 'Playfair Display', serif !important;
+    }
+    .navbar-brand { font-family: 'Lora', serif !important; letter-spacing: -0.3px !important; }
+    .nav-login-btn { background: var(--primary-nature) !important; box-shadow: 0 4px 14px rgba(90, 138, 90, 0.28) !important; font-family: 'Jost', sans-serif !important; }
+    .cat-pill.active { background: var(--primary-nature) !important; border-color: var(--primary-nature) !important; }
+    .nav-search-bar:focus-within { border-color: var(--primary-nature) !important; }
+    .nav-search-bar:focus-within .nav-search-icon { color: var(--primary-nature) !important; }
+    .nav-link { font-family: 'Jost', sans-serif !important; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem !important; }
+    /* Keeping fashion-specific gold in some places if needed, but primary brand is green */
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar animate__animated animate__fadeInDown">
+    <div class="container">
+      <div class="navbar-inner w-100">
+        <a class="navbar-brand fw-bold" href="../../index.html" style="display:flex;align-items:center;gap:0;text-decoration:none;">
+          <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+            <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
+            <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2" stroke-linecap="round" fill="none" />
+            <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="9.5" cy="17" r="1.2" fill="white" />
+            <circle cx="16.5" cy="17" r="1.2" fill="white" />
+            <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
+            <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#5A8A5A" letter-spacing="-0.3">Mart</text>
+            <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
+          </svg>
+        </a>
+
+        <ul class="nav-links ms-3">
+          <li><a class="nav-link" href="#hero">Home</a></li>
+          <li><a class="nav-link" href="#categories">Categories</a></li>
+          <li><a class="nav-link" href="#sale">Shop</a></li>
+          <li><a class="nav-link" href="#trending">Trending</a></li>
+        </ul>
+
+        <div class="nav-search-bar">
+          <i class="bi bi-search nav-search-icon"></i>
+          <input type="text" id="navSearchInput" class="nav-search-input" placeholder="Search fashion...">
+          <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i class="bi bi-x"></i></button>
+        </div>
+
+        <div class="nav-right">
+          <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites" style="position:relative;">
+            <i class="bi bi-heart"></i>
+            <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
+          </button>
+          
+          <button class="nav-icon-btn" onclick="openCart()" title="Cart">
+            <i class="bi bi-bag"></i>
+            <span class="cart-badge" id="cart-badge">0</span>
+          </button>
+
+          <a id="login-nav-btn" class="nav-login-btn" href="login.html"><i class="bi bi-person-circle"></i> Login</a>
+          
+          <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu">
+            <i class="bi bi-list" id="hamburgerIcon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CATEGORY NAV -->
+  <div class="category-nav-bar" id="categoryNavBar">
+    <div class="category-nav-overflow-wrap">
+      <div class="category-nav-scroll">
+        <div class="cat-pill active" onclick="filterCategory('all')">All Fashion</div>
+        <div class="cat-pill" onclick="filterCategory('men')">Men</div>
+        <div class="cat-pill" onclick="filterCategory('women')">Women</div>
+        <div class="cat-pill" onclick="filterCategory('kids')">Kids</div>
+        <div class="cat-pill" onclick="filterCategory('sale')">Sale</div>
+        <div class="cat-pill" onclick="filterCategory('new')">New Arrivals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE PANEL -->
+  <div class="nav-mobile-panel" id="mobilePanel">
+    <a class="mobile-nav-link" href="#hero" onclick="closeAll()">Home</a>
+    <a class="mobile-nav-link" href="#categories" onclick="closeAll()">Categories</a>
+    <a class="mobile-nav-link" href="#sale" onclick="closeAll()">Shop All</a>
+    <a class="mobile-nav-link" href="#trending" onclick="closeAll()">Trending</a>
+    <div class="mobile-nav-divider"></div>
+    <a class="mobile-fab-btn login" href="login.html" style="border-radius:12px;"><i class="bi bi-person-circle"></i> Login</a>
+  </div>
+
+  <div class="nav-backdrop" id="navBackdrop" onclick="closeAll()"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-scene">
+      <div class="hero-bg-layer"></div>
+      <div class="hero-orb orb1"></div>
+      <div class="hero-orb orb2"></div>
+      <div class="hero-orb orb3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">New Season 2026</div>
+      <h1 class="hero-title">Dress Your <span class="italic">Story</span><br>Own Every Moment</h1>
+      <p class="hero-subtitle">Curated fashion for men, women & kids. Discover timeless elegance meets contemporary edge
+        — collections crafted for every chapter of life.</p>
+      <div class="hero-ctas">
+        <a href="#categories" class="btn-primary"><span>Shop Now</span></a>
+        <a href="#trending" class="btn-outline">Explore Trends</a>
+      </div>
+    </div>
+    <div class="hero-3d-card" id="hero3dCard">
+      <div class="hero-floating-tag tag1">⭐ New Arrival</div>
+      <div class="hero-floating-tag tag2">🔥 Trending Now</div>
+      <div class="hero-card-inner">
+        <div class="hero-card-img">
+          <img
+            src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1000&q=80"
+            alt="Signature Silk Blazer" class="hero-product-image" loading="lazy" />
+        </div>
+        <div class="hero-card-info">
+          <h4>Signature Silk Blazer</h4>
+          <p>Women's Collection · Size M</p>
+          <div class="price">₹4,299</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner" id="tickerInner">
+      <span class="ticker-item">Free Shipping Over ₹999</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">New Summer Collection 2026</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Up to 50% Off on Select Styles</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Easy 30-Day Returns</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Exclusive Member Rewards</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Free Shipping Over ₹999</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">New Summer Collection 2026</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Up to 50% Off on Select Styles</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Easy 30-Day Returns</span>
+      <span class="ticker-dot">◆</span>
+      <span class="ticker-item">Exclusive Member Rewards</span>
+      <span class="ticker-dot">◆</span>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="section" id="categories">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Shop By Category</span>
+      <h2 class="section-title">Fashion for <span class="italic">Every Soul</span></h2>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card cat-men reveal reveal-delay-1" id="men" onclick="filterCategory('men')">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-tag">Category</div>
+          <div class="cat-name">Men</div>
+          <div class="cat-count">240+ Styles</div>
+          <a class="cat-btn">Shop Men</a>
+        </div>
+      </div>
+      <div class="cat-card cat-women reveal reveal-delay-2" id="women" onclick="filterCategory('women')">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-tag">Category</div>
+          <div class="cat-name">Women</div>
+          <div class="cat-count">380+ Styles</div>
+          <a class="cat-btn">Shop Women</a>
+        </div>
+      </div>
+      <div class="cat-card cat-kids reveal reveal-delay-3" id="kids" onclick="filterCategory('kids')">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-tag">Category</div>
+          <div class="cat-name">Kids</div>
+          <div class="cat-count">160+ Styles</div>
+          <a class="cat-btn">Shop Kids</a>
+        </div>
+      </div>
+      <div class="cat-card cat-all reveal reveal-delay-4" onclick="filterCategory('all')">
+        <div class="cat-bg"></div>
+        <div class="cat-overlay"></div>
+        <div class="cat-content">
+          <div class="cat-tag">Category</div>
+          <div class="cat-name">All</div>
+          <div class="cat-count">780+ Styles</div>
+          <a class="cat-btn">Shop All</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="section products-section" id="sale">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Featured Picks</span>
+      <h2 class="section-title">Curated <span class="italic">Favourites</span></h2>
+    </div>
+    <div class="filter-tabs reveal">
+      <button class="filter-tab active" onclick="filterProducts(this,'all')">All</button>
+      <button class="filter-tab" onclick="filterProducts(this,'men')">Men</button>
+      <button class="filter-tab" onclick="filterProducts(this,'women')">Women</button>
+      <button class="filter-tab" onclick="filterProducts(this,'kids')">Kids</button>
+      <button class="filter-tab" onclick="filterProducts(this,'sale')">On Sale</button>
+      <button class="filter-tab" onclick="filterProducts(this,'new')">New In</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- PROMO BANNER -->
+  <section class="promo-banner">
+    <div>
+      <div class="promo-eyebrow reveal">Limited Time Offer</div>
+      <h2 class="promo-title reveal">Mega Sale<br><em>Ends Soon</em></h2>
+      <p class="promo-desc reveal">Don't miss out on our biggest sale of the season. Premium fabrics, elevated cuts, and
+        iconic styles — all at an unbelievable price for a limited time.</p>
+      <a href="#sale" class="btn-primary reveal"><span>Grab the Deal</span></a>
+    </div>
+    <div class="promo-visual reveal">
+      <div class="promo-3d-ring"></div>
+      <div class="promo-3d-ring"></div>
+      <div class="promo-3d-ring"></div>
+      <div class="promo-center-tag">
+        <div class="promo-discount">50%</div>
+        <div class="promo-off">OFF SELECTED ITEMS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <div style="background:#1a1a1a; padding:32px 6%;">
+    <div style="max-width:600px; margin:0 auto; text-align:center;">
+      <p style="color:rgba(255,255,255,0.5); font-size:0.72rem; letter-spacing:0.25em; text-transform:uppercase; margin-bottom:16px;">Sale Ends In</p>
+      <div class="countdown" style="justify-content:center;">
+        <div class="countdown-unit"><span class="countdown-num" id="cdDays">02</span><div class="countdown-label">Days</div></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cdHours">14</span><div class="countdown-label">Hours</div></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cdMins">38</span><div class="countdown-label">Mins</div></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cdSecs">22</span><div class="countdown-label">Secs</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRENDING -->
+  <section class="section" id="trending">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">What's Hot</span>
+      <h2 class="section-title">Trending <span class="italic">Right Now</span></h2>
+    </div>
+    <div class="trending-grid">
+      <div class="trending-card tcard1 reveal reveal-delay-1">
+        <div class="trending-bg"></div>
+        <div class="trending-overlay"></div>
+        <div class="trending-deco">HOT</div>
+        <div class="trending-content">
+          <div class="trending-label">Women · Summer</div>
+          <div class="trending-name">Boho Maxi Dress</div>
+          <div class="trending-price">From ₹1,899</div>
+        </div>
+      </div>
+      <div class="trending-card tcard2 reveal reveal-delay-2">
+        <div class="trending-bg"></div>
+        <div class="trending-overlay"></div>
+        <div class="trending-deco">NEW</div>
+        <div class="trending-content">
+          <div class="trending-label">Men · Casual</div>
+          <div class="trending-name">Linen Shirt Set</div>
+          <div class="trending-price">From ₹1,499</div>
+        </div>
+      </div>
+      <div class="trending-card tcard3 reveal reveal-delay-3">
+        <div class="trending-bg"></div>
+        <div class="trending-overlay"></div>
+        <div class="trending-deco">★ 4.9</div>
+        <div class="trending-content">
+          <div class="trending-label">Kids · Play</div>
+          <div class="trending-name">Adventure Outfit</div>
+          <div class="trending-price">From ₹799</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="features-section">
+    <div class="features-grid">
+      <div class="feature-card reveal"><span class="feature-icon">🚚</span><div class="feature-title">Free Delivery</div><div class="feature-desc">Free shipping on all orders above ₹999. Express delivery available.</div></div>
+      <div class="feature-card reveal reveal-delay-1"><span class="feature-icon">↩️</span><div class="feature-title">Easy Returns</div><div class="feature-desc">30-day hassle-free return policy with full refunds guaranteed.</div></div>
+      <div class="feature-card reveal reveal-delay-2"><span class="feature-icon">🔒</span><div class="feature-title">Secure Payment</div><div class="feature-desc">256-bit SSL encryption on all transactions. Your data is safe.</div></div>
+      <div class="feature-card reveal reveal-delay-3"><span class="feature-icon">💬</span><div class="feature-title">24/7 Support</div><div class="feature-desc">Round-the-clock customer support via chat, email, and phone.</div></div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="newsletter-inner reveal">
+      <h2>Get <em>Exclusive</em> Deals<br>Straight to Your Inbox</h2>
+      <p>Join 50,000+ fashion lovers. Be first to know about new arrivals, sales & style tips.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email address" id="emailInput">
+        <button onclick="subscribeNewsletter()">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT DETAIL OVERLAY -->
+  <div class="pd-overlay" id="productDetailOverlay">
+    <div class="pd-modal">
+      <button class="pd-close" onclick="closeDetails()">✕</button>
+      <div class="pd-content">
+        <div class="pd-gallery">
+          <div class="main-img-container">
+            <img id="pd-main-img" src="https://images.unsplash.com/photo-1590770426020-6a4ae9d31a1a?auto=format&fit=crop&w=1000&q=80" alt="Product" style="transition:opacity 0.2s ease;">
+            <span class="pd-badge badge-new" id="pd-badge">New Arrival</span>
+          </div>
+          <div class="thumb-list" id="pd-thumbs"></div>
+        </div>
+
+        <div class="pd-meta">
+          <p class="pd-cat" id="pd-cat">Collection</p>
+          <h1 class="pd-title" id="pd-title">Product Name</h1>
+          <div class="pd-rating" id="pd-rating"><span class="stars">★★★★★</span> <span>(0 reviews)</span></div>
+
+          <div class="pd-price-row">
+            <span class="pd-price" id="pd-price">₹0</span>
+            <span class="pd-old-price" id="pd-old-price"></span>
+          </div>
+
+          <p class="pd-desc" id="pd-desc">Loading...</p>
+
+          <!-- Size Selector -->
+          <div id="pd-size-selector" style="margin-bottom:20px;"></div>
+
+          <!-- Color Selector -->
+          <div id="pd-color-selector" style="margin-bottom:20px;"></div>
+
+          <div class="pd-specs">
+            <div class="spec-item"><span>Material</span><strong id="pd-material">—</strong></div>
+            <div class="spec-item"><span>Delivery</span><strong>Free above ₹999</strong></div>
+            <div class="spec-item"><span>Returns</span><strong>30 Days</strong></div>
+            <div class="spec-item"><span>Warranty</span><strong>Brand Guarantee</strong></div>
+          </div>
+
+          <!-- Credentials -->
+          <div class="pd-credentials" style="display:flex;gap:10px;margin:20px 0;flex-wrap:wrap;">
+            <div class="credential-badge" style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:#5A8A5A;background:rgba(90,138,90,0.1);padding:8px 12px;border-radius:50px;">
+              <i class="bi bi-shield-check"></i> <strong>100% Authentic</strong>
+            </div>
+            <div class="credential-badge" style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:#C9A96E;background:rgba(201,169,110,0.1);padding:8px 12px;border-radius:50px;">
+              <i class="bi bi-award"></i> <strong>Premium Quality</strong>
+            </div>
+            <div class="credential-badge" style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:#5A8A5A;background:rgba(90,138,90,0.1);padding:8px 12px;border-radius:50px;">
+              <i class="bi bi-check-circle"></i> <strong>Verified Seller</strong>
+            </div>
+          </div>
+
+          <div class="pd-actions">
+            <button class="btn-buy" onclick="checkout()"><i class="bi bi-lightning-fill"></i> BUY NOW</button>
+            <button class="btn-add-cart" id="pd-add-to-cart-btn"><i class="bi bi-bag-plus"></i> ADD TO BAG</button>
+          </div>
+
+          <!-- Wishlist + Share buttons -->
+          <div style="display:flex;gap:12px;margin-top:16px;">
+            <button id="pd-wishlist-btn" onclick="togglePDWishlist()"
+              style="flex:1;padding:12px;border-radius:50px;border:1.5px solid var(--border);background:transparent;font-size:0.82rem;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;gap:8px;">
+              🤍 Wishlist
+            </button>
+            <button onclick="sharePDProduct()"
+              style="flex:1;padding:12px;border-radius:50px;border:1.5px solid var(--border);background:transparent;font-size:0.82rem;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;gap:8px;">
+              <i class="bi bi-share"></i> Share
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pd-related-section">
+        <h3>You May Also Like</h3>
+        <div class="pd-related-scroll" id="pd-related-scroll"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">URBAN <span>MART</span></div>
+        <p class="footer-desc">Fashion that tells your story. Premium quality, timeless design, delivered with care to your doorstep across India.</p>
+        <div class="social-links">
+          <a class="social-btn" href="#">f</a>
+          <a class="social-btn" href="#">in</a>
+          <a class="social-btn" href="#">tw</a>
+          <a class="social-btn" href="#">yt</a>
+          <a class="social-btn" href="#">📷</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul class="footer-links">
+          <li><a href="#">Men's Fashion</a></li>
+          <li><a href="#">Women's Fashion</a></li>
+          <li><a href="#">Kids' Fashion</a></li>
+          <li><a href="#">Accessories</a></li>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul class="footer-links">
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About URBAN MART</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 URBAN MART Fashion. All rights reserved. Made with ❤️ in India.</div>
+      <div class="payment-icons">
+        <div class="payment-icon">VISA</div>
+        <div class="payment-icon">MC</div>
+        <div class="payment-icon">UPI</div>
+        <div class="payment-icon">PayTM</div>
+        <div class="payment-icon">COD</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <div class="cart-title">Your Bag 🛍</div>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div id="cartSavings"></div>
+      <div class="cart-total">
+        <span class="cart-total-label">Total</span>
+        <span class="cart-total-amount" id="cartTotal">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">
+        <i class="bi bi-credit-card"></i> Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <!-- WISHLIST / FAV DRAWER -->
+  <div class="cart-overlay" id="favOverlay" onclick="closeFavDrawer()"></div>
+  <div class="cart-drawer" id="favDrawer" style="background:var(--warm-white);">
+    <div class="cart-header">
+      <div class="cart-title">❤️ My Wishlist</div>
+      <button class="cart-close" onclick="closeFavDrawer()">✕</button>
+    </div>
+    <div class="cart-items" id="favItemsContainer">
+      <div class="cart-empty">
+        <span class="cart-empty-icon">🤍</span>
+        <div class="cart-empty-text">No favourites yet.<br>Tap ❤️ on any product!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <span id="toastMsg">Done!</span>
+  </div>
+
+<script src="../js/navbar.js" defer></script>
+<script src="../js/fashion.js"></script>
+</body>
+
+</html>
