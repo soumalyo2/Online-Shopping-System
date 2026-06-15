@@ -82,6 +82,11 @@ def add_product():
 @app.route('/payment')
 def payment_gateway():
     return render_template('payment_gateway.html')
+
+@app.route('/grocery.html')
+def grocery():
+    return render_template('grocery.html')
+
 @app.route('/cart')
 def cart():
     return render_template('cart.html')

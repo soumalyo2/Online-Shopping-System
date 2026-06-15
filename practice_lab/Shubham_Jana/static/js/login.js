@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     request.onsuccess = (e) => { db = e.target.result; };
 
-    document.getElementById('regPhoto')?.addEventListener('change', function (e) {
+    document.getElementById('regPhoto')?.addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (email === 'admin@pbssd.com' && pass === 'My_admin@444') {
             localStorage.setItem('pbssd_user', JSON.stringify({ name: 'Admin', role: 'admin' }));
-            window.location.href = '/';
+            window.location.href = '../../index.html';
             return;
         }
 
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const user = getReq.result;
             if (user && user.password === pass) {
                 localStorage.setItem('pbssd_user', JSON.stringify({ name: user.name, email: user.email, photo: user.photo }));
-                window.location.href = '/';
+                window.location.href = '../../index.html';
             } else {
                 Swal.fire({ icon: 'error', title: 'Failed', text: 'Invalid credentials.' });
             }

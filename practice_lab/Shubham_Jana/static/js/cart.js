@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="bi bi-cart-x"></i>
                     <h4 class="fw-bold">Your cart is empty</h4>
                     <p class="text-center mt-3 text-muted">Looks like you haven't added any items yet.</p>
-                    <a href="/" class="btn btn-nature mt-3 px-5 py-3 rounded-pill fw-bold shadow-sm">Start Shopping</a>
+                    <a href="../../index.html" class="btn btn-nature mt-3 px-5 py-3 rounded-pill fw-bold shadow-sm">Start Shopping</a>
                 </div>
             `;
             updateTotals();
@@ -107,23 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            // Sync current cart to the global payment gateway storage
+            const formattedItems = cartItems.map(item => ({
+                name: item.name,
+                price: parsePrice(item.price),
+                image: item.image
+            }));
             
-            document.getElementById('checkoutProgress').style.width = '33%';
-            document.getElementById('checkoutProgress').classList.remove('bg-success');
-            document.getElementById('step-address').classList.remove('d-none');
-            document.getElementById('step-payment').classList.add('d-none');
-            document.getElementById('step-thankyou').classList.add('d-none');
+            sessionStorage.setItem('um_cart', JSON.stringify(formattedItems));
             
-            
-            const paymentStep = document.getElementById('step-payment');
-            const buttons = paymentStep.querySelectorAll('button');
-            buttons.forEach(btn => btn.disabled = false);
-            buttons[1].innerText = 'Place Order';
-            
-            if (!checkoutModalInstance) {
-                checkoutModalInstance = new bootstrap.Modal(document.getElementById('checkoutModal'));
-            }
-            checkoutModalInstance.show();
+            // Redirect to the existing payment gateway
+            window.location.href = '../../templates/payment_gateway.html';
         });
     }
 
@@ -149,9 +143,34 @@ document.addEventListener('DOMContentLoaded', () => {
         buttons[1].innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
 
         setTimeout(() => {
-            document.getElementById('step-payment').classList.add('d-none');
-            document.getElementById('step-thankyou').classList.remove('d-none');
-            document.getElementById('checkoutProgress').classList.add('bg-success');
+            const request = indexedDB.open('PBSSDOrderDB', 1);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('orders')) {
+                    db.createObjectStore('orders', { keyPath: 'id', autoIncrement: true });
+                }
+            };
+            request.onsuccess = (e) => {
+                const db = e.target.result;
+                const tx = db.transaction(['orders'], 'readwrite');
+                const store = tx.objectStore('orders');
+                
+                const totalText = document.getElementById('totalAmount').innerText;
+                const orderData = {
+                    date: new Date().toISOString(),
+                    items: [...cartItems],
+                    total: totalText,
+                    status: 'Processing'
+                };
+                
+                store.add(orderData);
+                
+                tx.oncomplete = () => {
+                    document.getElementById('step-payment').classList.add('d-none');
+                    document.getElementById('step-thankyou').classList.remove('d-none');
+                    document.getElementById('checkoutProgress').classList.add('bg-success');
+                };
+            };
         }, 1500);
     };
 
@@ -159,5 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
         cartItems = [];
         syncCart();
         renderCart();
+
+        const cartReq = indexedDB.open('PBSSDCartDB', 2);
+        cartReq.onsuccess = (e) => {
+            const db = e.target.result;
+            if (db.objectStoreNames.contains('cart_items')) {
+                const tx = db.transaction(['cart_items'], 'readwrite');
+                tx.objectStore('cart_items').clear();
+            }
+            if (db.objectStoreNames.contains('cart_state')) {
+                const stateTx = db.transaction(['cart_state'], 'readwrite');
+                stateTx.objectStore('cart_state').put(0, 'count');
+            }
+        };
     };
 });
