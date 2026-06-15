@@ -168,55 +168,55 @@
                         class="bi bi-bag-heart"></i> Fashion</div></a>
 
                 <a style="text-decoration: none; color: inherit; "
-                        href=" mobile.html"><div class="cat-pill" data-cat="Mobiles" onclick="filterProducts('Mobiles', this)"><i
+                        href=" {{ url_for('mobile') }}"><div class="cat-pill" data-cat="Mobiles" onclick="filterProducts('Mobiles', this)"><i
                         class="bi bi-phone"></i> Mobiles </div></a>
 
                 <a style="text-decoration: none; color: inherit; "
-                        href=" beauty.html"><div class="cat-pill" data-cat="Beauty" onclick="filterProducts('Beauty', this)"><i
+                        href=" {{ url_for('beauty') }}"><div class="cat-pill" data-cat="Beauty" onclick="filterProducts('Beauty', this)"><i
                         class="bi bi-stars"></i>Beauty</div></a>
 
                 <a style="text-decoration: none; color: inherit; "
-                        href=" pet.html"><div class="cat-pill" data-cat="pet" onclick="filterProducts('pet', this)"><i
+                        href=" {{ url_for('pet') }}"><div class="cat-pill" data-cat="pet" onclick="filterProducts('pet', this)"><i
                         class="bi bi-tencent-qq"></i>Pet</div></a>
 
-                <a href=" electronic.html"
+                <a href=" {{ url_for('electronic') }}"
                         style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Electronics" onclick="filterProducts('Electronics', this)"><i
                         class="bi bi-cpu"></i>Electronics</div></a>
 
-                <a href=" Homesmart.html"
+                <a href=" {{ url_for('Homesmart') }}"
                         style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Home" onclick="filterProducts('Home', this)"><i
                         class="bi bi-house"></i> Home </div></a>
 
-                <a href="Homesmart.html"
+                <a href="{{ url_for('Homesmart') }}"
                         style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Appliances" onclick="filterProducts('Appliances', this)"><i
                         class="bi bi-lightning-charge"></i> Appliances</div></a>
 
-                <a href=" Toys.html"
+                <a href=" {{ url_for('Toys') }}"
                         style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Toys" onclick="filterProducts('Toys', this)"><i
                         class="bi bi-controller"></i>Toys</div></a>
 
-                <a href=" Food.html"
+                <a href="{{ url_for('Food') }}"
                         style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Food" onclick="filterProducts('Food', this)"><i
                         class="bi bi-basket"></i> Food</div></a>
 
-                <a href=" car.html"
+                <a href="{{ url_for('car') }}"
                         style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Auto" onclick="filterProducts('Auto', this)"><i class="bi bi-car-front"></i> Auto</div></a>
                         
-                <a href=" 2_Wheelers.html"
+                <a href="{{ url_for('2_Wheelers') }}"
                         style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler </div></a>
 
-                <a href=" Books.html" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books" onclick="filterProducts('Books', this)"><i class="bi bi-book"></i> Books </div></a>
+                <a href="{{ url_for('Books') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books" onclick="filterProducts('Books', this)"><i class="bi bi-book"></i> Books </div></a>
 
-                <a href="template/Homesmart.html" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Furniture" onclick="filterProducts('Furniture', this)">
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Furniture" onclick="filterProducts('Furniture', this)">
                         <i class="bi bi-lamp"></i> Furniture</div></a>
                         
-                <a href=" Fitness_&_Sports.html"
+                <a href="{{ url_for('Fitness_&_Sports') }}"
                         style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
 
-                <a href=" Medicine_&_Nutrients.html"
+                <a href="{{ url_for('Medicine_&_Nutrients') }}"
                         style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
 
-                 <a href=" travel_landing.html" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel">
+                 <a href="{{ url_for('travel_landing') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel">
                     <span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel </div></a>
 
             </div>
