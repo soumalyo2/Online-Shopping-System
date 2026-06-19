@@ -1,7 +1,7 @@
 // =============================================
-// Fitness_&_Sports_AllProducts.js — All Products Page
+// Fitness_And_Sports_AllProducts.js — All Products Page
 // Aggregates products from every section/category
-// (Product data is sourced from Fitness_&_Sports_Data.js)
+// (Product data is sourced from Fitness_And_Sports_Data.js)
 // =============================================
 
 
@@ -123,7 +123,7 @@ function renderAllProducts(products) {
 
         // Click card → go to product details
         card.addEventListener('click', () => {
-            window.location.href = `Fitness_&_Sports_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formatPrice(p.price))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent(formatPrice(p.originalPrice)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}`;
+            window.location.href = `Fitness_And_Sports_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formatPrice(p.price))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent(formatPrice(p.originalPrice)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}`;
         });
 
         grid.appendChild(card);

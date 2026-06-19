@@ -1,5 +1,5 @@
 // =============================================
-// Fitness_&_Sports_ProductDetails.js
+// Fitness_And_Sports_ProductDetails.js
 // Features: Dynamic stars, like button, badge,
 // discount %, description, image gallery, related sports
 // =============================================
@@ -163,7 +163,7 @@ if (scroll) {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.style.minWidth = '240px';
-        card.onclick = () => window.location.href = `Fitness_&_Sports_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=Related&rating=${p.rating}&reviews=${p.reviews}`;
+        card.onclick = () => window.location.href = `Fitness_And_Sports_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=Related&rating=${p.rating}&reviews=${p.reviews}`;
         
         card.innerHTML = `
             <div class="image-wrapper">

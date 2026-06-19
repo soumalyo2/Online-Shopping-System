@@ -1,5 +1,5 @@
 // =============================================
-// Fitness_&_Sports_Data.js — Shared Product Database
+// Fitness_And_Sports_Data.js — Shared Product Database
 // =============================================
 
 const allProducts = [

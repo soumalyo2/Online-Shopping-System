@@ -1,5 +1,5 @@
 // =============================================
-// Fitness_&_Sports.js — Hero Carousel + Dynamic Products
+// Fitness_And_Sports.js — Hero Carousel + Dynamic Products
 // Theme: Green & White (Sporty Brand)
 // =============================================
 
@@ -10,7 +10,7 @@ const heroProducts = [
         price: "$899.00", 
         tag: "ELITE PERFORMANCE", 
         img: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600&h=600&fit=crop", 
-        link: "Fitness_&_Sports_ProductDetails.html?name=Pro-Series%20Treadmill%20Z1&price=$899.00&img=https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600&h=600&fit=crop&cat=Equipment&rating=4.9&reviews=1200&originalPrice=$1200&desc=Commercial-grade%20motor%20and%20advanced%20cushioning%20for%20the%20ultimate%20running%20experience.&badge=Flagship",
+        link: "Fitness_And_Sports_ProductDetails.html?name=Pro-Series%20Treadmill%20Z1&price=$899.00&img=https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=600&h=600&fit=crop&cat=Equipment&rating=4.9&reviews=1200&originalPrice=$1200&desc=Commercial-grade%20motor%20and%20advanced%20cushioning%20for%20the%20ultimate%20running%20experience.&badge=Flagship",
         bg: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&h=900&fit=crop')",
         desc: "Push your limits with our most advanced treadmill. Precision engineering for elite athletes."
     },
@@ -19,7 +19,7 @@ const heroProducts = [
         price: "$249.00", 
         tag: "TOP RATED", 
         img: "https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=600&h=600&fit=crop", 
-        link: "Fitness_&_Sports_ProductDetails.html?name=Adjustable%20Dumbbell%20Set&price=$249.00&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=600&h=600&fit=crop&cat=Strength&rating=4.8&reviews=3400&originalPrice=$349&desc=Replace%2015%20sets%20of%20weights%20with%20one%20compact%2C%20easy-to-use%20system.&badge=Best%20Seller",
+        link: "Fitness_And_Sports_ProductDetails.html?name=Adjustable%20Dumbbell%20Set&price=$249.00&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=600&h=600&fit=crop&cat=Strength&rating=4.8&reviews=3400&originalPrice=$349&desc=Replace%2015%20sets%20of%20weights%20with%20one%20compact%2C%20easy-to-use%20system.&badge=Best%20Seller",
         bg: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&h=900&fit=crop')",
         desc: "Space-saving design meets heavy-duty performance. The only weights you'll ever need for your home gym."
     },
@@ -28,7 +28,7 @@ const heroProducts = [
         price: "$75.00", 
         tag: "MINDFULNESS", 
         img: "https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=600&h=600&fit=crop", 
-        link: "Fitness_&_Sports_ProductDetails.html?name=Premium%20Yoga%20Mat%20Pro&price=$75.00&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=600&h=600&fit=crop&cat=Yoga&rating=5.0&reviews=850&originalPrice=$95&desc=Extra%20grip%20and%20superior%20cushioning%20for%20your%20daily%20practice.&badge=Eco-Friendly",
+        link: "Fitness_And_Sports_ProductDetails.html?name=Premium%20Yoga%20Mat%20Pro&price=$75.00&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=600&h=600&fit=crop&cat=Yoga&rating=5.0&reviews=850&originalPrice=$95&desc=Extra%20grip%20and%20superior%20cushioning%20for%20your%20daily%20practice.&badge=Eco-Friendly",
         bg: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1600&h=900&fit=crop')",
         desc: "Sustainable materials and non-slip surface. Elevate your yoga journey with pro-grade equipment."
     }
@@ -271,7 +271,7 @@ function renderProductCard(p) {
     const origPriceDisplay = p.originalPrice ? (typeof p.originalPrice === 'number' ? '$' + p.originalPrice.toFixed(2) : p.originalPrice) : '';
 
     return `
-    <div class="product-card" data-aos="fade-up" onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(priceDisplay)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}&originalPrice=${encodeURIComponent(origPriceDisplay)}&desc=${encodeURIComponent(p.desc || '')}&badge=${encodeURIComponent(p.badge || '')}'">
+    <div class="product-card" data-aos="fade-up" onclick="window.location.href='../template/Fitness_And_Sports_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(priceDisplay)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}&originalPrice=${encodeURIComponent(origPriceDisplay)}&desc=${encodeURIComponent(p.desc || '')}&badge=${encodeURIComponent(p.badge || '')}'">
         <div class="image-wrapper">
             <img src="${p.img}" class="product-image" alt="${p.name}">
             ${p.badge ? `<span class="product-badge ${p.badgeClass}">${p.badge}</span>` : ''}
@@ -328,15 +328,15 @@ function renderDynamicContent() {
 
     // Top Deals
     const topDeals = allProducts.filter(p => p.originalPrice).slice(0, 4);
-    renderSection('top-deals-container', 'Action-Packed Deals', 'LIMITED TIME OFFERS', topDeals, '../template/Fitness_&_Sports_AllProducts.html', '#f8fff9');
+    renderSection('top-deals-container', 'Action-Packed Deals', 'LIMITED TIME OFFERS', topDeals, '../template/Fitness_And_Sports_AllProducts.html', '#f8fff9');
 
     // Best Sellers
     const bestSellers = allProducts.filter(p => p.rating >= 4.8).slice(0, 4);
-    renderSection('best-sellers-container', 'Best Sellers of the Week', 'ATHLETE FAVORITES', bestSellers, '../template/Fitness_&_Sports_AllProducts.html', 'var(--light-green)');
+    renderSection('best-sellers-container', 'Best Sellers of the Week', 'ATHLETE FAVORITES', bestSellers, '../template/Fitness_And_Sports_AllProducts.html', 'var(--light-green)');
 
     // Premium Collection
     const premium = allProducts.filter(p => p.price > 100).slice(0, 4);
-    renderSection('signature-gallery-container', 'Pro Gear Gallery', 'PREMIUM COLLECTION', premium, '../template/Fitness_&_Sports_AllProducts.html', '#ffffff');
+    renderSection('signature-gallery-container', 'Pro Gear Gallery', 'PREMIUM COLLECTION', premium, '../template/Fitness_And_Sports_AllProducts.html', '#ffffff');
 
     // Dynamic Categories
     const categoriesContainer = document.getElementById('dynamic-categories');
@@ -362,7 +362,7 @@ function renderDynamicContent() {
                                 <span class="section-tagline">${catObj.tagline}</span>
                                 <h2>${catObj.name}</h2>
                             </div>
-                            <a href="../template/Fitness_&_Sports_AllProducts.html?filter=${catObj.filter}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                            <a href="../template/Fitness_And_Sports_AllProducts.html?filter=${catObj.filter}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
                         </div>
                         <div class="product-scroll-container">
                             ${catProducts.map(p => renderProductCard(p)).join('')}
