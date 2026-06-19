@@ -1,4 +1,7 @@
    /* ── UI Logic from style.css/index.html ── */
+
+   
+
     let settingsOpen = false;
     function toggleSettings() {
       settingsOpen = !settingsOpen;

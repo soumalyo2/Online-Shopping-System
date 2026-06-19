@@ -199,6 +199,15 @@ body {
     background: rgba(255, 255, 255, 0.9);
 }
 
+    /* --- WISHLIST DRAWER ITEMS --- */
+    .fav-grid { display: flex; flex-direction: column; gap: 12px; }
+    .fav-item { display: flex; align-items: center; gap: 14px; background: white; border: 0.5px solid #E5E5E0; border-radius: 14px; padding: 12px; transition: all 0.3s ease; }
+    .fav-item:hover { box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08); transform: translateY(-2px); }
+    .fav-item-img { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .fav-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; text-align: center; }
+    .fav-empty-icon { width: 64px; height: 64px; border-radius: 50%; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #777777; margin-bottom: 1rem; }
+ 
+
 /* product cards inside slider */
 .slide-products {
     flex: 0 0 auto;
