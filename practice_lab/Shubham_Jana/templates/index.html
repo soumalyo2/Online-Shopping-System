@@ -58,9 +58,9 @@
                     </svg>
                 </a>
                 <ul class="nav-links ms-3">
-                    <li><a class="nav-link active" href=" index.html">Shop</a></li>
+                    <li><a class="nav-link active" href="{{ url_for('index') }}">Shop</a></li>
                     <li style="margin-top: 5px; margin-bottom: 5px;"><a class="nav-link travel-link"
-                            href=" travel_landing.html"><i class="bi bi-airplane-engines-fill"></i>
+                            href="{{ url_for('travel_landing') }}"><i class="bi bi-airplane-engines-fill"></i>
                             Travel</a></li>
                 </ul>
                 <div class="nav-search-bar">
@@ -113,37 +113,36 @@
                             </div>
                             <div class="settings-divider"></div>
                             <div class="settings-panel-header">Account</div>
-                            <a class="settings-link-item" href=" account.html">
+                            <a class="settings-link-item" href="{{ url_for('account') }}">
                                 <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
                                     Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
                             </a>
-                            <a class="settings-link-item" href=" orders.html">
+                            <a class="settings-link-item" href="{{ url_for('orders') }}">
                                 <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
                                     Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
                             </a>
-                            <a class="settings-link-item" href=" seller.html">
+                            <a class="settings-link-item" href="{{ url_for('seller') }}">
                                 <div class="settings-item-icon"
                                     style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
                                         class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
                                     with Us</span><i class="bi bi-chevron-right ms-auto"
                                     style="font-size:0.7rem;color:var(--primary-nature);"></i>
                             </a>
-                            <a class="settings-link-item" href=" about.html">
+                            <a class="settings-link-item" href="{{ url_for('about') }}">
                                 <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
                                     UrbanMart</span><i class="bi bi-chevron-right ms-auto"
                                     style="font-size:0.7rem;"></i>
                             </a>
                         </div>
                     </div>
-                    <button class="nav-icon-btn" onclick="window.location.href=' cart.html'"
-                        title="Cart">
-                        <i class="bi bi-bag"></i>
+                    <a class="nav-icon-btn" href="{{ url_for('cart') }}" title="Cart" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+  <i class="bi bi-bag"></i>
                         <span class="cart-badge" id="cart-badge">0</span>
                     </button>
-                    <a id="login-nav-btn" class="nav-login-btn" href=" login.html"><i
+                    <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}"><i
                             class="bi bi-person-circle"></i>
                         Login</a>
-                    <a id="user-profile-btn" class="nav-login-btn d-none" href=" account.html"><i
+                    <a id="user-profile-btn" class="nav-login-btn d-none" href="{{ url_for('account') }}"><i
                             class="bi bi-person-circle"></i>
                         <span id="user-nav-name">Profile</span></a>
                     <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
@@ -224,15 +223,15 @@
     </div>
 
     <div class="nav-mobile-panel" id="mobilePanel">
-        <a class="mobile-nav-link" href=" index.html" onclick="closeAll()"><i class="bi bi-house"></i>
+        <a class="mobile-nav-link" href="{{ url_for('index') }}" onclick="closeAll()"><i class="bi bi-house"></i>
             Home</a>
-        <a class="mobile-nav-link" href=" index.html" onclick="closeAll()"><i class="bi bi-bag"></i>
+        <a class="mobile-nav-link" href="{{ url_for('index') }}" onclick="closeAll()"><i class="bi bi-bag"></i>
             Shop</a>
-        <a class="mobile-nav-link" href=" seller.html"><i class="bi bi-shop"></i> Partner with us</a>
+        <a class="mobile-nav-link" href="{{ url_for('seller') }}"><i class="bi bi-shop"></i> Partner with us</a>
         <div class="mobile-nav-divider"></div>
-        <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href=" login.html"
+        <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href="{{ url_for('login') }}"
             style="border-radius:12px;"><i class="bi bi-person-circle"></i> Login</a>
-        <a id="user-profile-btn-mobile" class="mobile-fab-btn login d-none" href=" account.html"
+        <a id="user-profile-btn-mobile" class="mobile-fab-btn login d-none" href="{{ url_for('account') }}"
             style="border-radius:12px;"><i class="bi bi-person-circle"></i> <span
                 id="user-nav-name-mobile">Profile</span></a>
     </div>
@@ -267,7 +266,7 @@
                                     style="background-image:url('https://images.unsplash.com/photo-1498049794561-7780e7231661?w=700')">
                                     <div class="wn-card-overlay"><span class="wn-tag wn-tag-dark">Electronics</span>
                                         <h4 class="wn-card-title-sm">Elite Tech Arrivals</h4><a
-                                            href=" electronic.html" class="wn-btn wn-btn-outline">Explore
+                                            href="{{ url_for('electronic') }}" class="wn-btn wn-btn-outline">Explore
                                             <i class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -291,7 +290,7 @@
                                         style="background:#e8748a;">Beauty</span>
                                     <h3 class="wn-card-title">Glow Up<br>Essentials '25</h3>
                                     <p class="wn-card-desc">Serums, mists & skin care — freshly restocked.</p><a
-                                        href=" beauty.html" class="wn-btn wn-btn-light">Shop Now <i
+                                        href="{{ url_for('beauty') }}" class="wn-btn wn-btn-light">Shop Now <i
                                             class="bi bi-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -301,7 +300,7 @@
                                     <div class="wn-card-overlay"><span class="wn-tag"
                                             style="background:#D4AF37;color:#1A1A1A;">Home</span>
                                         <h4 class="wn-card-title-sm">Living Room Refresh</h4><a
-                                            href=" Homesmart.html" class="wn-btn wn-btn-outline">Explore
+                                            href="{{ url_for('Homesmart') }}" class="wn-btn wn-btn-outline">Explore
                                             <i class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -309,7 +308,7 @@
                                     style="background-image:url('https://images.unsplash.com/photo-1585659722982-789758793322?w=700')">
                                     <div class="wn-card-overlay"><span class="wn-tag wn-tag-dark">Appliances</span>
                                         <h4 class="wn-card-title-sm">Smart Kitchen Gear</h4><a
-                                            href=" Homesmart.html" class="wn-btn wn-btn-outline">Shop Now
+                                            href="{{ url_for('Homesmart') }}" class="wn-btn wn-btn-outline">Shop Now
                                             <i class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -324,7 +323,7 @@
                                         style="background:#2563eb;">Mobiles</span>
                                     <h3 class="wn-card-title">Flagship Phones<br>Just Landed</h3>
                                     <p class="wn-card-desc">Top-tier specs, unbeatable prices — limited stock.</p><a
-                                        href=" mobile.html" class="wn-btn wn-btn-light">Shop Now <i
+                                        href="{{ url_for('mobile') }}" class="wn-btn wn-btn-light">Shop Now <i
                                             class="bi bi-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -333,7 +332,7 @@
                                     style="background-image:url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700')">
                                     <div class="wn-card-overlay"><span class="wn-tag wn-tag-dark">Audio</span>
                                         <h4 class="wn-card-title-sm">Noise Buds Pro Drop</h4><a
-                                            href=" electronic.html" class="wn-btn wn-btn-outline">Listen
+                                            href="{{ url_for('electronic') }}" class="wn-btn wn-btn-outline">Listen
                                             Up <i class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -342,7 +341,7 @@
                                     <div class="wn-card-overlay"><span class="wn-tag"
                                             style="background:#e11d48;">Toys</span>
                                         <h4 class="wn-card-title-sm">Kids' Favourites</h4><a
-                                            href=" Toys.html" class="wn-btn wn-btn-outline">Explore <i
+                                            href="{{ url_for('Toys') }}" class="wn-btn wn-btn-outline">Explore <i
                                                 class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -357,7 +356,7 @@
                                         style="background:#7c3aed;">Auto</span>
                                     <h3 class="wn-card-title">Drive In Style<br>This Season</h3>
                                     <p class="wn-card-desc">Car care kits, accessories & more — fully loaded.</p><a
-                                        href=" Auto.html" class="wn-btn wn-btn-light">Shop Now <i
+                                        href="{{ url_for('car') }}" class="wn-btn wn-btn-light">Shop Now <i
                                             class="bi bi-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -367,7 +366,7 @@
                                     <div class="wn-card-overlay"><span class="wn-tag" style="background:#c2410c;">2
                                             Wheelers</span>
                                         <h4 class="wn-card-title-sm">Helmet & Gear Up</h4><a
-                                            href=" two_Wheelers.html" class="wn-btn wn-btn-outline">Explore
+                                            href="{{ url_for('two_Wheelers') }}" class="wn-btn wn-btn-outline">Explore
                                             <i class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -376,7 +375,7 @@
                                     <div class="wn-card-overlay"><span class="wn-tag"
                                             style="background:#0369a1;">Books</span>
                                         <h4 class="wn-card-title-sm">New Reads In Stock</h4><a
-                                            href=" Books.html" class="wn-btn wn-btn-outline">Browse <i
+                                            href="{{ url_for('Books') }}" class="wn-btn wn-btn-outline">Browse <i
                                                 class="bi bi-arrow-right"></i></a>
                                     </div>
                                 </div>
@@ -391,7 +390,7 @@
                                         style="background:#9333ea;">Furniture</span>
                                     <h3 class="wn-card-title">Minimalist Homes<br>Made Beautiful</h3>
                                     <p class="wn-card-desc">Bookshelves, sofas & accent pieces — curated for you.</p><a
-                                        href=" Homesmart.html" class="wn-btn wn-btn-light">Shop Now <i
+                                        href="{{ url_for('Homesmart') }}" class="wn-btn wn-btn-light">Shop Now <i
                                             class="bi bi-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -444,32 +443,7 @@
 
 
 
-    <script>
-        const WN_TOTAL = 5, WN_DURATION = 4500;
-        let wnCurrent = 0, wnTimer = null;
-        const wnTrack = document.getElementById('wnTrack');
-        const wnDotsEl = document.getElementById('wnDots');
-        const wnBar = document.getElementById('wnProgressBar');
-        const wnBox = document.getElementById('wnSlideshow');
-        for (let i = 0; i < WN_TOTAL; i++) {
-            const d = document.createElement('button');
-            d.className = 'wn-dot' + (i === 0 ? ' active' : '');
-            d.setAttribute('aria-label', 'Slide ' + (i + 1));
-            d.addEventListener('click', () => wnGoTo(i));
-            wnDotsEl.appendChild(d);
-        }
-        function wnUpdateDots() { wnDotsEl.querySelectorAll('.wn-dot').forEach((d, i) => d.classList.toggle('active', i === wnCurrent)); }
-        function wnGoTo(idx) { wnCurrent = ((idx % WN_TOTAL) + WN_TOTAL) % WN_TOTAL; wnTrack.style.transform = `translateX(-${wnCurrent * 100}%)`; wnUpdateDots(); wnResetTimer(); }
-        function wnRunProgress() { wnBar.style.transition = 'none'; wnBar.style.width = '0%'; void wnBar.offsetWidth; wnBar.style.transition = `width ${WN_DURATION}ms linear`; wnBar.style.width = '100%'; }
-        function wnResetTimer() { clearInterval(wnTimer); wnRunProgress(); wnTimer = setInterval(() => wnGoTo(wnCurrent + 1), WN_DURATION); }
-        wnBox.addEventListener('mouseenter', () => { clearInterval(wnTimer); const computed = getComputedStyle(wnBar).width; wnBar.style.transition = 'none'; wnBar.style.width = computed; });
-        wnBox.addEventListener('mouseleave', () => wnResetTimer());
-        let wnTouchX = 0;
-        wnBox.addEventListener('touchstart', e => { wnTouchX = e.touches[0].clientX; }, { passive: true });
-        wnBox.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - wnTouchX; if (Math.abs(dx) > 40) wnGoTo(wnCurrent + (dx < 0 ? 1 : -1)); }, { passive: true });
-        wnResetTimer();
-    </script>
-
+    
     <!-- Product Grid -->
     <section id="shop" class="container py-3">
         <div id="product-sections"></div>
@@ -494,7 +468,7 @@
                         <button type="submit"
                             class="btn btn-success w-100 py-3 rounded-pill fw-bold shadow-sm mb-3">Sign In</button>
                     </form>
-                    <p class="small text-muted mb-0">New here? <a href=" login.html"
+                    <p class="small text-muted mb-0">New here? <a href="{{ url_for('login') }}"
                             style="color: var(--primary-nature);" class="fw-bold text-decoration-none">Create an
                             account</a></p>
                 </div>
@@ -550,10 +524,10 @@
                 <div class="um-footer-col">
                     <h6 class="um-footer-col-head">Company</h6>
                     <ul class="um-footer-links">
-                        <li><a href=" about.html">About UrbanMart</a></li>
+                        <li><a href="{{ url_for('about') }}">About UrbanMart</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">Press</a></li>
-                        <li><a href=" seller.html">Partner with Us</a></li>
+                        <li><a href="{{ url_for('seller') }}">Partner with Us</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms &amp; Conditions</a></li>
                     </ul>
@@ -585,424 +559,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="visual/js/products.js"></script>
 
-    <script>
-        // Keep tempIndex UI interactions
-        let settingsOpen = false;
-        function toggleSettings() {
-            settingsOpen = !settingsOpen;
-            const panel = document.getElementById('settingsPanel');
-            const btn = document.getElementById('settingsBtn');
-            if (panel) panel.classList.toggle('open', settingsOpen);
-            if (btn) btn.classList.toggle('active', settingsOpen);
-            document.getElementById('navBackdrop')?.classList.toggle('active', settingsOpen);
-            if (mobileOpen) closeMobile();
-        }
-        function closeSettings() {
-            settingsOpen = false;
-            document.getElementById('settingsPanel')?.classList.remove('open');
-            document.getElementById('settingsBtn')?.classList.remove('active');
-        }
-        function toggleSetting(id) { document.getElementById('toggle-' + id)?.classList.toggle('on'); }
-
-        let mobileOpen = false, searchOpen = false;
-        function toggleMobile() {
-            mobileOpen = !mobileOpen;
-            const panel = document.getElementById('mobilePanel');
-            const icon = document.getElementById('hamburgerIcon');
-            const backdrop = document.getElementById('navBackdrop');
-            if (mobileOpen) {
-                if (panel) { panel.style.display = 'flex'; requestAnimationFrame(() => panel.classList.add('open')); }
-                if (icon) icon.className = 'bi bi-x-lg';
-                backdrop?.classList.add('active');
-            } else { closeMobile(); }
-        }
-        function closeMobile() {
-            mobileOpen = false;
-            const panel = document.getElementById('mobilePanel');
-            const icon = document.getElementById('hamburgerIcon');
-            if (panel) {
-                panel.classList.remove('open');
-                setTimeout(() => { if (!mobileOpen) panel.style.display = 'none'; }, 350);
-            }
-            if (icon) icon.className = 'bi bi-list';
-        }
-        function closeAll() { closeMobile(); closeSettings(); document.getElementById('navBackdrop')?.classList.remove('active'); }
-        function toggleSearch() {
-            searchOpen = !searchOpen;
-            const overlay = document.getElementById('searchOverlay');
-            if (overlay) overlay.classList.toggle('active', searchOpen);
-            if (searchOpen) setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
-        }
-        function clearNavSearch() {
-            const input = document.getElementById('navSearchInput');
-            const clear = document.getElementById('navSearchClear');
-            if (input) input.value = '';
-            clear?.classList.remove('visible');
-            input?.focus();
-        }
-
-        // --- CART STATE LOGIC (IndexedDB) ---
-        let cartDB;
-        const cartRequest = indexedDB.open('PBSSDCartDB', 1);
-        cartRequest.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains('cart_state')) db.createObjectStore('cart_state');
-        };
-        cartRequest.onsuccess = (e) => {
-            cartDB = e.target.result;
-            refreshCartBadge();
-        };
-
-        function getCartBadgeEl() {
-            return document.getElementById('cart-badge') || document.getElementById('cartBadge');
-        }
-        function refreshCartBadge() {
-            if (!cartDB) return;
-            const tx = cartDB.transaction(['cart_state'], 'readonly');
-            const store = tx.objectStore('cart_state');
-            const getReq = store.get('count');
-            getReq.onsuccess = () => {
-                const badge = getCartBadgeEl();
-                if (badge) badge.innerText = getReq.result || 0;
-            };
-        }
-
-        // --- CORE LOGIC from index.html ---
-        const PRODUCTS_PER_CAT = 7;
-
-        // =====================================================================
-        // 🔗 CATEGORY PAGE LINKS — Add your page paths below for each category
-        // =====================================================================
-        const CAT_PAGE_LINKS = {
-            'Grocery': 'grocery.html',          // TODO: LINK → Grocery
-            'Fashion': 'fashion.html',          // TODO: LINK → Fashion
-            'Mobiles': '#',                                      // TODO: LINK → Mobiles
-            'Beauty': ' beauty.html',           // TODO: LINK → Beauty
-            'Electronics': '#',                                      // TODO: LINK → Electronics
-            'Home': '#',                                      // TODO: LINK → Home
-            'Appliances': '#',                                      // TODO: LINK → Appliances
-            'Toys': '#',                                      // TODO: LINK → Toys
-            'Food': '#',                                      // TODO: LINK → Food
-            'Auto': '#',                                      // TODO: LINK → Auto
-            '2 Wheelers': ' two_Wheelers.html',       // TODO: LINK → 2 Wheelers
-            'Books': '#',                                      // TODO: LINK → Books
-            'Furniture': '#',                                      // TODO: LINK → Furniture
-            'Sports': '#',                                      // TODO: LINK → Sports
-            'Medicines': '#',                                      // TODO: LINK → Medicines
-        };
-        // =====================================================================
-
-        function renderProductCard(p) {
-            const isFav = favourites.includes(p.id);
-            return `
-                <div class="pcard" onclick="window.location.href='product_detail.html?id=${p.id}'">
-                    <div class="pcard-img-wrap">
-                        <img src="${p.image}" class="pcard-img" alt="${p.name}" loading="lazy">
-                        <button class="pcard-wish ${isFav ? 'active' : ''}" id="wish-${p.id}" onclick="event.stopPropagation(); toggleFavourite(${p.id}, this)" title="Add to favourites">
-                            <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i>
-                        </button>
-                    </div>
-                    <div class="pcard-body">
-                        <h6 class="pcard-name" title="${p.name}">${p.name}</h6>
-                        <div class="pcard-stars mb-2">
-                            ${'<i class="bi bi-star-fill"></i>'.repeat(p.rating)}
-                            ${'<i class="bi bi-star" style="color:#e5e5e0;"></i>'.repeat(5 - p.rating)}
-                        </div>
-                        <div class="pcard-footer">
-                            <div class="pcard-price">${p.price}</div>
-                            <button class="pcard-add-btn" onclick="event.stopPropagation(); addToCart(${p.id})" title="Add to cart">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderProducts() {
-            const container = document.getElementById('product-sections');
-            if (!container) return;
-            container.innerHTML = categories.map(cat => {
-                const catProducts = products.filter(p => p.section === cat);
-                const sectionId = cat.replace(/\s+/g, '-');
-                const visibleProducts = catProducts.slice(0, PRODUCTS_PER_CAT);
-                const hasMore = catProducts.length > PRODUCTS_PER_CAT;
-                const pageLink = CAT_PAGE_LINKS[cat] || '#';
-
-                const viewAllCard = hasMore ? `
-                    <div class="viewall-card" onclick="window.location.href='${pageLink}'">
-                        <div class="viewall-card-inner">
-                            <div class="viewall-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
-                            <div class="viewall-count">+${catProducts.length - PRODUCTS_PER_CAT} more</div>
-                            <div class="viewall-label">View All</div>
-                        </div>
-                    </div>` : '';
-
-                return `
-                    <div class="cat-section" id="${sectionId}-section" data-aos="fade-up">
-                        <div class="cat-section-head">
-                            <div class="cat-section-left">
-                                <div class="cat-icon-blob" style="background:#f0f0ed;color:var(--primary-nature);"><i class="bi bi-grid"></i></div>
-                                <div class="cat-section-meta">
-                                    <h3 class="cat-section-title">${cat}</h3>
-                                    <span class="cat-section-count">${catProducts.length} products</span>
-                                </div>
-                            </div>
-                            <div class="cat-section-line"></div>
-                        </div>
-                        <div class="cat-scroll-wrap">
-                            <div class="cat-scroll" id="cat-scroll-${sectionId}">
-                                ${visibleProducts.map(p => renderProductCard(p)).join('')}
-                                ${viewAllCard}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function filterProducts(cat, el) {
-            document.querySelectorAll('.cat-pill, .category-pill').forEach(p => p.classList.remove('active'));
-            if (el) el.classList.add('active');
-            if (cat === 'All') {
-                const shop = document.getElementById('shop');
-                if (shop) window.scrollTo({ top: shop.offsetTop - 130, behavior: 'smooth' });
-                return;
-            }
-            const target = document.getElementById(`${cat.replace(/\s+/g, '-')}-section`);
-            if (target) window.scrollTo({ top: target.offsetTop - 130, behavior: 'smooth' });
-        }
-
-        // --- AUTH LOGIC from index.html ---
-        function checkAuth() {
-            const user = JSON.parse(localStorage.getItem('pbssd_user'));
-            const loginNav = document.getElementById('login-nav-btn');
-            const profileNav = document.getElementById('user-profile-btn');
-            const loginNavMobile = document.getElementById('login-nav-btn-mobile');
-            const profileNavMobile = document.getElementById('user-profile-btn-mobile');
-            const nameDesktop = document.getElementById('user-nav-name');
-            const nameMobile = document.getElementById('user-nav-name-mobile');
-
-            if (user) {
-                loginNav?.classList.add('d-none');
-                loginNavMobile?.classList.add('d-none');
-                profileNav?.classList.remove('d-none');
-                profileNavMobile?.classList.remove('d-none');
-                if (nameDesktop) nameDesktop.innerText = user.name || 'Profile';
-                if (nameMobile) nameMobile.innerText = user.name || 'Profile';
-                if (user.photo) {
-                    const img = document.getElementById('user-nav-photo');
-                    if (img) { img.src = user.photo; img.style.display = 'inline-block'; }
-                }
-            } else {
-                loginNav?.classList.remove('d-none');
-                loginNavMobile?.classList.remove('d-none');
-                profileNav?.classList.add('d-none');
-                profileNavMobile?.classList.add('d-none');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const input = document.getElementById('navSearchInput');
-            const clear = document.getElementById('navSearchClear');
-            input?.addEventListener('input', () => clear?.classList.toggle('visible', input.value.length > 0));
-            checkAuth();
-        });
-
-        document.getElementById('modalLoginForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('modalEmail')?.value;
-            const pass = document.getElementById('modalPass')?.value;
-            const request = indexedDB.open('PBSSDFreshAuthDB', 1);
-            request.onsuccess = (event) => {
-                const db = event.target.result;
-                const tx = db.transaction(['users'], 'readonly');
-                const store = tx.objectStore('users');
-                const getReq = store.get(email);
-                getReq.onsuccess = () => {
-                    const user = getReq.result;
-                    if (user && user.password === pass) {
-                        localStorage.setItem('pbssd_user', JSON.stringify({ name: user.name, email: user.email, photo: user.photo }));
-                        bootstrap.Modal.getInstance(document.getElementById('userLoginModal'))?.hide();
-                        checkAuth();
-                        Swal.fire({ icon: 'success', title: 'Welcome back!', timer: 1500, showConfirmButton: false });
-                    } else {
-                        Swal.fire({ icon: 'error', title: 'Invalid credentials' });
-                    }
-                };
-            };
-        });
-
-        function handleLogout() {
-            localStorage.removeItem('pbssd_user');
-            window.location.reload();
-        }
-
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            if (!localStorage.getItem('pbssd_user')) {
-                new bootstrap.Modal(document.getElementById('userLoginModal')).show();
-                return;
-            }
-            let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) existingItem.quantity += 1;
-            else cart.push({ ...product, quantity: 1 });
-            localStorage.setItem('pbssd_cart', JSON.stringify(cart));
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const badge = getCartBadgeEl();
-            if (badge) badge.innerText = count;
-            if (cartDB) {
-                const tx = cartDB.transaction(['cart_state'], 'readwrite');
-                tx.objectStore('cart_state').put(count, 'count');
-            }
-            Swal.fire({
-                title: 'Added!', toast: true, position: 'top-end',
-                showConfirmButton: false, timer: 1500, icon: 'success',
-                background: '#FAFAF7', color: '#1A1A1A'
-            });
-        }
-
-        function quickView(id) {
-            if (!localStorage.getItem('pbssd_user')) {
-                new bootstrap.Modal(document.getElementById('userLoginModal')).show();
-                return;
-            }
-            const p = products.find(x => x.id === id);
-            if (!p) return;
-            Swal.fire({
-                title: p.name,
-                text: p.description,
-                imageUrl: p.image,
-                imageWidth: 400,
-                confirmButtonText: 'Great!',
-                background: '#FAFAF7', color: '#1A1A1A'
-            });
-        }
-
-        // Category nav fades
-        const catScroll = document.getElementById('category-filters');
-        const catWrap = document.getElementById('catOverflowWrap');
-        function updateCatFades() {
-            if (!catScroll || !catWrap) return;
-            const { scrollLeft, scrollWidth, clientWidth } = catScroll;
-            catWrap.classList.toggle('show-left', scrollLeft > 8);
-            catWrap.classList.toggle('hide-right', scrollLeft + clientWidth >= scrollWidth - 8);
-        }
-        catScroll?.addEventListener('scroll', updateCatFades, { passive: true });
-        window.addEventListener('resize', updateCatFades);
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (searchOpen) toggleSearch(); if (mobileOpen) closeAll(); } });
-
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('.navbar');
-            const catBar = document.getElementById('categoryNavBar');
-            if (!nav || !catBar) return;
-            const navH = nav.getBoundingClientRect().height;
-            if (window.scrollY > 50) { nav.classList.add('scrolled'); catBar.classList.add('scrolled'); catBar.style.top = (navH - 10) + 'px'; }
-            else { nav.classList.remove('scrolled'); catBar.classList.remove('scrolled'); catBar.style.top = (navH + 4) + 'px'; }
-        });
-
-        // Keep favourites feature from temp page
-        let favourites = [];
-        let favDrawerOpen = false;
-        function toggleFavDrawer() {
-            favDrawerOpen = !favDrawerOpen;
-            document.getElementById('favDrawer')?.classList.toggle('open', favDrawerOpen);
-            document.getElementById('favBackdrop')?.classList.toggle('open', favDrawerOpen);
-        }
-        function toggleFavourite(productId, btn) {
-            const isFav = favourites.includes(productId);
-            if (isFav) {
-                // Remove from favourites
-                favourites = favourites.filter(id => id !== productId);
-                if (btn) {
-                    btn.classList.remove('active');
-                    const icon = btn.querySelector('i');
-                    if (icon) icon.className = 'bi bi-heart';
-                }
-                const iconBadge = document.getElementById('favIconBadge');
-                if (iconBadge) {
-                    iconBadge.textContent = favourites.length;
-                    iconBadge.style.display = favourites.length === 0 ? 'none' : 'flex';
-                }
-                renderFavDrawer();
-                Swal.fire({ title: 'Removed from Favourites', toast: true, position: 'top-end', showConfirmButton: false, timer: 1200, icon: 'info', background: '#FAFAF7', color: '#1A1A1A' });
-            } else {
-                // Add to favourites
-                favourites.push(productId);
-                if (btn) {
-                    btn.classList.add('active');
-                    const icon = btn.querySelector('i');
-                    if (icon) icon.className = 'bi bi-heart-fill';
-                }
-                const iconBadge = document.getElementById('favIconBadge');
-                if (iconBadge) {
-                    iconBadge.textContent = favourites.length;
-                    iconBadge.style.display = 'flex';
-                }
-                renderFavDrawer();
-                Swal.fire({ title: 'Saved to Favourites!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1400, icon: 'success', background: '#FAFAF7', color: '#1A1A1A' });
-            }
-        }
-        function addToFavourites(productId, btn) {
-            if (favourites.includes(productId)) return;
-            toggleFavourite(productId, btn);
-        }
-        function removeFromFavourites(productId) {
-            favourites = favourites.filter(id => id !== productId);
-            const iconBadge = document.getElementById('favIconBadge');
-            if (iconBadge) {
-                iconBadge.textContent = favourites.length;
-                iconBadge.style.display = favourites.length === 0 ? 'none' : 'flex';
-            }
-            renderFavDrawer();
-        }
-        function renderFavDrawer() {
-            const grid = document.getElementById('favGrid');
-            const empty = document.getElementById('favEmpty');
-            const count = document.getElementById('favDrawerCount');
-            if (!grid || !empty || !count) return;
-            count.textContent = favourites.length;
-            if (favourites.length === 0) {
-                empty.style.display = 'flex';
-                grid.innerHTML = '';
-                return;
-            }
-            empty.style.display = 'none';
-            grid.innerHTML = favourites.map(id => {
-                const p = products.find(x => x.id === id);
-                if (!p) return '';
-                return `
-                <div class="fav-item" id="fav-item-${id}">
-                    <img src="${p.image}" class="fav-item-img" alt="${p.name}">
-                    <div class="fav-item-info">
-                        <div class="fav-item-name">${p.name}</div>
-                        <div><span class="fav-item-price">${p.price}</span></div>
-                        <div class="fav-item-actions">
-                            <button class="fav-add-btn" onclick="addToCart(${id})"><i class="bi bi-bag-plus"></i> Add to Cart</button>
-                            <button class="fav-remove-btn" onclick="removeFromFavourites(${id})" title="Remove"><i class="bi bi-trash3"></i></button>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
-            AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
-            renderProducts();
-            checkAuth();
-            const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-            const badge = getCartBadgeEl();
-            if (badge) badge.innerText = cart.reduce((s, i) => s + i.quantity, 0);
-            setTimeout(updateCatFades, 50);
-            const nav = document.querySelector('.navbar');
-            const catBar = document.getElementById('categoryNavBar');
-            if (nav && catBar) catBar.style.top = (nav.getBoundingClientRect().height + 4) + 'px';
-        });
-    </script>
+    
 
     <!-- Favourites Drawer -->
     <div class="fav-backdrop" id="favBackdrop" onclick="toggleFavDrawer()"></div>
@@ -1024,7 +581,7 @@
             <div class="fav-grid" id="favGrid"></div>
         </div>
     </div>
-
+<script src="static/js/script.js" defer></script>
     
 </html>
 <!-- jiijxm -->
