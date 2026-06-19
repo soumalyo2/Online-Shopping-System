@@ -803,3 +803,19 @@ window.addEventListener('scroll', () => {
 // ── INIT ─────────────────────────────────────────────────────
 updateCartUI();
 updateWishlistUI();
+
+ window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
+            AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
+            renderProducts();
+            checkAuth();
+            const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+            const badge = getCartBadgeEl();
+            if (badge) badge.innerText = cart.reduce((s, i) => s + i.quantity, 0);
+            setTimeout(updateCatFades, 50);
+            const nav = document.querySelector('.navbar');
+            const catBar = document.getElementById('categoryNavBar');
+            if (nav && catBar) catBar.style.top = (nav.getBoundingClientRect().height + 4) + 'px';
+        });
+  
