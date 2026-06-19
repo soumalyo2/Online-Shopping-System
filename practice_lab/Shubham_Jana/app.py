@@ -147,7 +147,7 @@ def Medicine_and_Nutrients():
 def travel_landing():
     return render_template('travel_landing.html')
 
-@app.route('/seller.html')
+@app.route('/seller')
 def seller():
     return render_template('seller.html')
 
@@ -163,5 +163,12 @@ def about():
 def Food_AllProducts():
     return render_template('Food_AllProducts.html')
 
+@app.route('/two_Wheelers_AllProducts')
+def two_Wheelers_AllProducts():
+    return render_template('two_Wheelers_AllProducts.html')
+
+@app.route('/two_Wheelers_ProductDetails')
+def two_Wheelers_ProductDetails():
+    return render_template('two_Wheelers_ProductDetails.html')
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
