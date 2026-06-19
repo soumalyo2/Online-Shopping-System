@@ -1,5 +1,5 @@
 // =============================================
-// Medicine_&_Nutrients_ProductDetails.js
+// Medicine_And_Nutrients_ProductDetails.js
 // Dynamic product data, stars, like, gallery, related
 // =============================================
 
@@ -145,7 +145,7 @@ for (let i = 0; i < 20; i++) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.style.minWidth = '240px';
-    card.onclick = () => window.location.href = `Medicine_&_Nutrients_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=Related&rating=${p.rating}&reviews=${p.reviews}&brand=${encodeURIComponent(p.brand)}`;
+    card.onclick = () => window.location.href = `Medicine_And_Nutrients_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=Related&rating=${p.rating}&reviews=${p.reviews}&brand=${encodeURIComponent(p.brand)}`;
 
     card.innerHTML = `
         <div class="image-wrapper">

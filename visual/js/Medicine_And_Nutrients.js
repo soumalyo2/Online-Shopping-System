@@ -1,5 +1,5 @@
 // =============================================
-// Medicine_&_Nutrients.js — Hero Carousel + Dynamic Categories
+// Medicine_And_Nutrients.js — Hero Carousel + Dynamic Categories
 // Theme: Green, White & Black (Medical / Health)
 // =============================================
 
@@ -9,7 +9,7 @@ const heroProducts = [
         price: "$12.99",
         tag: "BESTSELLER",
         img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=600&h=600&fit=crop",
-        link: "Medicine_&_Nutrients_ProductDetails.html?name=Vitamin D3 5000 IU&price=$12.99&img=https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=600&h=600&fit=crop&cat=Vitamins&rating=4.9&reviews=24000&originalPrice=$19.99&desc=High-potency Vitamin D3 for bone health, immune support, and mood regulation. 120 softgels.&badge=Bestseller&brand=NatureMade",
+        link: "Medicine_And_Nutrients_ProductDetails.html?name=Vitamin D3 5000 IU&price=$12.99&img=https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=600&h=600&fit=crop&cat=Vitamins&rating=4.9&reviews=24000&originalPrice=$19.99&desc=High-potency Vitamin D3 for bone health, immune support, and mood regulation. 120 softgels.&badge=Bestseller&brand=NatureMade",
         bg: "linear-gradient(rgba(7, 15, 7, 0.88), rgba(45, 90, 39, 0.85)), url('https://images.unsplash.com/photo-1631549916768-4119b2e5f926?q=80&w=1600&h=900&fit=crop')",
         desc: "Boost your immunity and strengthen bones with pharmaceutical-grade Vitamin D3. Recommended by 9 out of 10 doctors."
     },
@@ -18,7 +18,7 @@ const heroProducts = [
         price: "$18.99",
         tag: "HEART HEALTH",
         img: "https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=600&h=600&fit=crop",
-        link: "Medicine_&_Nutrients_ProductDetails.html?name=Omega-3 Fish Oil&price=$18.99&img=https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=600&h=600&fit=crop&cat=Supplements&rating=4.8&reviews=31000&originalPrice=$29.99&desc=Triple-strength EPA/DHA for heart, brain, and joint health. 180 count.&badge=Top Rated&brand=Nordic Naturals",
+        link: "Medicine_And_Nutrients_ProductDetails.html?name=Omega-3 Fish Oil&price=$18.99&img=https://images.unsplash.com/photo-1550572017-edd951aa8f72?q=80&w=600&h=600&fit=crop&cat=Supplements&rating=4.8&reviews=31000&originalPrice=$29.99&desc=Triple-strength EPA/DHA for heart, brain, and joint health. 180 count.&badge=Top Rated&brand=Nordic Naturals",
         bg: "linear-gradient(rgba(7, 15, 7, 0.88), rgba(45, 90, 39, 0.85)), url('https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=1600&h=900&fit=crop')",
         desc: "Clinically-proven omega-3 formula for cardiovascular health. Molecularly distilled, no fishy aftertaste."
     },
@@ -27,7 +27,7 @@ const heroProducts = [
         price: "$15.99",
         tag: "STRESS RELIEF",
         img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=600&h=600&fit=crop",
-        link: "Medicine_&_Nutrients_ProductDetails.html?name=Ashwagandha KSM-66&price=$15.99&img=https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=600&h=600&fit=crop&cat=Herbal&rating=4.8&reviews=22000&originalPrice=$24.99&desc=Clinically-proven adaptogen for stress relief, energy, and focus.&badge=Organic&brand=Himalaya",
+        link: "Medicine_And_Nutrients_ProductDetails.html?name=Ashwagandha KSM-66&price=$15.99&img=https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=600&h=600&fit=crop&cat=Herbal&rating=4.8&reviews=22000&originalPrice=$24.99&desc=Clinically-proven adaptogen for stress relief, energy, and focus.&badge=Organic&brand=Himalaya",
         bg: "linear-gradient(rgba(7, 15, 7, 0.88), rgba(45, 90, 39, 0.85)), url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1600&h=900&fit=crop')",
         desc: "Ancient Ayurvedic wisdom meets modern science. Clinically-proven to reduce cortisol levels by 30%."
     }
@@ -283,13 +283,13 @@ function renderDynamicCategories() {
                     <span class="section-tagline">${cat.tagline}</span>
                     <h2>${cat.title}</h2>
                 </div>
-                <a href="Medicine_&_Nutrients_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                <a href="Medicine_And_Nutrients_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="product-scroll-container">
                 ${cat.products.map(p => {
                     const b = badgesPool[Math.floor(Math.random() * badgesPool.length)];
                     return `
-                    <div class="product-card" onclick="window.location.href='Medicine_&_Nutrients_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(cat.title)}&badge=${encodeURIComponent(b.text)}&brand=${encodeURIComponent(p.brand)}'">
+                    <div class="product-card" onclick="window.location.href='Medicine_And_Nutrients_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(cat.title)}&badge=${encodeURIComponent(b.text)}&brand=${encodeURIComponent(p.brand)}'">
                         <div class="image-wrapper">
                             <img src="${p.img}" class="product-image" alt="${p.name}">
                             <span class="product-badge ${b.class}">${b.text}</span>

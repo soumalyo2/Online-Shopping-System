@@ -1,5 +1,5 @@
 // =============================================
-// Medicine_&_Nutrients_AllProducts.js
+// Medicine_And_Nutrients_AllProducts.js
 // 55 Products, Filter, Sort, Wishlist, Stars
 // =============================================
 
@@ -118,7 +118,7 @@ function renderProducts(products) {
     products.forEach(p => {
         const card = document.createElement('div');
         card.className = 'all-product-card';
-        const detailUrl = `Medicine_&_Nutrients_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent('$' + p.price.toFixed(2))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent('$' + p.originalPrice.toFixed(2)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}&brand=${encodeURIComponent(p.brand)}`;
+        const detailUrl = `Medicine_And_Nutrients_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent('$' + p.price.toFixed(2))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent('$' + p.originalPrice.toFixed(2)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}&brand=${encodeURIComponent(p.brand)}`;
 
         let discountHTML = '';
         if (p.originalPrice) {
