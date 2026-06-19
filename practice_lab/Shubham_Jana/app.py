@@ -95,5 +95,57 @@ def fashion():
 def cart():
     return render_template('cart.html')
 
+@app.route('/mobile')
+def mobile():
+    return render_template('mobile.html')
+
+@app.route('/beauty')
+def beauty():
+    return render_template('beauty.html')
+
+@app.route('/pet')
+def pet():
+    return render_template('pet.html')
+
+@app.route('/electronic')
+def electronic():
+    return render_template('electronic.html')
+
+@app.route('/Homesmart')
+def Homesmart():
+    return render_template('Homesmart.html')
+
+@app.route('/Toys')
+def Toys():
+    return render_template('Toys.html')
+
+@app.route('/Food')
+def Food():
+    return render_template('Food.html')
+
+@app.route('/car')
+def car():
+    return render_template('car.html')
+
+@app.route('/two_Wheelers')
+def two_Wheelers():
+    return render_template('two_Wheelers.html')
+
+@app.route('/Books')
+def Books():
+    return render_template('Books.html')
+
+@app.route('/Fitness_and_Sports')
+def Fitness_and_Sports():
+    return render_template('Fitness_and_Sports.html')
+
+@app.route('/Medicine_and_Nutrients')
+def Medicine_and_Nutrients():
+    return render_template('Medicine_and_Nutrients.html')
+
+@app.route('/travel_landing')
+def travel_landing():
+    return render_template('travel_landing.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
