@@ -13,517 +13,12 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:wght@500;600;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/mobile.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="static/css/navbar.css">
 
-  <style>
-    /* ── MOBILE SPECIFIC STYLES ── */
-    *, *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --ivory: #FAFAF7;
-      --white: #FFFFFF;
-      --primary-mobile: #5A8A5A; /* UrbanMart Sage Green */
-      --secondary-mobile: #3A6A3A; /* Deep Green */
-      --accent-mobile: #5A8A5A; 
-      --sage: #5A8A5A; /* Keeping branding color from grocery for continuity */
-      --deep: #3A6A3A;
-      --black: #1A1A1A;
-      --gray: #777777;
-      --border: #E5E5E0;
-      --radius: 16px;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--ivory);
-      font-family: 'DM Sans', sans-serif;
-      color: var(--black);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    h1, h2, h3, .section-title {
-      font-family: 'Lora', serif;
-    }
-
-    /* ── ANNOUNCEMENT ── */
-    .announcement {
-      background: var(--accent-mobile);
-      color: white;
-      text-align: center;
-      padding: 0.55rem;
-      margin-top: 15px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-
-    /* ── HERO SLIDER ── */
-    .hero-slider {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 540px;
-      background: #f8faf7;
-    }
-
-    .slides-track {
-      display: flex;
-      height: 100%;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      will-change: transform;
-    }
-
-    .slide {
-      min-width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 8%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slide-0 {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1696041756125-257354c459a9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNhbXN1bmclMjBtb2JpbGVzJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .slide-1 {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1770740383117-52ef1e0d8dc8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aXBob25lJTIwbW9iaWxlcyUyMGltYWdlfGVufDB8fDB8fHww');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .slide-2 {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1677086626278-efe3e5b8af12?auto=format&fit=crop&q=80&w=2000');
-      background-size: cover;
-      background-position: center;
-    }
-    
-    .slide-3 {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=2000');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .slide-content {
-      flex: 1;
-      z-index: 2;
-      animation: slideIn 0.6s ease both;
-    }
-
-    .slide-tag {
-      display: inline-block;
-      background: var(--primary-mobile);
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.85rem;
-      border-radius: 20px;
-      margin-bottom: 1.2rem;
-    }
-
-    .slide-content h1 {
-      font-size: clamp(2.2rem, 3.5vw, 3.4rem);
-      font-weight: 600;
-      line-height: 1.18;
-      color: var(--white);
-      margin-bottom: 0.9rem;
-    }
-
-    .slide-content h1 em {
-      color: var(--accent-mobile);
-      font-style: normal;
-    }
-
-    .slide-content p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1rem;
-      max-width: 400px;
-      margin-bottom: 1.8rem;
-      line-height: 1.7;
-    }
-
-    .btn-primary-mobile {
-      background: var(--primary-mobile);
-      color: #fff;
-      border: none;
-      padding: 0.8rem 1.8rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-primary-mobile:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
-
-    .slider-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: white;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: var(--primary-mobile);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    }
-
-    .arrow-prev {
-      left: 24px;
-    }
-
-    .arrow-next {
-      right: 24px;
-    }
-
-    .slider-dots {
-      position: absolute;
-      bottom: 1.4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.5rem;
-      z-index: 10;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.4);
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .dot.active {
-      width: 24px;
-      background: var(--accent-mobile);
-    }
-
-    /* ── CATEGORY PILLS ── */
-    .section {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 3rem 5%;
-    }
-
-    .section-label {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--secondary-mobile);
-      margin-bottom: 0.6rem;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--black);
-      margin-bottom: 1.5rem;
-    }
-
-    .pills {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
-
-    .pill {
-      background: var(--white);
-      color: var(--black);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.2rem;
-      border-radius: 25px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .pill:hover,
-    .pill.active {
-      background: var(--secondary-mobile);
-      color: #fff;
-      border-color: var(--secondary-mobile);
-    }
-
-    /* ── PRODUCT GRID ── */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .product-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-
-    .product-card:hover {
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-      transform: translateY(-5px);
-    }
-
-    .product-img {
-      background: #f8f9fa;
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .product-img img {
-      width: 80%;
-      height: 80%;
-      object-fit: contain;
-    }
-
-    .product-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--primary-mobile);
-      color: #fff;
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 0.2rem 0.6rem;
-      border-radius: 8px;
-    }
-
-    .product-info {
-      padding: 1.2rem;
-    }
-
-    .product-info h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-
-    .product-info .sub {
-      font-size: 0.8rem;
-      color: var(--gray);
-      margin-bottom: 1rem;
-    }
-
-    .price {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--primary-mobile);
-    }
-
-    .add-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--secondary-mobile);
-      border: none;
-      color: #fff;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s;
-    }
-
-    .add-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* ── PROMO BANNER ── */
-    .banner {
-      background: linear-gradient(135deg, var(--primary-mobile) 0%, var(--secondary-mobile) 100%);
-      border-radius: 24px;
-      padding: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #fff;
-      margin: 2rem 0;
-    }
-
-    .banner h2 {
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
-    }
-
-    /* ── WISHLIST BUTTON ── */
-    .wishlist-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #fff;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gray);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: all 0.2s;
-    }
-
-    .wishlist-btn.active {
-      color: #e11d48;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .hero-slider { height: 400px; }
-      .slide-products { display: none; }
-      .banner { flex-direction: column; text-align: center; gap: 1.5rem; padding: 2rem; }
-    }
-
-    /* ── FAVOURITES DRAWER (SYNCED WITH INDEX.HTML) ── */
-    .fav-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1900;
-      background: rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(4px);
-    }
-    .fav-backdrop.open { display: block; }
-
-    .fav-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 420px;
-      max-width: 96vw;
-      background: var(--ivory);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: -12px 0 48px rgba(0, 0, 0, 0.14);
-    }
-    .fav-drawer.open { transform: translateX(0); }
-
-    .fav-drawer-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 22px 18px;
-      border-bottom: 0.5px solid var(--border);
-      flex-shrink: 0;
-    }
-    .fav-drawer-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-    .fav-drawer-count {
-      font-family: var(--body-font);
-      font-size: 0.72rem;
-      font-weight: 800;
-      background: #e11d48;
-      color: white;
-      border-radius: 50px;
-      padding: 2px 8px;
-    }
-    .fav-drawer-close {
-      width: 36px; height: 36px;
-      border: 0.5px solid var(--border);
-      border-radius: 10px;
-      background: white;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1rem; color: var(--gray);
-    }
-    .fav-drawer-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px;
-      scrollbar-width: thin;
-    }
-    .fav-empty {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 60px 24px; text-align: center;
-    }
-    .fav-empty-icon {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: #fff0f2;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem; color: #e11d48;
-      margin-bottom: 18px;
-    }
-    .fav-grid { display: flex; flex-direction: column; gap: 12px; }
-    .fav-item {
-      display: flex; align-items: center; gap: 14px;
-      background: white; border: 0.5px solid var(--border);
-      border-radius: 14px; padding: 12px; transition: all 0.3s ease;
-    }
-    .fav-item:hover {
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
-    }
-    .fav-item-img {
-      width: 72px; height: 72px;
-      border-radius: 10px; object-fit: cover; flex-shrink: 0;
-    }
-    .fav-item-info { flex: 1; min-width: 0; }
-    .fav-item-name { font-weight: 600; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
-    .fav-item-price { font-size: 0.92rem; font-weight: 700; color: var(--primary-mobile); }
-    .fav-item-actions { display: flex; gap: 6px; margin-top: 8px; }
-    .fav-add-btn {
-      font-size: 0.74rem; font-weight: 700;
-      background: var(--primary-mobile); color: white;
-      border: none; border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: all 0.2s;
-    }
-    .fav-add-btn:hover { filter: brightness(0.9); }
-    .fav-remove-btn {
-      width: 28px; height: 28px;
-      border: 0.5px solid var(--border);
-      border-radius: 8px; background: white;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 0.78rem; color: var(--gray);
-      transition: all 0.2s;
-    }
-    .fav-remove-btn:hover {
-      background: #fff0f2; color: #e11d48; border-color: #fecdd3;
-    }
-  </style>
+ 
 </head>
 
 <body>
@@ -553,7 +48,7 @@
   <nav class="navbar animate__animated animate__fadeInDown">
     <div class="container">
       <div class="navbar-inner w-100">
-        <a class="navbar-brand fw-bold" href="../../index.html"
+        <a class="navbar-brand fw-bold" href="static/static/index.html"
           style="display:flex;align-items:center;gap:0;text-decoration:none;">
           <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
             style="flex-shrink:0;">
@@ -571,7 +66,7 @@
           </svg>
         </a>
         <ul class="nav-links ms-3">
-          <li><a class="nav-link" href="../../index.html#shop">Shop</a></li>
+          <li><a class="nav-link" href="static/static/index.html#shop">Shop</a></li>
         </ul>
         <div class="nav-search-bar">
           <i class="bi bi-search nav-search-icon"></i>
@@ -657,79 +152,80 @@
   </nav>
 
   <!-- ── CATEGORY NAV BAR ── -->
-  <div class="category-nav-bar" id="categoryNavBar">
-    <div class="category-nav-overflow-wrap" id="catOverflowWrap">
-      <div class="category-nav-scroll" id="category-filters">
-        <div class="cat-pill" data-cat="For You" onclick="window.location.href='../../index.html#shop'"><i
-                class="bi bi-grid-fill"></i> For You</div>
+     <div class="category-nav-bar" id="categoryNavBar">
+        <div class="category-nav-overflow-wrap" id="catOverflowWrap">
+            <div class="category-nav-scroll" id="category-filters">
+                <div class="cat-pill active" data-cat="For You" onclick="filterProducts('All', this)"><i
+                        class="bi bi-grid-fill"></i> For You</div>
 
-        <a style="text-decoration: none; color: inherit; "
-                href="grocery.html"><div class="cat-pill" data-cat="Grocery"><i
-                class="bi bi-cart"></i> Grocery</div></a>
+                <a style="text-decoration: none; color: inherit; "
+                        href="{{ url_for('grocery') }}"><div class="cat-pill" data-cat="Grocery" onclick="filterProducts('Grocery', this)"><i
+                        class="bi bi-cart"></i> Grocery</div></a>
 
-        <a style="text-decoration: none; color: inherit; "
-                href="fashion.html"><div class="cat-pill" data-cat="Fashion"><i
-                class="bi bi-bag-heart"></i> Fashion</div></a>
+                <a style="text-decoration: none; color: inherit; "
+                        href="{{ url_for('fashion') }}"><div class="cat-pill" data-cat="Fashion" onclick="filterProducts('Fashion', this)"><i
+                        class="bi bi-bag-heart"></i> Fashion</div></a>
 
-        <a style="text-decoration: none; color: inherit; "
-                href="mobile.html"><div class="cat-pill active" data-cat="Mobiles"><i
-                class="bi bi-phone"></i> Mobiles </div></a>
+                <a style="text-decoration: none; color: inherit; "
+                        href=" {{ url_for('mobile') }}"><div class="cat-pill" data-cat="Mobiles" onclick="filterProducts('Mobiles', this)"><i
+                        class="bi bi-phone"></i> Mobiles </div></a>
 
-        <a style="text-decoration: none; color: inherit; "
-                href="beauty.html"><div class="cat-pill" data-cat="Beauty"><i
-                class="bi bi-stars"></i>Beauty</div></a>
+                <a style="text-decoration: none; color: inherit; "
+                        href=" {{ url_for('beauty') }}"><div class="cat-pill" data-cat="Beauty" onclick="filterProducts('Beauty', this)"><i
+                        class="bi bi-stars"></i>Beauty</div></a>
 
-        <a style="text-decoration: none; color: inherit; "
-                href="pet.html"><div class="cat-pill" data-cat="pet"><i
-                class="bi bi-tencent-qq"></i>Pet</div></a>
+                <a style="text-decoration: none; color: inherit; "
+                        href=" {{ url_for('pet') }}"><div class="cat-pill" data-cat="pet" onclick="filterProducts('pet', this)"><i
+                        class="bi bi-tencent-qq"></i>Pet</div></a>
 
-        <a href="electronic.html"
-                style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Electronics"><i
-                class="bi bi-cpu"></i>Electronics</div></a>
+                <a href=" {{ url_for('electronic') }}"
+                        style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Electronics" onclick="filterProducts('Electronics', this)"><i
+                        class="bi bi-cpu"></i>Electronics</div></a>
 
-        <a href="Homesmart.html"
-                style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Home"><i
-                class="bi bi-house"></i> Home </div></a>
+                <a href=" {{ url_for('Homesmart') }}"
+                        style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Home" onclick="filterProducts('Home', this)"><i
+                        class="bi bi-house"></i> Home </div></a>
 
-        <a href="Homesmart.html"
-                style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Appliances"><i
-                class="bi bi-lightning-charge"></i> Appliances</div></a>
+                <a href="{{ url_for('Homesmart') }}"
+                        style="text-decoration: none; color: inherit;"> <div class="cat-pill" data-cat="Appliances" onclick="filterProducts('Appliances', this)"><i
+                        class="bi bi-lightning-charge"></i> Appliances</div></a>
 
-        <a href="Toys.html"
-                style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Toys"><i
-                class="bi bi-controller"></i>Toys</div></a>
+                <a href=" {{ url_for('Toys') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Toys" onclick="filterProducts('Toys', this)"><i
+                        class="bi bi-controller"></i>Toys</div></a>
 
-        <a href="Food.html"
-                style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Food"><i
-                class="bi bi-basket"></i> Food</div></a>
+                <a href="{{ url_for('Food') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Food" onclick="filterProducts('Food', this)"><i
+                        class="bi bi-basket"></i> Food</div></a>
 
-        <a href="car.html"
-                style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Auto"><i class="bi bi-car-front"></i> Auto</div></a>
-                
-        <a href="2_Wheelers.html"
-                style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler </div></a>
+                <a href="{{ url_for('car') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Auto" onclick="filterProducts('Auto', this)"><i class="bi bi-car-front"></i> Auto</div></a>
+                        
+                <a href="{{ url_for('two_Wheelers') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler </div></a>
 
-        <a href="Books.html" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books"><i class="bi bi-book"></i> Books </div></a>
+                <a href="{{ url_for('Books') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books" onclick="filterProducts('Books', this)"><i class="bi bi-book"></i> Books </div></a>
 
-        <a href="Homesmart.html" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Furniture">
-                <i class="bi bi-lamp"></i> Furniture</div></a>
-                
-        <a href="Fitness_&_Sports.html"
-                style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Furniture" onclick="filterProducts('Furniture', this)">
+                        <i class="bi bi-lamp"></i> Furniture</div></a>
+                        
+                <a href="{{ url_for('Fitness_and_Sports') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
 
-        <a href="Medicine_&_Nutrients.html"
-                style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
+                <a href="{{ url_for('Medicine_and_Nutrients') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
 
-         <a href="travel_landing.html" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel">
-            <span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel </div></a>
-      </div>
+                 <a href="{{ url_for('travel_landing') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel">
+                    <span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel </div></a>
+
+            </div>
+        </div>
     </div>
-  </div>
 
   <!-- ── MOBILE PANEL ── -->
   <div class="nav-mobile-panel" id="mobilePanel">
-    <a class="mobile-nav-link" href="../../index.html#home" onclick="closeAll()"><i class="bi bi-house"></i> Home</a>
-    <a class="mobile-nav-link" href="../../index.html#shop" onclick="closeAll()"><i class="bi bi-bag"></i> Shop</a>
+    <a class="mobile-nav-link" href="static/static/index.html#home" onclick="closeAll()"><i class="bi bi-house"></i> Home</a>
+    <a class="mobile-nav-link" href="static/static/index.html#shop" onclick="closeAll()"><i class="bi bi-bag"></i> Shop</a>
     <a class="mobile-nav-link" href="seller.html"><i class="bi bi-shop"></i> Partner with us</a>
     <div class="mobile-nav-divider"></div>
     <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href="login.html"
@@ -1009,369 +505,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-  <script>
-    // --- UI Interactions ---
-    let settingsOpen = false;
-    function toggleSettings() {
-        settingsOpen = !settingsOpen;
-        const panel = document.getElementById('settingsPanel');
-        const btn = document.getElementById('settingsBtn');
-        if (panel) panel.classList.toggle('open', settingsOpen);
-        if (btn) btn.classList.toggle('active', settingsOpen);
-        document.getElementById('navBackdrop')?.classList.toggle('active', settingsOpen);
-        if (mobileOpen) closeMobile();
-    }
-    function closeSettings() {
-        settingsOpen = false;
-        document.getElementById('settingsPanel')?.classList.remove('open');
-        document.getElementById('settingsBtn')?.classList.remove('active');
-    }
-    function toggleSetting(id) { document.getElementById('toggle-' + id)?.classList.toggle('on'); }
-
-    let mobileOpen = false, searchOpen = false;
-    function toggleMobile() {
-        mobileOpen = !mobileOpen;
-        const panel = document.getElementById('mobilePanel');
-        const icon = document.getElementById('hamburgerIcon');
-        const backdrop = document.getElementById('navBackdrop');
-        if (mobileOpen) {
-            if (panel) { panel.style.display = 'flex'; requestAnimationFrame(() => panel.classList.add('open')); }
-            if (icon) icon.className = 'bi bi-x-lg';
-            backdrop?.classList.add('active');
-        } else { closeMobile(); }
-    }
-    function closeMobile() {
-        mobileOpen = false;
-        const panel = document.getElementById('mobilePanel');
-        const icon = document.getElementById('hamburgerIcon');
-        if (panel) {
-            panel.classList.remove('open');
-            setTimeout(() => { if (!mobileOpen) panel.style.display = 'none'; }, 350);
-        }
-        if (icon) icon.className = 'bi bi-list';
-    }
-    function closeAll() { closeMobile(); closeSettings(); document.getElementById('navBackdrop')?.classList.remove('active'); }
-    function toggleSearch() {
-        searchOpen = !searchOpen;
-        const overlay = document.getElementById('searchOverlay');
-        if (overlay) overlay.classList.toggle('active', searchOpen);
-        if (searchOpen) setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
-    }
-    function clearNavSearch() {
-        const input = document.getElementById('navSearchInput');
-        const clear = document.getElementById('navSearchClear');
-        if (input) input.value = '';
-        clear?.classList.remove('visible');
-        input?.focus();
-    }
-
-    // --- WISHLIST LOGIC ---
-    let favourites = JSON.parse(localStorage.getItem('pbssd_mobile_favs') || '[]');
-    let favDrawerOpen = false;
-
-    function toggleFavDrawer() {
-        favDrawerOpen = !favDrawerOpen;
-        document.getElementById('favDrawer')?.classList.toggle('open', favDrawerOpen);
-        document.getElementById('favBackdrop')?.classList.toggle('open', favDrawerOpen);
-    }
-
-    function toggleFavourite(productId, btn) {
-        const isFav = favourites.includes(productId);
-        if (isFav) {
-            favourites = favourites.filter(id => id !== productId);
-            if (btn) {
-                btn.classList.remove('active');
-                const icon = btn.querySelector('i');
-                if (icon) icon.className = 'bi bi-heart';
-            }
-            const iconBadge = document.getElementById('favIconBadge');
-            if (iconBadge) {
-                iconBadge.textContent = favourites.length;
-                iconBadge.style.display = favourites.length === 0 ? 'none' : 'flex';
-            }
-            localStorage.setItem('pbssd_mobile_favs', JSON.stringify(favourites));
-            renderFavDrawer();
-            Swal.fire({ title: 'Removed from Favourites', toast: true, position: 'top-end', showConfirmButton: false, timer: 1200, icon: 'info', background: '#FAFAF7', color: '#1A1A1A' });
-        } else {
-            favourites.push(productId);
-            if (btn) {
-                btn.classList.add('active');
-                const icon = btn.querySelector('i');
-                if (icon) icon.className = 'bi bi-heart-fill';
-            }
-            const iconBadge = document.getElementById('favIconBadge');
-            if (iconBadge) {
-                iconBadge.textContent = favourites.length;
-                iconBadge.style.display = 'flex';
-            }
-            localStorage.setItem('pbssd_mobile_favs', JSON.stringify(favourites));
-            renderFavDrawer();
-            Swal.fire({ title: 'Saved to Favourites!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1400, icon: 'success', background: '#FAFAF7', color: '#1A1A1A' });
-        }
-    }
-
-    function removeFromFavourites(productId) {
-        favourites = favourites.filter(id => id !== productId);
-        localStorage.setItem('pbssd_mobile_favs', JSON.stringify(favourites));
-        const iconBadge = document.getElementById('favIconBadge');
-        if (iconBadge) {
-            iconBadge.textContent = favourites.length;
-            iconBadge.style.display = favourites.length === 0 ? 'none' : 'flex';
-        }
-        renderFavDrawer();
-        syncWishlistButtons();
-    }
-
-    function renderFavDrawer() {
-        const grid = document.getElementById('favGrid');
-        const empty = document.getElementById('favEmpty');
-        const count = document.getElementById('favDrawerCount');
-        if (!grid || !empty || !count) return;
-        count.textContent = favourites.length;
-        if (favourites.length === 0) {
-            empty.style.display = 'flex';
-            grid.innerHTML = '';
-            return;
-        }
-        empty.style.display = 'none';
-        grid.innerHTML = favourites.map(id => {
-            const p = mobileProducts.find(x => x.id === id);
-            if (!p) return '';
-            return `
-            <div class="fav-item" id="fav-item-${id}">
-                <img src="${p.image}" class="fav-item-img" alt="${p.name}" style="width:72px;height:72px;border-radius:10px;object-fit:cover;">
-                <div class="fav-item-info" style="flex:1;margin-left:12px;">
-                    <div class="fav-item-name" style="font-weight:600;font-size:0.9rem;">${p.name}</div>
-                    <div><span class="fav-item-price" style="color:var(--primary-mobile);font-weight:700;">${p.price}</span></div>
-                    <div class="fav-item-actions" style="display:flex;gap:8px;margin-top:8px;">
-                        <button class="fav-add-btn" onclick="handleAddToCart('${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.image}', ${p.id})" style="font-size:0.75rem;padding:4px 10px;background:var(--primary-mobile);color:white;border:none;border-radius:6px;">Add</button>
-                        <button class="fav-remove-btn" onclick="removeFromFavourites(${id})" style="background:none;border:none;color:var(--gray);"><i class="bi bi-trash3"></i></button>
-                    </div>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    function syncWishlistButtons() {
-        document.querySelectorAll('.wishlist-btn').forEach(btn => {
-            const card = btn.closest('.product-card');
-            const id = parseInt(card?.dataset.id);
-            const isFav = favourites.includes(id);
-            btn.classList.toggle('active', isFav);
-            btn.innerHTML = isFav ? '<i class="bi bi-heart-fill"></i>' : '<i class="bi bi-heart"></i>';
-        });
-    }
-
-    // --- CART STATE LOGIC (IndexedDB) ---
-    let cartDB;
-    const cartRequest = indexedDB.open('PBSSDCartDB', 1);
-    cartRequest.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains('cart_state')) db.createObjectStore('cart_state');
-    };
-    cartRequest.onsuccess = (e) => {
-        cartDB = e.target.result;
-        refreshCartBadge();
-    };
-
-    function getCartBadgeEl() {
-        return document.getElementById('cart-badge') || document.getElementById('cartBadge');
-    }
-    function refreshCartBadge() {
-        if (!cartDB) return;
-        const tx = cartDB.transaction(['cart_state'], 'readonly');
-        const store = tx.objectStore('cart_state');
-        const getReq = store.get('count');
-        getReq.onsuccess = () => {
-            const badge = getCartBadgeEl();
-            if (badge) badge.innerText = getReq.result || 0;
-        };
-    }
-
-    function checkAuth() {
-        const user = JSON.parse(localStorage.getItem('pbssd_user'));
-        const loginNav = document.getElementById('login-nav-btn');
-        const profileNav = document.getElementById('user-profile-btn');
-        const loginNavMobile = document.getElementById('login-nav-btn-mobile');
-        const profileNavMobile = document.getElementById('user-profile-btn-mobile');
-        const nameDesktop = document.getElementById('user-nav-name');
-        const nameMobile = document.getElementById('user-nav-name-mobile');
-
-        if (user) {
-            loginNav?.classList.add('d-none');
-            loginNavMobile?.classList.add('d-none');
-            profileNav?.classList.remove('d-none');
-            profileNavMobile?.classList.remove('d-none');
-            if (nameDesktop) nameDesktop.innerText = user.name || 'Profile';
-            if (nameMobile) nameMobile.innerText = user.name || 'Profile';
-        } else {
-            loginNav?.classList.remove('d-none');
-            loginNavMobile?.classList.remove('d-none');
-            profileNav?.classList.add('d-none');
-            profileNavMobile?.classList.add('d-none');
-        }
-    }
-
-    function handleAddToCart(name, price, img, productId) {
-        if (!localStorage.getItem('pbssd_user')) {
-            new bootstrap.Modal(document.getElementById('userLoginModal')).show();
-            return;
-        }
-        let lsCart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-        const exLs = lsCart.find(i => i.id === productId);
-        if (exLs) exLs.quantity = (exLs.quantity || 1) + 1;
-        else lsCart.push({ id: productId, name, price, image: img, quantity: 1 });
-        localStorage.setItem('pbssd_cart', JSON.stringify(lsCart));
-
-        const count = lsCart.reduce((sum, item) => sum + item.quantity, 0);
-        const badge = getCartBadgeEl();
-        if (badge) badge.innerText = count;
-
-        if (cartDB) {
-            const tx = cartDB.transaction(['cart_state'], 'readwrite');
-            tx.objectStore('cart_state').put(count, 'count');
-        }
-        
-        Swal.fire({ title: 'Added to Bag!', text: `${name} is ready for checkout.`, toast: true, position: 'top-end', showConfirmButton: false, timer: 1500, icon: 'success', background: '#FAFAF7' });
-    }
-
-    // --- SLIDER LOGIC ---
-    const track = document.getElementById('slidesTrack');
-    const dotsContainer = document.getElementById('sliderDots');
-    const totalSlides = track.children.length;
-    let current = 0;
-    let autoTimer;
-
-    for (let i = 0; i < totalSlides; i++) {
-        const d = document.createElement('button');
-        d.className = 'dot' + (i === 0 ? ' active' : '');
-        d.addEventListener('click', () => goTo(i));
-        dotsContainer.appendChild(d);
-    }
-
-    function goTo(n) {
-        current = (n + totalSlides) % totalSlides;
-        track.style.transform = `translateX(-${current * 100}%)`;
-        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-        resetTimer();
-    }
-
-    function resetTimer() {
-        clearInterval(autoTimer);
-        autoTimer = setInterval(() => goTo(current + 1), 5000);
-    }
-
-    document.getElementById('arrowPrev').addEventListener('click', () => goTo(current - 1));
-    document.getElementById('arrowNext').addEventListener('click', () => goTo(current + 1));
-    resetTimer();
-
-    // --- MOBILE PRODUCTS DATA ---
-    const mobileProducts = [
-        { id: 1001, name: 'Galaxy S24 Ultra', brand: 'samsung', category: 'smartphones', price: '₹1,24,999', image: 'https://images.unsplash.com/photo-1690788056245-025bd89708a1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2Ftc3VuZyUyMG1vYmlsZXxlbnwwfHwwfHx8MA%3D%3D', sub: '12GB RAM · 512GB Storage', badge: 'NEW' },
-        { id: 1002, name: 'Galaxy Tab S9', brand: 'samsung', category: 'tablets', price: '₹72,999', image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&q=80&w=400https://images.unsplash.com/photo-1726839643381-901c3eabffb8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGlwaG9uZSUyMG1vYmlsZXxlbnwwfHwwfHx8MA%3D%3D', sub: 'AMOLED Display · S-Pen', badge: 'BEST' },
-        { id: 1003, name: 'iPhone 15 Pro', brand: 'iphone', category: 'smartphones', price: '₹1,29,900', image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba3f21?auto=format&fit=crop&q=80&w=400', sub: 'Titanium · A17 Pro', badge: 'HOT' },
-        { id: 1004, name: 'iPad Air M2', brand: 'iphone', category: 'tablets', price: '₹54,900', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=400', sub: 'M2 Chip · 11-inch', badge: 'POPULAR' },
-        { id: 1005, name: 'Realme GT 5', brand: 'realme', category: 'smartphones', price: '₹34,999', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=400', sub: '240W Charging · SD 8 Gen 2', badge: 'FAST' },
-        { id: 1006, name: 'Moto Edge 50 Pro', brand: 'motorola', category: 'smartphones', price: '₹31,999', image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&q=80&w=400', sub: 'Pantone Display', badge: 'NEW' },
-        { id: 1007, name: 'Poco X6 Pro', brand: 'poco', category: 'smartphones', price: '₹26,999', image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&q=80&w=400', sub: 'Dimensity 8300 Ultra', badge: 'GAMING' },
-        { id: 1008, name: 'Nothing Phone (2)', brand: 'nothing', category: 'smartphones', price: '₹39,999', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=400', sub: 'Glyph Interface', badge: 'UNIQUE' },
-        { id: 1009, name: 'Xiaomi 14', brand: 'mi', category: 'smartphones', price: '₹69,999', image: 'https://images.unsplash.com/photo-1656758211671-b0c364e4b508?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8eGlhb21pJTIwbW9iaWxlfGVufDB8fDB8fHww', sub: 'Leica Optics', badge: 'PREMIUM' },
-        { id: 1010, name: 'Tecno Phantom V Fold', brand: 'tecno', category: 'smartphones', price: '₹69,999', image: 'https://images.unsplash.com/photo-1656758211671-b0c364e4b508?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8eGlhb21pJTIwbW9iaWxlfGVufDB8fDB8fHww', sub: 'Foldable Display', badge: 'INNOVATION' },
-        { id: 1011, name: 'CMF Phone 1', brand: 'cmf', category: 'smartphones', price: '₹15,999', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=400', sub: 'Modular Design', badge: 'VALUE' },
-        { id: 1012, name: 'Redmi Note 13 Pro+', brand: 'redmi', category: 'smartphones', price: '₹31,999', image: 'https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400https://images.unsplash.com/photo-1635434651542-bcd747240352?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmVkbWklMjBtb2JpbGV8ZW58MHx8MHx8fDA%3D', sub: '200MP Camera', badge: 'POPULAR' },
-        { id: 1013, name: 'Wireless Buds Pro', brand: 'accessories', category: 'accessories', price: '₹4,999', image: 'https://images.unsplash.com/photo-1590658268037-6bf12f032f55?auto=format&fit=crop&q=80&w=400', sub: 'Noise Cancelling', badge: 'BEST' },
-        { id: 1014, name: 'Galaxy Watch 6', brand: 'samsung', category: 'wearables', price: '₹32,999', image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&q=80&w=400', sub: 'Health Tracking', badge: 'HOT' },
-        { id: 1015, name: 'Galaxy Z Fold 5', brand: 'samsung', category: 'smartphones', price: '₹1,54,999', image: 'https://images.unsplash.com/photo-1610940882244-18ac607d8575?auto=format&fit=crop&q=80&w=400', sub: 'Foldable Excellence', badge: 'LUXURY' },
-        { id: 1016, name: 'iPhone 15', brand: 'iphone', category: 'smartphones', price: '₹79,900', image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba3f21?auto=format&fit=crop&q=80&w=400', sub: 'Dynamic Island · A16 Bionic', badge: 'TRENDING' },
-        { id: 1017, name: 'Realme Narzo 70 Pro', brand: 'realme', category: 'smartphones', price: '₹19,999', image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=400', sub: 'Horizon Glass Design', badge: 'VALUE' },
-        { id: 1018, name: 'Moto Razr 50 Ultra', brand: 'motorola', category: 'smartphones', price: '₹89,999', image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&q=80&w=400', sub: 'Large External Display', badge: 'FOLDABLE' },
-        { id: 1019, name: 'Poco F6', brand: 'poco', category: 'smartphones', price: '₹29,999', image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&q=80&w=400', sub: 'Snapdragon 8s Gen 3', badge: 'PERFORMANCE' },
-        { id: 1020, name: 'Nothing Phone (2a)', brand: 'nothing', category: 'smartphones', price: '₹23,999', image: 'https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=400', sub: 'Fresh Eyes · Glyph Lite', badge: 'LATEST' },
-        { id: 1021, name: 'Xiaomi 14 Ultra', brand: 'mi', category: 'smartphones', price: '₹99,999', image: 'https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400', sub: '1-inch Main Sensor', badge: 'CAMERA' },
-        { id: 1022, name: 'Tecno Camon 30 Premier', brand: 'tecno', category: 'smartphones', price: '₹39,999', image: 'https://images.unsplash.com/photo-1604671871544-c523154333c7?auto=format&fit=crop&q=80&w=400', sub: 'PolarAce Imaging System', badge: 'NEW' },
-        { id: 1023, name: 'CMF Buds', brand: 'accessories', category: 'accessories', price: '₹2,499', image: 'https://images.unsplash.com/photo-1590658268037-6bf12f032f55?auto=format&fit=crop&q=80&w=400', sub: 'ANC · Ultra Bass', badge: 'BEST BUY' },
-        { id: 1024, name: 'Redmi 13C', brand: 'redmi', category: 'smartphones', price: '₹8,999', image: 'https://images.unsplash.com/photo-1546054454-aa26a3479857?auto=format&fit=crop&q=80&w=400', sub: 'Budget King', badge: 'BESTSELLER' }
-    ];
-
-    function renderProductCard(p) {
-        const isFav = favourites.includes(p.id);
-        return `
-            <div class="product-card" data-id="${p.id}" onclick="window.location.href='mobile_productDetails.html?id=${p.id}'">
-                <div class="product-img">
-                    <img src="${p.image}" alt="${p.name}">
-                    ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
-                    <button class="wishlist-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavourite(${p.id}, this)">
-                        <i class="bi bi-heart${isFav ? '-fill' : ''}"></i>
-                    </button>
-                </div>
-                <div class="product-info">
-                    <h3>${p.name}</h3>
-                    <div class="sub">${p.sub}</div>
-                    <div class="product-footer d-flex justify-content-between align-items-center">
-                        <span class="price">${p.price}</span>
-                        <button class="add-btn" onclick="event.stopPropagation(); handleAddToCart('${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.image}', ${p.id})">+</button>
-                    </div>
-                </div>
-            </div>`;
-    }
-
-    function renderProductSections(brand = 'all') {
-        const secs = ['smartphones', 'tablets', 'wearables', 'accessories'];
-        secs.forEach(sec => {
-            const grid = document.querySelector(`#${sec}-section .product-grid`);
-            const sectionWrapper = document.getElementById(`${sec}-section`);
-            if (!grid) return;
-            const filtered = mobileProducts.filter(p => p.category === sec && (brand === 'all' || p.brand === brand));
-            grid.innerHTML = filtered.map(renderProductCard).join('');
-            sectionWrapper.style.display = filtered.length > 0 ? 'block' : 'none';
-        });
-    }
-
-    // --- CATEGORY PILLS ---
-    document.querySelectorAll('.pill').forEach(pill => {
-        pill.addEventListener('click', () => {
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            const brand = pill.getAttribute('data-brand');
-            renderProductSections(brand);
-        });
-    });
-
-    // --- INITIALIZATION ---
-    window.addEventListener('load', () => {
-        const preloader = document.getElementById('preloader');
-        setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
-        AOS.init({ duration: 900, once: true });
-        checkAuth();
-        renderProductSections();
-        const iconBadge = document.getElementById('favIconBadge');
-        if (iconBadge) {
-            iconBadge.textContent = favourites.length;
-            iconBadge.style.display = favourites.length === 0 ? 'none' : 'flex';
-        }
-
-        renderFavDrawer();
-        syncWishlistButtons();
-
-        const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-        const badge = getCartBadgeEl();
-        if (badge) badge.innerText = cart.reduce((s, i) => s + i.quantity, 0);
-
-        const nav = document.querySelector('.navbar');
-        const catBar = document.getElementById('categoryNavBar');
-        if (nav && catBar) catBar.style.top = (nav.getBoundingClientRect().height + 4) + 'px';
-        window.addEventListener('scroll', () => {
-            if (nav && catBar) {
-                const navH = nav.getBoundingClientRect().height;
-                if (window.scrollY > 50) {
-                    nav.classList.add('scrolled'); catBar.classList.add('scrolled'); catBar.style.top = (navH - 10) + 'px';
-                } else {
-                    nav.classList.remove('scrolled'); catBar.classList.remove('scrolled'); catBar.style.top = (navH + 4) + 'px';
-                }
-            }
-        });
-    });
-  </script>
-  <script src="../js/navbar.js" defer></script>
+  
+  <script src="static/js/navbar.js" defer></script>
+  <script src="static/js/mobile.js" ></script>
 </body>
 </html>
