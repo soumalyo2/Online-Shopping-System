@@ -261,72 +261,263 @@ function onDragEnd(e) {
 // =============================================
 // Dynamic Product Categories — Fitness & Sports
 // =============================================
-const fitnessCategories = [
-    { name: "Gym & Strength", tagline: "BUILT DIFFERENT" },
-    { name: "Yoga & Pilates", tagline: "FIND YOUR FLOW" },
-    { name: "Outdoor Sports", tagline: "PLAY THE GAME" },
-    { name: "Combat Sports", tagline: "FIGHT FOR IT" },
-    { name: "Aquatic Fitness", tagline: "DIVE IN" },
-    { name: "Recovery Gear", tagline: "RESTORE BALANCE" }
-];
 
-const basicProducts = [
-    { name: "Eco Yoga Block", price: "$15.00", img: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=400&h=300&fit=crop" },
-    { name: "Performance Football", price: "$45.00", img: "https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=400&h=300&fit=crop" },
-    { name: "Boxing Gloves Pro", price: "$85.00", img: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop" },
-    { name: "Speed Jump Rope", price: "$12.50", img: "https://images.unsplash.com/photo-1590502160462-094ba45283fc?q=80&w=400&h=300&fit=crop" }
-];
+function renderProductCard(p) {
+    const isItemLiked = isLiked(p.id);
+    const inCart = isInCart(p.id, p.name);
+    
+    // Format price if needed
+    const priceDisplay = typeof p.price === 'number' ? '$' + p.price.toFixed(2) : p.price;
+    const origPriceDisplay = p.originalPrice ? (typeof p.originalPrice === 'number' ? '$' + p.originalPrice.toFixed(2) : p.originalPrice) : '';
 
-const badges = [
-    { text: "Best Seller", class: "badge-best" },
-    { text: "Today's Deal", class: "badge-deal" },
-    { text: "New", class: "badge-new" },
-    { text: "Trending", class: "badge-best" }
-];
+    return `
+    <div class="product-card" data-aos="fade-up" onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(priceDisplay)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}&originalPrice=${encodeURIComponent(origPriceDisplay)}&desc=${encodeURIComponent(p.desc || '')}&badge=${encodeURIComponent(p.badge || '')}'">
+        <div class="image-wrapper">
+            <img src="${p.img}" class="product-image" alt="${p.name}">
+            ${p.badge ? `<span class="product-badge ${p.badgeClass}">${p.badge}</span>` : ''}
+            <button class="like-btn ${isItemLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.id}', this)">
+                <i class="${isItemLiked ? 'fas' : 'far'} fa-heart"></i>
+            </button>
+        </div>
+        <div class="product-info">
+            <p class="product-brand">${p.category}</p>
+            <h3>${p.name}</h3>
+            <div class="rating">
+                <i class="fas fa-star"></i> ${p.rating} <span>(${p.reviews.toLocaleString()})</span>
+            </div>
+            <div class="product-price">
+                <span class="price-current">${priceDisplay}</span>
+                ${origPriceDisplay ? `<span class="price-original">${origPriceDisplay}</span>` : ''}
+            </div>
+            <div class="action-buttons">
+                <button class="btn-add-cart ${inCart ? 'added' : ''}" onclick="event.stopPropagation(); addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${priceDisplay}', '${p.img}', this)">
+                    <i class="fas ${inCart ? 'fa-check' : 'fa-shopping-cart'}"></i> ${inCart ? 'ADDED' : 'ADD'}
+                </button>
+                <button class="btn-buy-now" onclick="event.stopPropagation(); buyNow('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${priceDisplay}', '${p.img}')">
+                    <i class="fas fa-bolt"></i> Buy
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+}
 
-function renderDynamicCategories() {
-    const container = document.getElementById('dynamic-categories');
+function renderSection(containerId, title, tagline, products, viewAllLink, bgColor = '#ffffff') {
+    const container = document.getElementById(containerId);
     if (!container) return;
-
-    fitnessCategories.forEach((catObj, index) => {
-        const section = document.createElement('section');
-        section.className = 'container';
-        // Alternate white and light-green backgrounds
-        section.style.background = index % 2 === 0 ? '#ffffff' : 'var(--light-green)';
-
-        section.innerHTML = `
+    
+    let html = `
+        <section class="container" style="background: ${bgColor};">
             <div class="section-header">
                 <div>
-                    <span class="section-tagline">${catObj.tagline}</span>
-                    <h2>${catObj.name}</h2>
+                    <span class="section-tagline">${tagline}</span>
+                    <h2>${title}</h2>
                 </div>
-                <a href="Fitness_&_Sports_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                <a href="${viewAllLink}" class="view-all">Shop All <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="product-scroll-container">
-                ${basicProducts.map(p => {
-            const b = badges[Math.floor(Math.random() * badges.length)];
-            return `
-                    <div class="product-card" onclick="window.location.href='Fitness_&_Sports_ProductDetails.html?name=${encodeURIComponent(catObj.name + ' ' + p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(catObj.name)}&badge=${encodeURIComponent(b.text)}'">
-                        <div class="image-wrapper">
-                            <img src="${p.img}" class="product-image" alt="${p.name}">
-                            <span class="product-badge ${b.class}">${b.text}</span>
-                        </div>
-                        <div class="product-info">
-                            <h3>${p.name}</h3>
-                            <p class="product-price">${p.price}</p>
-                            <button class="add-to-cart" onclick="event.stopPropagation();">Add to Cart</button>
-                        </div>
-                    </div>
-                    `;
-        }).join('')}
+                ${products.map(p => renderProductCard(p)).join('')}
             </div>
-        `;
-        container.appendChild(section);
+        </section>
+    `;
+    container.innerHTML = html;
+}
+
+function renderDynamicContent() {
+    if (typeof allProducts === 'undefined') return;
+
+    // Top Deals
+    const topDeals = allProducts.filter(p => p.originalPrice).slice(0, 4);
+    renderSection('top-deals-container', 'Action-Packed Deals', 'LIMITED TIME OFFERS', topDeals, '../template/Fitness_&_Sports_AllProducts.html', '#f8fff9');
+
+    // Best Sellers
+    const bestSellers = allProducts.filter(p => p.rating >= 4.8).slice(0, 4);
+    renderSection('best-sellers-container', 'Best Sellers of the Week', 'ATHLETE FAVORITES', bestSellers, '../template/Fitness_&_Sports_AllProducts.html', 'var(--light-green)');
+
+    // Premium Collection
+    const premium = allProducts.filter(p => p.price > 100).slice(0, 4);
+    renderSection('signature-gallery-container', 'Pro Gear Gallery', 'PREMIUM COLLECTION', premium, '../template/Fitness_&_Sports_AllProducts.html', '#ffffff');
+
+    // Dynamic Categories
+    const categoriesContainer = document.getElementById('dynamic-categories');
+    if (categoriesContainer) {
+        const fitnessCategories = [
+            { name: "Gym & Strength", tagline: "BUILT DIFFERENT", filter: "gym" },
+            { name: "Yoga & Pilates", tagline: "FIND YOUR FLOW", filter: "yoga" },
+            { name: "Outdoor Sports", tagline: "PLAY THE GAME", filter: "outdoor" },
+            { name: "Combat Sports", tagline: "FIGHT FOR IT", filter: "combat" },
+            { name: "Aquatic Fitness", tagline: "DIVE IN", filter: "aquatic" },
+            { name: "Recovery Gear", tagline: "RESTORE BALANCE", filter: "recovery" }
+        ];
+
+        let catHtml = '';
+        fitnessCategories.forEach((catObj, index) => {
+            const catProducts = allProducts.filter(p => p.category === catObj.name).slice(0, 4);
+            if (catProducts.length > 0) {
+                const bg = index % 2 === 0 ? '#ffffff' : 'var(--light-green)';
+                catHtml += `
+                    <section class="container" style="background: ${bg};">
+                        <div class="section-header">
+                            <div>
+                                <span class="section-tagline">${catObj.tagline}</span>
+                                <h2>${catObj.name}</h2>
+                            </div>
+                            <a href="../template/Fitness_&_Sports_AllProducts.html?filter=${catObj.filter}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                        <div class="product-scroll-container">
+                            ${catProducts.map(p => renderProductCard(p)).join('')}
+                        </div>
+                    </section>
+                `;
+            }
+        });
+        categoriesContainer.innerHTML = catHtml;
+    }
+}
+
+function buyNow(pId, pName, pPrice, pImg) {
+    const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, '')) || 0;
+    sessionStorage.setItem('um_cart', JSON.stringify([{ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 }]));
+    window.location.href = '../../templates/payment_gateway.html';
+}
+
+function addToCart(pId, pName, pPrice, pImg, btn) {
+    const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, '')) || 0;
+    let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+
+    const existingIndex = cart.findIndex(item => (pId && item.id === pId) || (!pId && item.name === pName));
+    if (existingIndex > -1) {
+        cart.splice(existingIndex, 1);
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} removed from cart!`, false);
+        if (btn) {
+            btn.classList.remove('added');
+            btn.innerHTML = `<i class="fas fa-shopping-cart"></i> ADD`;
+        }
+    } else {
+        cart.push({ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 });
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} added to cart!`, true);
+        if (btn) {
+            btn.classList.add('added');
+            btn.innerHTML = `<i class="fas fa-check"></i> ADDED`;
+        }
+    }
+
+    if (window.updateCartBadge) window.updateCartBadge();
+    syncHardcodedButtons();
+}
+
+function showToast(msg, isAdd = true) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    if (!isAdd) toast.style.background = '#e11d48';
+    toast.innerHTML = `<i class="fas ${isAdd ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${msg}`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function syncHardcodedButtons() {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    const cartIds = cart.map(item => item.id);
+    const cartNames = cart.map(item => item.name);
+
+    document.querySelectorAll('.btn-add-cart').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes('addToCart')) {
+            const match = onclickAttr.match(/addToCart\('([^']*)',\s*'([^']*)'/);
+            if (match) {
+                const pId = match[1];
+                const pName = match[2];
+                const inCart = (pId && cartIds.includes(pId)) || (!pId && cartNames.includes(pName));
+                
+                btn.classList.toggle('added', inCart);
+                btn.innerHTML = inCart ? `<i class="fas fa-check"></i> ADDED` : `<i class="fas fa-shopping-cart"></i> ADD`;
+            }
+        }
     });
+}
+
+function toggleLike(pId, btn) {
+    let liked = JSON.parse(localStorage.getItem('fs_liked') || '[]');
+    const idx = liked.indexOf(pId);
+    if (idx > -1) {
+        liked.splice(idx, 1);
+        btn.classList.remove('liked');
+        btn.innerHTML = '<i class="far fa-heart"></i>';
+    } else {
+        liked.push(pId);
+        btn.classList.add('liked');
+        btn.innerHTML = '<i class="fas fa-heart"></i>';
+    }
+    localStorage.setItem('fs_liked', JSON.stringify(liked));
+}
+
+function isLiked(pId) {
+    const liked = JSON.parse(localStorage.getItem('fs_liked') || '[]');
+    return liked.includes(pId);
+}
+
+function syncLikes() {
+    const liked = JSON.parse(localStorage.getItem('fs_liked') || '[]');
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes('toggleLike')) {
+            const match = onclickAttr.match(/toggleLike\('([^']+)'/);
+            if (match && match[1]) {
+                const pId = match[1];
+                const isItemLiked = liked.includes(pId);
+                btn.classList.toggle('liked', isItemLiked);
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fas', isItemLiked);
+                    icon.classList.toggle('far', !isItemLiked);
+                }
+            }
+        }
+    });
+}
+
+function isInCart(pId, pName) {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    return cart.some(item => (pId && item.id === pId) || (!pId && item.name === pName));
+}
+
+// Add Toast Styles
+if (!document.getElementById('dynamic-styles')) {
+    const style = document.createElement('style');
+    style.id = 'dynamic-styles';
+    style.innerHTML = `
+        .toast-notification {
+            position: fixed; bottom: 20px; right: 20px; background: var(--primary-green);
+            color: white; padding: 1rem 2rem; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+        }
+        .toast-notification.fade-out { animation: slideOut 0.3s ease-in forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    `;
+    document.head.appendChild(style);
 }
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     renderHeroCarousel();
-    renderDynamicCategories();
+    renderDynamicContent();
+    syncHardcodedButtons();
+    syncLikes();
+    
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    }
 });

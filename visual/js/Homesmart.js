@@ -1,3 +1,8 @@
+// =============================================
+// Homesmart.js — Dynamic Rendering Engine
+// Standardized architecture matching Fitness & Sports / 2 Wheelers
+// =============================================
+
 // Hero Carousel Dynamic Data
 const heroProducts = [
     { 
@@ -65,7 +70,7 @@ const progressFill = document.getElementById('carousel-progress-fill');
 
 let currentHeroSlide = 0;
 let carouselTimer;
-const SLIDE_DURATION = 6000; // 6 seconds
+const SLIDE_DURATION = 6000;
 
 function renderHeroCarousel() {
     if (!carouselInner || !carouselDots) return;
@@ -113,18 +118,16 @@ function showHeroSlide(index, direction) {
     
     if (index === currentHeroSlide) return;
     
-    // Remove all direction classes first
     slides.forEach(s => s.classList.remove('next-slide', 'prev-slide', 'active'));
     dots.forEach(d => d.classList.remove('active'));
     
-    // Set current active and animation direction
     currentHeroSlide = index;
     const activeSlide = slides[currentHeroSlide];
     activeSlide.classList.add('active');
     activeSlide.classList.add(direction === 'next' ? 'next-slide' : 'prev-slide');
     dots[currentHeroSlide].classList.add('active');
     
-    startCarouselAutoPlay(); // Reset timer
+    startCarouselAutoPlay();
 }
 
 function nextHeroSlide() {
@@ -140,11 +143,9 @@ function prevHeroSlide() {
 function startCarouselAutoPlay() {
     clearInterval(carouselTimer);
     
-    // Reset Progress Bar
     if (progressFill) {
         progressFill.style.transition = 'none';
         progressFill.style.width = '0%';
-        // Force reflow
         progressFill.offsetHeight; 
         progressFill.style.transition = `width ${SLIDE_DURATION}ms linear`;
         progressFill.style.width = '100%';
@@ -153,85 +154,289 @@ function startCarouselAutoPlay() {
     carouselTimer = setInterval(nextHeroSlide, SLIDE_DURATION);
 }
 
-// Global initialization
-document.addEventListener('DOMContentLoaded', () => {
-    renderHeroCarousel();
-    renderDynamicCategories();
-});
+// =============================================
+// Dynamic Product Rendering Engine
+// =============================================
 
-// Category/Product Data for main body
-const categories = [
-    { name: "Mosquito Net & Insect Protection", tagline: "SUMMER SAFE" },
-    { name: "Modern Home Decor", tagline: "ESTHETIC TOUCH" },
-    { name: "Premium Lighting Solutions", tagline: "ILLUMINATE YOUR HOME" },
-    { name: "Eco Storage Containers", tagline: "ORGANIZED LIVING" },
-    { name: "Luxury Bathroom Suite", tagline: "SPA AT HOME" },
-    { name: "Elegant Drinkware", tagline: "SIP IN STYLE" },
-    { name: "Designer Furniture", tagline: "TIMELESS COMFORT" },
-    { name: "Protective Home Covers", tagline: "SHIELD YOUR GEAR" },
-    { name: "Hardware & Tools", tagline: "BUILD IT RIGHT" },
-    { name: "Luxury Sofas & Loungers", tagline: "SIT IN COMFORT" },
-    { name: "Home Furnishing Decor", tagline: "COZY SPACES" },
-    { name: "Plush Mats & Rugs", tagline: "SOFT UNDERFOOT" },
-    { name: "Spiritual Pooja Needs", tagline: "SACRED SPACE" },
-    { name: "Bath Linen Essentials", tagline: "SOFT & ABSORBENT" },
-    { name: "Urban Gardening kit", tagline: "GROW YOUR GREEN" },
-    { name: "Artistic Wall Stickers", tagline: "VIBRANT WALLS" },
-    { name: "Modern Cleaning Utilities", tagline: "SPARKLE & SHINE" },
-    { name: "Exquisite Dining Set", tagline: "GATHER AROUND" },
-    { name: "Practical Home Utilities", tagline: "EVERYDAY ESSENTIALS" }
-];
+function renderProductCard(p) {
+    const isItemLiked = isLiked(p.id);
+    const inCart = isInCart(p.id, p.name);
+    
+    const priceDisplay = typeof p.price === 'number' ? '$' + p.price.toLocaleString('en-US', { minimumFractionDigits: p.price % 1 !== 0 ? 2 : 0 }) : p.price;
+    const origPriceDisplay = p.originalPrice ? (typeof p.originalPrice === 'number' ? '$' + p.originalPrice.toLocaleString('en-US', { minimumFractionDigits: p.originalPrice % 1 !== 0 ? 2 : 0 }) : p.originalPrice) : '';
 
-const products = [
-    { name: "Ultimate Edition", price: "$49.99", img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=400&h=300&fit=crop" },
-    { name: "Modern Concept", price: "$75.00", img: "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=400&h=300&fit=crop" },
-    { name: "Luxury Selection", price: "$120.00", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=400&h=300&fit=crop" },
-    { name: "Essential Pack", price: "$35.50", img: "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=400&h=300&fit=crop" }
-];
+    return `
+    <div class="product-card" data-aos="fade-up" onclick="window.location.href='../template/ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(priceDisplay)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}&originalPrice=${encodeURIComponent(origPriceDisplay)}&desc=${encodeURIComponent(p.desc || '')}&badge=${encodeURIComponent(p.badge || '')}'">
+        <div class="image-wrapper">
+            <img src="${p.img}" class="product-image" alt="${p.name}">
+            ${p.badge ? `<span class="product-badge ${p.badgeClass}">${p.badge}</span>` : ''}
+            <button class="like-btn ${isItemLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.id}', this)">
+                <i class="${isItemLiked ? 'fas' : 'far'} fa-heart"></i>
+            </button>
+        </div>
+        <div class="product-info">
+            <p class="product-brand">${p.category}</p>
+            <h3>${p.name}</h3>
+            <div class="rating">
+                <i class="fas fa-star"></i> ${p.rating} <span>(${p.reviews.toLocaleString()})</span>
+            </div>
+            <div class="product-price">
+                <span class="price-current">${priceDisplay}</span>
+                ${origPriceDisplay ? `<span class="price-original">${origPriceDisplay}</span>` : ''}
+            </div>
+            <div class="action-buttons">
+                <button class="btn-add-cart ${inCart ? 'added' : ''}" onclick="event.stopPropagation(); addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${priceDisplay}', '${p.img}', this)">
+                    <i class="fas ${inCart ? 'fa-check' : 'fa-shopping-cart'}"></i> ${inCart ? 'ADDED' : 'ADD'}
+                </button>
+                <button class="btn-buy-now" onclick="event.stopPropagation(); buyNow('${p.id}', '${p.name.replace(/'/g, "\\'")}', '${priceDisplay}', '${p.img}')">
+                    <i class="fas fa-bolt"></i> Buy
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+}
 
-const badges = [
-    { text: "Best Seller", class: "badge-best" },
-    { text: "Today's Deal", class: "badge-deal" },
-    { text: "New", class: "badge-new" },
-    { text: "Trending", class: "badge-best" }
-];
-
-function renderDynamicCategories() {
-    const container = document.getElementById('dynamic-categories');
+function renderSection(containerId, title, tagline, products, viewAllLink, bgColor = '#ffffff') {
+    const container = document.getElementById(containerId);
     if (!container) return;
     
-    categories.forEach((catObj, index) => {
-        const section = document.createElement('section');
-        section.className = 'container';
-        if (index % 2 === 0) section.style.background = 'var(--bg-gray)';
-
-        section.innerHTML = `
+    let html = `
+        <section class="container" style="background: ${bgColor};">
             <div class="section-header">
                 <div>
-                    <span class="section-tagline">${catObj.tagline}</span>
-                    <h2>${catObj.name}</h2>
+                    <span class="section-tagline">${tagline}</span>
+                    <h2>${title}</h2>
                 </div>
-                <a href="Homesmart_AllProducts.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                <a href="${viewAllLink}" class="view-all">Shop All <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="product-scroll-container">
-                ${products.map(p => {
-            const b = badges[Math.floor(Math.random() * badges.length)];
-            return `
-                    <div class="product-card" onclick="window.location.href='ProductDetails.html?name=${encodeURIComponent(catObj.name + ' ' + p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(catObj.name)}&badge=${encodeURIComponent(b.text)}'">
-                        <div class="image-wrapper">
-                            <img src="${p.img}" class="product-image">
-                            <span class="product-badge ${b.class}">${b.text}</span>
-                        </div>
-                        <div class="product-info">
-                            <h3>${p.name}</h3>
-                            <p class="product-price">${p.price}</p>
-                            <button class="add-to-cart" onclick="event.stopPropagation();">Add to Cart</button>
-                        </div>
-                    </div>
-                `}).join('')}
+                ${products.map(p => renderProductCard(p)).join('')}
             </div>
-        `;
-        container.appendChild(section);
+        </section>
+    `;
+    container.innerHTML = html;
+}
+
+function renderDynamicContent() {
+    if (typeof allProducts === 'undefined') return;
+
+    // Top Deals
+    const topDeals = allProducts.filter(p => p.originalPrice).slice(0, 4);
+    renderSection('top-deals-container', "Today's Top Deals", 'LIMITED TIME ONLY', topDeals, '../template/Homesmart_AllProducts.html', '#fff8f8');
+
+    // Best Sellers
+    const bestSellers = allProducts.filter(p => p.rating >= 4.7).slice(0, 4);
+    renderSection('best-sellers-container', 'Best Sellers of the Week', 'CUSTOMER FAVORITES', bestSellers, '../template/Homesmart_AllProducts.html', 'var(--light-green)');
+
+    // Premium Collection
+    const premium = allProducts.filter(p => p.price > 100).slice(0, 4);
+    renderSection('signature-gallery-container', 'Premium Collection', 'LUXURY LIVING', premium, '../template/Homesmart_AllProducts.html', '#ffffff');
+
+    // Dynamic Categories
+    const categoriesContainer = document.getElementById('dynamic-categories');
+    if (categoriesContainer) {
+        const homeCategories = [
+            { name: "Cookware", tagline: "KITCHEN MASTERCLASS", filter: "cookware" },
+            { name: "Kitchen", tagline: "GOURMET ESSENTIALS", filter: "kitchen" },
+            { name: "Furniture", tagline: "TIMELESS COMFORT", filter: "furniture" },
+            { name: "Home Decor", tagline: "AESTHETIC TOUCH", filter: "decor" },
+            { name: "Lighting", tagline: "ILLUMINATE YOUR HOME", filter: "lighting" },
+            { name: "Storage", tagline: "ORGANIZED LIVING", filter: "storage" },
+            { name: "Bathroom", tagline: "SPA AT HOME", filter: "bathroom" },
+            { name: "Drinkware", tagline: "SIP IN STYLE", filter: "drinkware" },
+            { name: "Insect Protection", tagline: "SUMMER SAFE", filter: "insect" },
+            { name: "Home Covers", tagline: "SHIELD YOUR GEAR", filter: "covers" },
+            { name: "Hardware Tools", tagline: "BUILD IT RIGHT", filter: "hardware" },
+            { name: "Furnishing", tagline: "COZY SPACES", filter: "furnishing" },
+            { name: "Mats & Decor", tagline: "SOFT UNDERFOOT", filter: "mats" },
+            { name: "Pooja Needs", tagline: "SACRED SPACE", filter: "pooja" },
+            { name: "Bath Linen", tagline: "SOFT & ABSORBENT", filter: "bathlinen" },
+            { name: "Gardening", tagline: "GROW YOUR GREEN", filter: "gardening" },
+            { name: "Wall Art", tagline: "VIBRANT WALLS", filter: "wallart" },
+            { name: "Cleaning", tagline: "SPARKLE & SHINE", filter: "cleaning" },
+            { name: "Dining", tagline: "GATHER AROUND", filter: "dining" },
+            { name: "Utilities", tagline: "EVERYDAY ESSENTIALS", filter: "utilities" }
+        ];
+
+        let catHtml = '';
+        homeCategories.forEach((catObj, index) => {
+            const catProducts = allProducts.filter(p => p.category === catObj.name).slice(0, 4);
+            if (catProducts.length > 0) {
+                const bg = index % 2 === 0 ? '#ffffff' : 'var(--light-green)';
+                catHtml += `
+                    <section class="container" style="background: ${bg};">
+                        <div class="section-header">
+                            <div>
+                                <span class="section-tagline">${catObj.tagline}</span>
+                                <h2>${catObj.name}</h2>
+                            </div>
+                            <a href="../template/Homesmart_AllProducts.html?filter=${catObj.filter}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                        <div class="product-scroll-container">
+                            ${catProducts.map(p => renderProductCard(p)).join('')}
+                        </div>
+                    </section>
+                `;
+            }
+        });
+        categoriesContainer.innerHTML = catHtml;
+    }
+}
+
+// =============================================
+// Cart, Wishlist & State Management
+// =============================================
+
+function buyNow(pId, pName, pPrice, pImg) {
+    const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, '')) || 0;
+    sessionStorage.setItem('um_cart', JSON.stringify([{ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 }]));
+    window.location.href = '../../templates/payment_gateway.html';
+}
+
+function addToCart(pId, pName, pPrice, pImg, btn) {
+    const numericPrice = parseInt(pPrice.replace(/[^0-9]/g, '')) || 0;
+    let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+
+    const existingIndex = cart.findIndex(item => (pId && item.id === pId) || (!pId && item.name === pName));
+    if (existingIndex > -1) {
+        cart.splice(existingIndex, 1);
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} removed from cart!`, false);
+        if (btn) {
+            btn.classList.remove('added');
+            btn.innerHTML = `<i class="fas fa-shopping-cart"></i> ADD`;
+        }
+    } else {
+        cart.push({ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 });
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        showToast(`${pName} added to cart!`, true);
+        if (btn) {
+            btn.classList.add('added');
+            btn.innerHTML = `<i class="fas fa-check"></i> ADDED`;
+        }
+    }
+
+    if (window.updateCartBadge) window.updateCartBadge();
+    syncHardcodedButtons();
+}
+
+function showToast(msg, isAdd = true) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    if (!isAdd) toast.style.background = '#e11d48';
+    toast.innerHTML = `<i class="fas ${isAdd ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${msg}`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function syncHardcodedButtons() {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    const cartIds = cart.map(item => item.id);
+    const cartNames = cart.map(item => item.name);
+
+    document.querySelectorAll('.btn-add-cart').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes('addToCart')) {
+            const match = onclickAttr.match(/addToCart\('([^']*)',\s*'([^']*)/);
+            if (match) {
+                const pId = match[1];
+                const pName = match[2];
+                const inCart = (pId && cartIds.includes(pId)) || (!pId && cartNames.includes(pName));
+                
+                btn.classList.toggle('added', inCart);
+                btn.innerHTML = inCart ? `<i class="fas fa-check"></i> ADDED` : `<i class="fas fa-shopping-cart"></i> ADD`;
+            }
+        }
     });
 }
 
+function toggleLike(pId, btn) {
+    let liked = JSON.parse(localStorage.getItem('hs_liked') || '[]');
+    const idx = liked.indexOf(pId);
+    if (idx > -1) {
+        liked.splice(idx, 1);
+        btn.classList.remove('liked');
+        btn.innerHTML = '<i class="far fa-heart"></i>';
+    } else {
+        liked.push(pId);
+        btn.classList.add('liked');
+        btn.innerHTML = '<i class="fas fa-heart"></i>';
+    }
+    localStorage.setItem('hs_liked', JSON.stringify(liked));
+}
+
+function isLiked(pId) {
+    const liked = JSON.parse(localStorage.getItem('hs_liked') || '[]');
+    return liked.includes(pId);
+}
+
+function syncLikes() {
+    const liked = JSON.parse(localStorage.getItem('hs_liked') || '[]');
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes('toggleLike')) {
+            const match = onclickAttr.match(/toggleLike\('([^']+)/);
+            if (match && match[1]) {
+                const pId = match[1];
+                const isItemLiked = liked.includes(pId);
+                btn.classList.toggle('liked', isItemLiked);
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fas', isItemLiked);
+                    icon.classList.toggle('far', !isItemLiked);
+                }
+            }
+        }
+    });
+}
+
+function isInCart(pId, pName) {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    return cart.some(item => (pId && item.id === pId) || (!pId && item.name === pName));
+}
+
+// =============================================
+// Toast & Dynamic Styles Injection
+// =============================================
+
+if (!document.getElementById('hs-dynamic-styles')) {
+    const style = document.createElement('style');
+    style.id = 'hs-dynamic-styles';
+    style.innerHTML = `
+        .toast-notification {
+            position: fixed; bottom: 20px; right: 20px; background: var(--primary-green);
+            color: white; padding: 1rem 2rem; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+        }
+        .toast-notification.fade-out { animation: slideOut 0.3s ease-in forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    `;
+    document.head.appendChild(style);
+}
+
+// =============================================
+// Initialize on DOM Ready
+// =============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderHeroCarousel();
+    renderDynamicContent();
+    syncHardcodedButtons();
+    syncLikes();
+    
+    // Initialize AOS
+    if (window.AOS) {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    }
+});

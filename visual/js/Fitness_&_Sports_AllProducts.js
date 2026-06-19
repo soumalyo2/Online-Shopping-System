@@ -1,143 +1,56 @@
 // =============================================
 // Fitness_&_Sports_AllProducts.js — All Products Page
 // Aggregates products from every section/category
+// (Product data is sourced from Fitness_&_Sports_Data.js)
 // =============================================
 
-// Full Product Data for Fitness & Sports
-const allProducts = [
-    {
-        id: "fs-1",
-        name: "Pro-Series Treadmill Z1",
-        category: "Gym & Strength",
-        categoryKey: "gym",
-        price: 899,
-        originalPrice: 1200,
-        rating: 4.9,
-        reviews: 1200,
-        img: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=400&h=300&fit=crop",
-        badge: "Flagship",
-        badgeClass: "badge-new",
-        desc: "Commercial-grade motor and advanced cushioning for the ultimate running experience."
-    },
-    {
-        id: "fs-2",
-        name: "Adjustable Dumbbell Set",
-        category: "Gym & Strength",
-        categoryKey: "gym",
-        price: 249,
-        originalPrice: 349,
-        rating: 4.8,
-        reviews: 3400,
-        img: "https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop",
-        badge: "Best Seller",
-        badgeClass: "badge-best",
-        desc: "Replace 15 sets of weights with one compact system."
-    },
-    {
-        id: "fs-3",
-        name: "Premium Yoga Mat Pro",
-        category: "Yoga & Pilates",
-        categoryKey: "yoga",
-        price: 75,
-        originalPrice: 95,
-        rating: 5.0,
-        reviews: 850,
-        img: "https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop",
-        badge: "Eco-Friendly",
-        badgeClass: "badge-new",
-        desc: "Sustainable materials and non-slip surface."
-    },
-    {
-        id: "fs-4",
-        name: "Performance Football",
-        category: "Outdoor Sports",
-        categoryKey: "outdoor",
-        price: 45,
-        originalPrice: null,
-        rating: 4.7,
-        reviews: 580,
-        img: "https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=400&h=300&fit=crop",
-        badge: "Match Grade",
-        badgeClass: "badge-deal",
-        desc: "High-performance aerodynamic design for official matches."
-    },
-    {
-        id: "fs-5",
-        name: "Boxing Gloves Pro",
-        category: "Combat Sports",
-        categoryKey: "combat",
-        price: 85,
-        originalPrice: 110,
-        rating: 4.8,
-        reviews: 2100,
-        img: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop",
-        badge: "Top Rated",
-        badgeClass: "badge-best",
-        desc: "Professional protection and wrist support."
-    },
-    {
-        id: "fs-6",
-        name: "Eco Yoga Block",
-        category: "Yoga & Pilates",
-        categoryKey: "yoga",
-        price: 15,
-        originalPrice: 22,
-        rating: 4.5,
-        reviews: 420,
-        img: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=400&h=300&fit=crop",
-        badge: "New",
-        badgeClass: "badge-new",
-        desc: "High-density foam for support and alignment."
-    },
-    {
-        id: "fs-7",
-        name: "Speed Jump Rope",
-        category: "Gym & Strength",
-        categoryKey: "gym",
-        price: 12,
-        originalPrice: null,
-        rating: 4.6,
-        reviews: 1500,
-        img: "https://images.unsplash.com/photo-1590502160462-094ba45283fc?q=80&w=400&h=300&fit=crop",
-        badge: "Amazon Choice",
-        badgeClass: "badge-best",
-        desc: "Tangle-free design with ball bearings for smooth rotation."
-    },
-    {
-        id: "fs-8",
-        name: "Resistance Band Set",
-        category: "Gym & Strength",
-        categoryKey: "gym",
-        price: 35,
-        originalPrice: 70,
-        rating: 4.4,
-        reviews: 980,
-        img: "https://images.unsplash.com/photo-1517130591727-4422e661be48?q=80&w=400&h=300&fit=crop",
-        badge: "50% OFF",
-        badgeClass: "badge-deal",
-        desc: "Stackable bands for all fitness levels."
-    }
-];
 
 // --- Liked products state (stored in localStorage) ---
 let likedProducts = JSON.parse(localStorage.getItem('fs_liked') || '[]');
 
-function isLiked(productName) {
-    return likedProducts.includes(productName);
+function isLiked(pId) {
+    return likedProducts.includes(pId);
 }
 
-function toggleLike(productName, btn) {
-    const idx = likedProducts.indexOf(productName);
+function toggleLike(pId, btn) {
+    const idx = likedProducts.indexOf(pId);
     if (idx > -1) {
         likedProducts.splice(idx, 1);
         btn.classList.remove('liked');
         btn.innerHTML = '<i class="far fa-heart"></i>';
     } else {
-        likedProducts.push(productName);
+        likedProducts.push(pId);
         btn.classList.add('liked');
         btn.innerHTML = '<i class="fas fa-heart"></i>';
     }
     localStorage.setItem('fs_liked', JSON.stringify(likedProducts));
+}
+
+function isInCart(pId) {
+    const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+    return cart.some(item => item.id === pId);
+}
+
+function addToCart(pId, pName, pPrice, pImg, btn) {
+    const numericPrice = typeof pPrice === 'number' ? pPrice : parseFloat(pPrice.toString().replace(/[^0-9.]/g, '')) || 0;
+    let cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
+
+    const existingIndex = cart.findIndex(item => item.id === pId);
+    if (existingIndex > -1) {
+        cart.splice(existingIndex, 1);
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        if (btn) btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+    } else {
+        cart.push({ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 });
+        localStorage.setItem('pbssd_cart', JSON.stringify(cart));
+        if (btn) btn.innerHTML = '<i class="fas fa-check"></i> Added';
+    }
+}
+
+function buyNow(pId, pName, pPrice, pImg) {
+    const numericPrice = typeof pPrice === 'number' ? pPrice : parseFloat(pPrice.toString().replace(/[^0-9.]/g, '')) || 0;
+    sessionStorage.setItem('um_cart', JSON.stringify([{ id: pId, name: pName, price: numericPrice, image: pImg, quantity: 1 }]));
+    window.location.href = '../../templates/payment_gateway.html';
 }
 
 // --- Generate Star HTML ---
@@ -167,7 +80,8 @@ function renderAllProducts(products) {
 
     products.forEach((p, idx) => {
         const discount = p.originalPrice ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
-        const liked = isLiked(p.name);
+        const liked = isLiked(p.id);
+        const inCart = isInCart(p.id);
 
         const card = document.createElement('div');
         card.className = 'all-product-card';
@@ -176,8 +90,8 @@ function renderAllProducts(products) {
         card.innerHTML = `
             <div class="apc-image-wrap">
                 <img src="${p.img}" alt="${p.name}" loading="lazy">
-                <span class="apc-badge ${p.badgeClass}">${p.badge}</span>
-                <button class="apc-like-btn ${liked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.name.replace(/'/g, "\\'")}', this)">
+                ${p.badge ? `<span class="apc-badge ${p.badgeClass}">${p.badge}</span>` : ''}
+                <button class="apc-like-btn ${liked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${p.id}', this)">
                     <i class="${liked ? 'fas' : 'far'} fa-heart"></i>
                 </button>
             </div>
@@ -197,10 +111,10 @@ function renderAllProducts(products) {
                     ${discount > 0 ? `<span class="apc-discount">${discount}% OFF</span>` : ''}
                 </div>
                 <div class="apc-actions">
-                    <button class="apc-btn-cart" onclick="event.stopPropagation();">
-                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    <button class="apc-btn-cart" onclick="event.stopPropagation(); addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.img}', this)">
+                        <i class="fas ${inCart ? 'fa-check' : 'fa-shopping-cart'}"></i> ${inCart ? 'Added' : 'Add to Cart'}
                     </button>
-                    <button class="apc-btn-buy" onclick="event.stopPropagation(); window.location.href='Fitness_&_Sports_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formatPrice(p.price))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent(formatPrice(p.originalPrice)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}'">
+                    <button class="apc-btn-buy" onclick="event.stopPropagation(); buyNow('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.img}')">
                         <i class="fas fa-bolt"></i> Buy Now
                     </button>
                 </div>
@@ -209,7 +123,7 @@ function renderAllProducts(products) {
 
         // Click card → go to product details
         card.addEventListener('click', () => {
-            window.location.href = `Fitness_&_Sports_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formatPrice(p.price))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent(formatPrice(p.originalPrice)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}`;
+            window.location.href = `Fitness_&_Sports_ProductDetails.html?id=${p.id}&name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(formatPrice(p.price))}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(p.category)}&rating=${p.rating}&reviews=${p.reviews}${p.originalPrice ? '&originalPrice=' + encodeURIComponent(formatPrice(p.originalPrice)) : ''}&desc=${encodeURIComponent(p.desc)}&badge=${encodeURIComponent(p.badge)}`;
         });
 
         grid.appendChild(card);
@@ -282,8 +196,6 @@ function initBackToTop() {
 
 // --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Generate initial grid
-    renderAllProducts(allProducts);
     initBackToTop();
     initCustomDropdown();
 
@@ -291,6 +203,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => filterProducts(btn.dataset.filter));
     });
+
+    // Check for filter in URL
+    const params = new URLSearchParams(window.location.search);
+    const filterParam = params.get('filter');
+    if (filterParam) {
+        filterProducts(filterParam);
+    } else {
+        renderAllProducts(allProducts);
+    }
 });
 
 // --- Custom Dropdown Logic ---

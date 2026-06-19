@@ -411,44 +411,52 @@
 /* Tablet landscape */
 @media (max-width: 992px) {
     .hero-carousel {
-        height: auto;
-        min-height: 90vh;
-        padding-top: 4rem;
+        height: 820px;
+        min-height: 720px;
+        padding-top: 0;
     }
 
     .hero-content {
         flex-direction: column;
         text-align: center;
-        gap: 3rem;
-        padding: 4rem 2rem;
+        gap: 2rem;
+        padding: 60px 1.5rem 3rem;
+        height: 100%;
+        justify-content: space-around;
     }
 
     .hero-text {
         text-align: center;
         padding-right: 0;
+        padding-top: 0.5rem;
         flex: 1;
     }
 
     .hero-text h1 {
         font-size: 3rem;
-        margin-bottom: 1.5rem;
+        padding-top: 1rem;
     }
 
     .hero-text p {
         margin: 0 auto 2.5rem auto;
         font-size: 1.1rem;
+        padding-top: 1rem;
     }
 
     .hero-product-display {
         flex: 1;
         width: 100%;
-        padding-bottom: 4rem;
+        height: 100%;
+        padding-top: 4rem;
+        padding-bottom: 5rem;
     }
 
     .hero-card {
         width: 100%;
-        max-width: 320px;
+        max-width: 420px;
         margin: 0 auto;
+        padding: 1.5rem;
+        height: 100%;
     }
 
     .feature-banner {
@@ -499,11 +507,6 @@
 
 /* Mobile phones */
 @media (max-width: 480px) {
-    .hero-carousel {
-        min-height: 80vh;
-        padding-top: 2rem;
-    }
-
     .hero-content {
         padding: 2rem 1rem;
         gap: 2rem;
