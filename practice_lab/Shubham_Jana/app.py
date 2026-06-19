@@ -147,5 +147,21 @@ def Medicine_and_Nutrients():
 def travel_landing():
     return render_template('travel_landing.html')
 
+@app.route('/seller.html')
+def seller():
+    return render_template('seller.html')
+
+@app.route('/account')
+def account():
+    return render_template('account.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/Food_AllProducts')
+def Food_AllProducts():
+    return render_template('Food_AllProducts.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
