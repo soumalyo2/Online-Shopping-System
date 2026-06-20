@@ -174,5 +174,10 @@ def two_Wheelers_ProductDetails():
 @app.route('/orders')
 def orders():
     return render_template('orders.html')
+
+@app.route('/Medicine_and_Nutrients_AllProducts')
+def Medicine_and_Nutrients_AllProducts():
+    return render_template('Medicine_and_Nutrients_AllProducts.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

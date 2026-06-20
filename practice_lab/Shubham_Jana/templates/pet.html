@@ -9,8 +9,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../css/pet.css">
-  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="static/css/pet.css">
+  <link rel="stylesheet" href="static/css/navbar.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -35,7 +35,7 @@
   <nav class="navbar animate__animated animate__fadeInDown">
     <div class="container">
       <div class="navbar-inner w-100">
-        <a class="navbar-brand fw-bold" href="../../index.html"
+        <a class="navbar-brand fw-bold" href="{{ url_for('index') }}"
           style="display:flex;align-items:center;gap:0;text-decoration:none;">
           <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
             style="flex-shrink:0;">
@@ -53,7 +53,7 @@
           </svg>
         </a>
         <ul class="nav-links ms-3">
-          <li><a class="nav-link" href="../../index.html#shop">Shop</a></li>
+          <li><a class="nav-link" href="{{ url_for('index') }}">Shop</a></li>
         </ul>
         <div class="nav-search-bar">
           <i class="bi bi-search nav-search-icon"></i>
@@ -103,7 +103,7 @@
               </div>
               <div class="settings-divider"></div>
               <div class="settings-panel-header">Account</div>
-              <a class="settings-link-item" href="login.html">
+              <a class="settings-link-item" href="{{ url_for('login') }}">
                 <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
                   Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
               </a>
@@ -111,25 +111,25 @@
                 <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
                   Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
               </a>
-              <a class="settings-link-item" href="seller.html">
+              <a class="settings-link-item" href="{{ url_for('seller') }}">
                 <div class="settings-item-icon" style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
                     class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
                   with Us</span><i class="bi bi-chevron-right ms-auto"
                   style="font-size:0.7rem;color:var(--primary-nature);"></i>
               </a>
-              <a class="settings-link-item" href="about.html">
+              <a class="settings-link-item" href="{{ url_for('about') }}">
                 <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
                   UrbanMart</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
               </a>
             </div>
           </div>
-          <button class="nav-icon-btn" onclick="window.location.href='cart.html'" title="Cart">
+          <a class="nav-icon-btn" href="{{ url_for('cart') }}" title="Cart" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
             <i class="bi bi-bag"></i>
             <span class="cart-badge" id="cart-badge">0</span>
           </button>
-          <a id="login-nav-btn" class="nav-login-btn" href="login.html"><i class="bi bi-person-circle"></i>
+          <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}"><i class="bi bi-person-circle"></i>
             Login</a>
-          <a id="user-profile-btn" class="nav-login-btn d-none" href="account.html"><i class="bi bi-person-circle"></i>
+          <a id="user-profile-btn" class="nav-login-btn d-none" href="{{ url_for('account') }}"><i class="bi bi-person-circle"></i>
             <span id="user-nav-name">Profile</span></a>
           <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i class="bi bi-list"
               id="hamburgerIcon"></i></button>
@@ -138,73 +138,121 @@
     </div>
   </nav>
 
-  <div class="category-nav-bar" id="categoryNavBar">
-    <div class="category-nav-overflow-wrap" id="catOverflowWrap">
-      <div class="category-nav-scroll" id="category-filters">
-        <div class="cat-pill" data-cat="For You" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-grid-fill"></i> For You</div>
-        <div class="cat-pill " data-cat="Grocery" onclick="window.location.href='grocery.html'"><i
-            class="bi bi-cart"></i> <a style="text-decoration: none; color: inherit; " href="grocery.html">Grocery</a>
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar animate__animated animate__fadeInDown">
+        <div class="container">
+            <div class="navbar-inner w-100">
+                <a class="navbar-brand fw-bold" href="{{ url_for('index') }}" style="display:flex;align-items:center;gap:0;text-decoration:none;">
+                    <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+                        <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
+                        <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2" stroke-linecap="round" fill="none" />
+                        <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+                        <circle cx="9.5" cy="17" r="1.2" fill="white" />
+                        <circle cx="16.5" cy="17" r="1.2" fill="white" />
+                        <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
+                        <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#5A8A5A" letter-spacing="-0.3">mart</text>
+                        <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
+                    </svg>
+                </a>
+                <ul class="nav-links ms-3">
+                    <li><a class="nav-link" href="{{ url_for('index') }}">Shop</a></li>
+                </ul>
+                <div class="nav-search-bar">
+                    <i class="bi bi-search nav-search-icon"></i>
+                    <input type="text" id="navSearchInput" class="nav-search-input" placeholder="Search products, categories...">
+                    <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i class="bi bi-x"></i></button>
+                </div>
+                <div class="nav-right">
+                    <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites" style="position:relative;">
+                        <i class="bi bi-heart"></i>
+                        <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
+                    </button>
+                    <div class="settings-wrapper">
+                        <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i class="bi bi-gear"></i></button>
+                        <div class="settings-panel" id="settingsPanel">
+                            <div class="settings-panel-header">Preferences</div>
+                            <div class="settings-item" onclick="toggleSetting('notifications')">
+                                <div class="settings-item-left">
+                                    <div class="settings-item-icon"><i class="bi bi-bell"></i></div>
+                                    <div>
+                                        <div class="settings-item-label">Notifications</div>
+                                        <div class="settings-item-sub">Deals & order updates</div>
+                                    </div>
+                                </div>
+                                <button class="s-toggle on" id="toggle-notifications"></button>
+                            </div>
+                            <div class="settings-item" onclick="toggleSetting('darkmode')">
+                                <div class="settings-item-left">
+                                    <div class="settings-item-icon"><i class="bi bi-moon"></i></div>
+                                    <div>
+                                        <div class="settings-item-label">Dark Mode</div>
+                                        <div class="settings-item-sub">Switch appearance</div>
+                                    </div>
+                                </div>
+                                <button class="s-toggle" id="toggle-darkmode"></button>
+                            </div>
+                            <div class="settings-item" onclick="toggleSetting('offers')">
+                                <div class="settings-item-left">
+                                    <div class="settings-item-icon"><i class="bi bi-tag"></i></div>
+                                    <div>
+                                        <div class="settings-item-label">Personalised Offers</div>
+                                        <div class="settings-item-sub">Based on your activity</div>
+                                    </div>
+                                </div>
+                                <button class="s-toggle on" id="toggle-offers"></button>
+                            </div>
+                            <div class="settings-divider"></div>
+                            <div class="settings-panel-header">Account</div>
+                            <a class="settings-link-item" href="{{ url_for('login') }}">
+                                <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                            </a>
+                            <a class="settings-link-item" href="#">
+                                <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                            </a>
+                            <a class="settings-link-item" href="{{ url_for('seller') }}">
+                                <div class="settings-item-icon" style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner with Us</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;color:var(--primary-nature);"></i>
+                            </a>
+                            <a class="settings-link-item" href="{{ url_for('about') }}">
+                                <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About UrbanMart</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="nav-icon-btn" href="{{ url_for('cart') }}" title="Cart" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </a>
+                    <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}"><i class="bi bi-person-circle"></i> Login</a>
+                    <a id="user-profile-btn" class="nav-login-btn d-none" href="{{ url_for('account') }}"><i class="bi bi-person-circle"></i> <span id="user-nav-name">Profile</span></a>
+                    <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i class="bi bi-list" id="hamburgerIcon"></i></button>
+                </div>
+            </div>
         </div>
-        <div class="cat-pill " data-cat="Fashion" onclick="window.location.href='fashion.html'"><i
-            class="bi bi-bag-heart"></i> <a style="text-decoration: none; color: inherit; "
-            href="fashion.html">Fashion</a></div>
-        <div class="cat-pill" data-cat="Mobiles" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-phone"></i> Mobiles</div>
-        <div class="cat-pill " data-cat="Beauty" onclick="window.location.href='beauty.html'"><i
-            class="bi bi-stars"></i><a style="text-decoration: none; color: inherit; " href="beauty.html">Beauty</a>
+    </nav>
+  <!-- ── CATEGORY NAV BAR ── -->
+     <div class="category-nav-bar" id="categoryNavBar">
+        <div class="category-nav-overflow-wrap" id="catOverflowWrap">
+            <div class="category-nav-scroll" id="category-filters">
+                <a href="{{ url_for('index') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="For You"><i class="bi bi-grid-fill"></i> For You</div></a>
+                <a href="{{ url_for('grocery') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Grocery"><i class="bi bi-cart"></i> Grocery</div></a>
+                <a href="{{ url_for('Books') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books"><i class="bi bi-book "></i> Books</div></a>
+                <a href="{{ url_for('fashion') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill " data-cat="Fashion"><i class="bi bi-bag-heart"></i> Fashion</div></a>
+                <a href="{{ url_for('mobile') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Mobiles"><i class="bi bi-phone"></i> Mobiles</div></a>
+                <a href="{{ url_for('beauty') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Beauty"><i class="bi bi-stars"></i> Beauty</div></a>
+                <a href="{{ url_for('pet') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill active" data-cat="Pet"><i class="bi bi-tencent-qq"></i> Pet</div></a>
+                <a href="{{ url_for('electronic') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Electronics"><i class="bi bi-cpu"></i> Electronics</div></a>
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Home"><i class="bi bi-house"></i> Home</div></a>
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Appliances"><i class="bi bi-lightning-charge"></i> Appliances</div></a>
+                <a href="{{ url_for('Toys') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill " data-cat="Toys"><i class="bi bi-controller"></i> Toys</div></a>
+                <a href="{{ url_for('Food') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Food"><i class="bi bi-basket"></i> Food</div></a>
+                <a href="{{ url_for('car') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Auto"><i class="bi bi-car-front"></i> Auto</div></a>
+                <a href="{{ url_for('two_Wheelers') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler</div></a>
+                
+                <a href="{{ url_for('Fitness_and_Sports') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
+                <a href="{{ url_for('Medicine_and_Nutrients') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
+                <a href="{{ url_for('travel_landing') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel"><span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel</div></a>
+            </div>
         </div>
-        <div class="cat-pill active" data-cat="Pet" onclick="window.location.href='pet.html'"><i
-            class="bi bi-tencent-qq"></i> Pet</div>
-
-        <div class="cat-pill " data-cat="Electronics" onclick="window.location.href='electronic.html'"><i
-            class="bi bi-cpu"></i> Electronics</div>
-        <div class="cat-pill " data-cat="Home" onclick="window.location.href='Homesmart.html'"><i
-            class="bi bi-house"></i>
-          Home</div>
-        <div class="cat-pill" data-cat="Appliances" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-lightning-charge"></i> Appliances</div>
-        <div class="cat-pill" data-cat="Toys" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-controller"></i> Toys</div>
-        <div class="cat-pill" data-cat="Food" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-basket"></i> Food</div>
-        <div class="cat-pill" data-cat="Auto" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-car-front"></i> Auto</div>
-        <div class="cat-pill " data-cat="2 Wheelers" onclick="window.location.href='2_Wheelers.html'"><a
-            href="2_Wheelers.html" style="text-decoration: none; color: inherit;"><i class="bi bi-bicycle"></i> 2
-            Wheelers</a></div>
-        <div class="cat-pill " data-cat="Books" onclick="window.location.href='Books.html'"><i class="bi bi-book"></i>
-          <a href="Books.html" style="text-decoration: none; color: inherit;">Books</a>
-        </div>
-        <div class="cat-pill" data-cat="Furniture" onclick="window.location.href='../../index.html#shop'"><i
-            class="bi bi-lamp"></i> Furniture</div>
-        <div class="cat-pill " data-cat="Sports" onclick="window.location.href='Fitness_&_Sports.html'"><a
-            href="Fitness_&_Sports.html" style="text-decoration: none; color: inherit;"><i class="bi bi-trophy"></i>
-            Sports</a></div>
-        <div class="cat-pill " data-cat="Medicines" onclick="window.location.href='Medicine_&_Nutrients.html'"><a
-            href="Medicine_&_Nutrients.html" style="text-decoration: none; color: inherit;"><i
-              class="bi bi-capsule"></i> Medicines</a></div>
-        <div class="cat-pill travel-pill " data-cat="Travel" onclick="window.location.href='travel_landing.html'">
-          <span class="travel-badge">NEW</span>
-          <a href="travel_landing.html" style="text-decoration: none; color: inherit;">
-            <i class="bi bi-airplane-fill"></i> Travel
-          </a>
-        </div>
-      </div>
     </div>
-  </div>
-
-  <div class="nav-mobile-panel" id="mobilePanel">
-    <a class="mobile-nav-link" href="../../index.html#home" onclick="closeAll()"><i class="bi bi-house"></i> Home</a>
-    <a class="mobile-nav-link" href="../../index.html#shop" onclick="closeAll()"><i class="bi bi-bag"></i> Shop</a>
-    <a class="mobile-nav-link" href="seller.html"><i class="bi bi-shop"></i> Partner with us</a>
-    <div class="mobile-nav-divider"></div>
-    <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href="login.html" style="border-radius:12px;"><i
-        class="bi bi-person-circle"></i> Login</a>
-    <a id="user-profile-btn-mobile" class="mobile-fab-btn login d-none" href="account.html"
-      style="border-radius:12px;"><i class="bi bi-person-circle"></i> <span id="user-nav-name-mobile">Profile</span></a>
-  </div>
-
 
   <!-- CURSOR -->
   <!-- Removed Cursor and Loader -->
@@ -713,8 +761,8 @@
   <!-- WISHLIST FLASH -->
   <div class="wl-flash" id="wlFlash">🐾 Added to Wishlist!</div>
 
-  <script src="../js/navbar.js" defer></script>
-  <script src="../js/pet.js"></script>
+  <script src="static/js/navbar.js" defer></script>
+  <script src="static/js/pet.js"></script>
 </body>
 
 </html>
