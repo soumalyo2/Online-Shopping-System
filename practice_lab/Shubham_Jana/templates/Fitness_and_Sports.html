@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/Abhi_style.css">
-    <link rel="stylesheet" href="../css/Fitness_&_Sports.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="static/css/Abhi_style.css">
+    <link rel="stylesheet" href="static/css/Fitness_and_Sports.css">
+    <link rel="stylesheet" href="static/css/navbar.css">
 </head>
 
 <body class="fitness-sports-body">
@@ -40,45 +40,37 @@
 
     <div class="nav-backdrop" id="navBackdrop" onclick="closeAll()"></div>
 
-    <nav class="navbar animate__animated animate__fadeInDown">
+     <!-- NAVBAR -->
+  <nav class="navbar animate__animated animate__fadeInDown">
         <div class="container">
             <div class="navbar-inner w-100">
-                <a class="navbar-brand fw-bold" href="../../index.html"
-                    style="display:flex;align-items:center;gap:0;text-decoration:none;">
-                    <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="flex-shrink:0;">
+                <a class="navbar-brand fw-bold" href="{{ url_for('index') }}" style="display:flex;align-items:center;gap:0;text-decoration:none;">
+                    <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
                         <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
-                        <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2"
-                            stroke-linecap="round" fill="none" />
+                        <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2" stroke-linecap="round" fill="none" />
                         <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
                         <circle cx="9.5" cy="17" r="1.2" fill="white" />
                         <circle cx="16.5" cy="17" r="1.2" fill="white" />
-                        <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
-                            fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
-                        <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
-                            fill="#5A8A5A" letter-spacing="-0.3">mart</text>
+                        <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
+                        <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5" fill="#5A8A5A" letter-spacing="-0.3">mart</text>
                         <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
                     </svg>
                 </a>
                 <ul class="nav-links ms-3">
-                    <li><a class="nav-link" href="../../index.html#shop">Shop</a></li>
+                    <li><a class="nav-link" href="{{ url_for('index') }}">Shop</a></li>
                 </ul>
                 <div class="nav-search-bar">
                     <i class="bi bi-search nav-search-icon"></i>
-                    <input type="text" id="navSearchInput" class="nav-search-input"
-                        placeholder="Search products, categories...">
-                    <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i
-                            class="bi bi-x"></i></button>
+                    <input type="text" id="navSearchInput" class="nav-search-input" placeholder="Search products, categories...">
+                    <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i class="bi bi-x"></i></button>
                 </div>
                 <div class="nav-right">
-                    <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites"
-                        style="position:relative;">
+                    <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites" style="position:relative;">
                         <i class="bi bi-heart"></i>
                         <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
                     </button>
                     <div class="settings-wrapper">
-                        <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i
-                                class="bi bi-gear"></i></button>
+                        <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i class="bi bi-gear"></i></button>
                         <div class="settings-panel" id="settingsPanel">
                             <div class="settings-panel-header">Preferences</div>
                             <div class="settings-item" onclick="toggleSetting('notifications')">
@@ -86,7 +78,7 @@
                                     <div class="settings-item-icon"><i class="bi bi-bell"></i></div>
                                     <div>
                                         <div class="settings-item-label">Notifications</div>
-                                        <div class="settings-item-sub">Deals &amp; order updates</div>
+                                        <div class="settings-item-sub">Deals & order updates</div>
                                     </div>
                                 </div>
                                 <button class="s-toggle on" id="toggle-notifications"></button>
@@ -113,110 +105,65 @@
                             </div>
                             <div class="settings-divider"></div>
                             <div class="settings-panel-header">Account</div>
-                            <a class="settings-link-item" href="login.html">
-                                <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
-                                    Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                            <a class="settings-link-item" href="{{ url_for('login') }}">
+                                <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
                             </a>
                             <a class="settings-link-item" href="#">
-                                <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
-                                    Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                                <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
                             </a>
-                            <a class="settings-link-item" href="seller.html">
-                                <div class="settings-item-icon"
-                                    style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
-                                        class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
-                                    with Us</span><i class="bi bi-chevron-right ms-auto"
-                                    style="font-size:0.7rem;color:var(--primary-nature);"></i>
+                            <a class="settings-link-item" href="{{ url_for('seller') }}">
+                                <div class="settings-item-icon" style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner with Us</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;color:var(--primary-nature);"></i>
                             </a>
-                            <a class="settings-link-item" href="about.html">
-                                <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
-                                    UrbanMart</span><i class="bi bi-chevron-right ms-auto"
-                                    style="font-size:0.7rem;"></i>
+                            <a class="settings-link-item" href="{{ url_for('about') }}">
+                                <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About UrbanMart</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
                             </a>
                         </div>
                     </div>
-                    <button class="nav-icon-btn" onclick="window.location.href='cart.html'" title="Cart">
+                    <a class="nav-icon-btn" href="{{ url_for('cart') }}" title="Cart" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
                         <i class="bi bi-bag"></i>
                         <span class="cart-badge" id="cart-badge">0</span>
-                    </button>
-                    <a id="login-nav-btn" class="nav-login-btn" href="login.html"><i class="bi bi-person-circle"></i>
-                        Login</a>
-                    <a id="user-profile-btn" class="nav-login-btn d-none" href="account.html"><i
-                            class="bi bi-person-circle"></i>
-                        <span id="user-nav-name">Profile</span></a>
-                    <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
-                            class="bi bi-list" id="hamburgerIcon"></i></button>
+                    </a>
+                    <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}"><i class="bi bi-person-circle"></i> Login</a>
+                    <a id="user-profile-btn" class="nav-login-btn d-none" href="{{ url_for('account') }}"><i class="bi bi-person-circle"></i> <span id="user-nav-name">Profile</span></a>
+                    <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i class="bi bi-list" id="hamburgerIcon"></i></button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="category-nav-bar" id="categoryNavBar">
+    <!-- Category Nav Bar -->
+  <div class="category-nav-bar" id="categoryNavBar">
         <div class="category-nav-overflow-wrap" id="catOverflowWrap">
             <div class="category-nav-scroll" id="category-filters">
-                <div class="cat-pill" data-cat="For You" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-grid-fill"></i> For You</div>
-                <div class="cat-pill " data-cat="Grocery" onclick="window.location.href='grocery.html'"><i
-                        class="bi bi-cart"></i> <a style="text-decoration: none; color: inherit; "
-                        href="grocery.html">Grocery</a></div>
-                <div class="cat-pill " data-cat="Fashion" onclick="window.location.href='fashion.html'"><i
-                        class="bi bi-bag-heart"></i> <a style="text-decoration: none; color: inherit; "
-                        href="fashion.html">Fashion</a></div>
-                <div class="cat-pill" data-cat="Mobiles" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-phone"></i> Mobiles</div>
-                <div class="cat-pill " data-cat="Beauty" onclick="window.location.href='beauty.html'"><i
-                        class="bi bi-stars"></i><a style="text-decoration: none; color: inherit; "
-                        href="beauty.html">Beauty</a></div>
-                <div class="cat-pill " data-cat="Pet" onclick="window.location.href='pet.html'"><i
-                        class="bi bi-tencent-qq"></i> Pet</div>
-                <div class="cat-pill " data-cat="Electronics" onclick="window.location.href='electronic.html'"><i
-                        class="bi bi-cpu"></i> Electronics</div>
-                <div class="cat-pill " data-cat="Home" onclick="window.location.href='Homesmart.html'"><i
-                        class="bi bi-house"></i>
-                    Home</div>
-                <div class="cat-pill" data-cat="Appliances" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-lightning-charge"></i> Appliances</div>
-                <div class="cat-pill" data-cat="Toys" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-controller"></i> Toys</div>
-                <div class="cat-pill" data-cat="Food" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-basket"></i> Food</div>
-                <div class="cat-pill" data-cat="Auto" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-car-front"></i> Auto</div>
-                <div class="cat-pill " data-cat="2 Wheelers" onclick="window.location.href='2_Wheelers.html'"><a
-                        href="2_Wheelers.html" style="text-decoration: none; color: inherit;"><i
-                            class="bi bi-bicycle"></i> 2 Wheelers</a></div>
-                <div class="cat-pill " data-cat="Books" onclick="window.location.href='Books.html'"><i
-                        class="bi bi-book"></i> <a href="Books.html"
-                        style="text-decoration: none; color: inherit;">Books</a></div>
-                <div class="cat-pill" data-cat="Furniture" onclick="window.location.href='../../index.html#shop'"><i
-                        class="bi bi-lamp"></i> Furniture</div>
-                <div class="cat-pill active" data-cat="Sports" onclick="window.location.href='Fitness_&_Sports.html'"><a
-                        href="Fitness_&_Sports.html" style="text-decoration: none; color: inherit;"><i
-                            class="bi bi-trophy"></i> Sports</a></div>
-                <div class="cat-pill " data-cat="Medicines" onclick="window.location.href='Medicine_&_Nutrients.html'">
-                    <a href="Medicine_&_Nutrients.html" style="text-decoration: none; color: inherit;"><i
-                            class="bi bi-capsule"></i> Medicines</a>
-                </div>
-                <div class="cat-pill travel-pill " data-cat="Travel"
-                    onclick="window.location.href='travel_landing.html'">
-                    <span class="travel-badge">NEW</span>
-                    <a href="travel_landing.html" style="text-decoration: none; color: inherit;">
-                        <i class="bi bi-airplane-fill"></i> Travel
-                    </a>
-                </div>
+                <a href="{{ url_for('index') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="For You"><i class="bi bi-grid-fill"></i> For You</div></a>
+                <a href="{{ url_for('grocery') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Grocery"><i class="bi bi-cart"></i> Grocery</div></a>
+                <a href="{{ url_for('fashion') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Fashion"><i class="bi bi-bag-heart"></i> Fashion</div></a>
+                <a href="{{ url_for('mobile') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Mobiles"><i class="bi bi-phone"></i> Mobiles</div></a>
+                <a href="{{ url_for('electronic') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill active" data-cat="Electronics"><i class="bi bi-cpu"></i> Electronics</div></a>
+                <a href="{{ url_for('beauty') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Beauty"><i class="bi bi-stars"></i> Beauty</div></a>
+                <a href="{{ url_for('pet') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Pet"><i class="bi bi-tencent-qq"></i> Pet</div></a>
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Home"><i class="bi bi-house"></i> Home</div></a>
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Appliances"><i class="bi bi-lightning-charge"></i> Appliances</div></a>
+                <a href="{{ url_for('Toys') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill " data-cat="Toys"><i class="bi bi-controller"></i> Toys</div></a>
+                <a href="{{ url_for('Food') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Food"><i class="bi bi-basket"></i> Food</div></a>
+                <a href="{{ url_for('car') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Auto"><i class="bi bi-car-front"></i> Auto</div></a>
+                <a href="{{ url_for('two_Wheelers') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler</div></a>
+                <a href="{{ url_for('Books') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books"><i class="bi bi-book"></i> Books</div></a>
+                <a href="{{ url_for('Fitness_and_Sports') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
+                <a href="{{ url_for('Medicine_and_Nutrients') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
+                <a href="{{ url_for('travel_landing') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel"><span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel</div></a>
             </div>
         </div>
     </div>
-
     <div class="nav-mobile-panel" id="mobilePanel">
-        <a class="mobile-nav-link" href="../../index.html#home" onclick="closeAll()"><i class="bi bi-house"></i>
+        <a class="mobile-nav-link" href="{{ url_for('index') }}" onclick="closeAll()"><i class="bi bi-house"></i>
             Home</a>
-        <a class="mobile-nav-link" href="../../index.html#shop" onclick="closeAll()"><i class="bi bi-bag"></i> Shop</a>
-        <a class="mobile-nav-link" href="seller.html"><i class="bi bi-shop"></i> Partner with us</a>
+        <a class="mobile-nav-link" href="{{ url_for('index') }}" onclick="closeAll()"><i class="bi bi-bag"></i> Shop</a>
+        <a class="mobile-nav-link" href="{{ url_for('seller') }}"><i class="bi bi-shop"></i> Partner with us</a>
         <div class="mobile-nav-divider"></div>
-        <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href="login.html" style="border-radius:12px;"><i
+        <a id="login-nav-btn-mobile" class="mobile-fab-btn login" href="{{ url_for('login') }}" style="border-radius:12px;"><i
                 class="bi bi-person-circle"></i> Login</a>
-        <a id="user-profile-btn-mobile" class="mobile-fab-btn login d-none" href="account.html"
+        <a id="user-profile-btn-mobile" class="mobile-fab-btn login d-none" href="{{ url_for('account') }}"
             style="border-radius:12px;"><i class="bi bi-person-circle"></i> <span
                 id="user-nav-name-mobile">Profile</span></a>
     </div>
@@ -285,12 +232,12 @@
                     <span class="section-tagline">LIMITED TIME OFFERS</span>
                     <h2>Action-Packed Deals</h2>
                 </div>
-                <a href="../template/Fitness_&_Sports_AllProducts.html" class="view-all">Shop All Deals <i
+                <a href="{{ url_for('Fitness_and_Sports_AllProducts') }}" class="view-all">Shop All Deals <i
                         class="fas fa-arrow-right"></i></a>
             </div>
             <div class="product-scroll-container">
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Adjustable Dumbbell Set&price=$249&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop&cat=Deals&rating=4.8&reviews=3400&originalPrice=$349&desc=Precision-engineered adjustable weights.&badge=Best Seller'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Adjustable Dumbbell Set&price=$249&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop&cat=Deals&rating=4.8&reviews=3400&originalPrice=$349&desc=Precision-engineered adjustable weights.&badge=Best Seller'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop"
                             class="product-image">
@@ -304,7 +251,7 @@
                     </div>
                 </div>
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Resistance Band Set&price=$35&img=https://images.unsplash.com/photo-1517130591727-4422e661be48?q=80&w=400&h=300&fit=crop&cat=Deals&rating=4.4&reviews=890&originalPrice=$70&desc=Full body workout kit.&badge=50%25 OFF'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Resistance Band Set&price=$35&img=https://images.unsplash.com/photo-1517130591727-4422e661be48?q=80&w=400&h=300&fit=crop&cat=Deals&rating=4.4&reviews=890&originalPrice=$70&desc=Full body workout kit.&badge=50%25 OFF'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1517130591727-4422e661be48?q=80&w=400&h=300&fit=crop"
                             class="product-image">
@@ -319,7 +266,7 @@
                 </div>
                 <!-- 2 new deals added to match 2_Wheelers density -->
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Premium Yoga Mat Pro&price=$55&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop&cat=Deals&rating=5.0&reviews=850&originalPrice=$75&desc=Extra grip and superior cushioning for your daily practice.&badge=25%25 OFF'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Premium Yoga Mat Pro&price=$55&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop&cat=Deals&rating=5.0&reviews=850&originalPrice=$75&desc=Extra grip and superior cushioning for your daily practice.&badge=25%25 OFF'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop"
                             class="product-image">
@@ -333,7 +280,7 @@
                     </div>
                 </div>
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Boxing Gloves Pro&price=$65&img=https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop&cat=Deals&rating=4.8&reviews=2100&originalPrice=$85&desc=Professional protection and wrist support.&badge=20%25 OFF'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Boxing Gloves Pro&price=$65&img=https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop&cat=Deals&rating=4.8&reviews=2100&originalPrice=$85&desc=Professional protection and wrist support.&badge=20%25 OFF'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop"
                             class="product-image">
@@ -356,12 +303,12 @@
                     <span class="section-tagline">ATHLETE FAVORITES</span>
                     <h2>Best Sellers of the Week</h2>
                 </div>
-                <a href="../template/Fitness_&_Sports_AllProducts.html" class="view-all">Browse Popular <i
+                <a href="static/template/Fitness_and_Sports_AllProducts.html" class="view-all">Browse Popular <i
                         class="fas fa-arrow-right"></i></a>
             </div>
             <div class="product-scroll-container">
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Eco Yoga Block&price=$15.00&img=https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=4.5&reviews=420&badge=Trending'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Eco Yoga Block&price=$15.00&img=https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=4.5&reviews=420&badge=Trending'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Eco Yoga Block">
@@ -374,7 +321,7 @@
                     </div>
                 </div>
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Speed Jump Rope&price=$12.50&img=https://images.unsplash.com/photo-1590502160462-094ba45283fc?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=4.6&reviews=1500&badge=%231 Seller'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Speed Jump Rope&price=$12.50&img=https://images.unsplash.com/photo-1590502160462-094ba45283fc?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=4.6&reviews=1500&badge=%231 Seller'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1590502160462-094ba45283fc?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Speed Jump Rope">
@@ -388,7 +335,7 @@
                 </div>
                 <!-- 2 new favorites added -->
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Premium Yoga Mat Pro&price=$75.00&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=5.0&reviews=850&badge=Popular'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Premium Yoga Mat Pro&price=$75.00&img=https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=5.0&reviews=850&badge=Popular'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1592432678886-dd0452fba3d1?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Premium Yoga Mat Pro">
@@ -401,7 +348,7 @@
                     </div>
                 </div>
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Boxing Gloves Pro&price=$85.00&img=https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=4.8&reviews=2100&badge=Hot'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Boxing Gloves Pro&price=$85.00&img=https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop&cat=Best Sellers&rating=4.8&reviews=2100&badge=Hot'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Boxing Gloves Pro">
@@ -423,12 +370,12 @@
                     <span class="section-tagline">PREMIUM COLLECTION</span>
                     <h2>Pro Gear Gallery</h2>
                 </div>
-                <a href="../template/Fitness_&_Sports_AllProducts.html" class="view-all">View All <i
+                <a href="static/template/Fitness_and_Sports_AllProducts.html" class="view-all">View All <i
                         class="fas fa-chevron-right"></i></a>
             </div>
             <div class="product-scroll-container">
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Pro-Series Treadmill Z1&price=$899.00&img=https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=400&h=300&fit=crop&cat=Premium&rating=4.9&reviews=1200&badge=Signature'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Pro-Series Treadmill Z1&price=$899.00&img=https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=400&h=300&fit=crop&cat=Premium&rating=4.9&reviews=1200&badge=Signature'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Pro-Series Treadmill Z1">
@@ -441,7 +388,7 @@
                     </div>
                 </div>
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Performance Football&price=$45.00&img=https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=400&h=300&fit=crop&cat=Premium&rating=4.7&reviews=580&badge=Match Grade'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Performance Football&price=$45.00&img=https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=400&h=300&fit=crop&cat=Premium&rating=4.7&reviews=580&badge=Match Grade'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Performance Football">
@@ -454,7 +401,7 @@
                     </div>
                 </div>
                 <div class="product-card"
-                    onclick="window.location.href='../template/Fitness_&_Sports_ProductDetails.html?name=Adjustable Dumbbell Set&price=$249.00&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop&cat=Premium&rating=4.8&reviews=3400&badge=Pro Choice'">
+                    onclick="window.location.href='static/template/Fitness_and_Sports_ProductDetails.html?name=Adjustable Dumbbell Set&price=$249.00&img=https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop&cat=Premium&rating=4.8&reviews=3400&badge=Pro Choice'">
                     <div class="image-wrapper">
                         <img src="https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?q=80&w=400&h=300&fit=crop"
                             class="product-image" alt="Adjustable Dumbbell Set">
@@ -513,8 +460,8 @@
             &copy; 2026 Fitness & Sports. All rights reserved.</div>
     </footer>
 
-    <script src="../js/navbar.js" defer></script>
-    <script src="../js/Fitness_&_Sports.js" defer></script>
+    <script src="static/js/navbar.js" defer></script>
+    <script src="static/js/Fitness_and_Sports.js" defer></script>
 </body>
 
 </html>

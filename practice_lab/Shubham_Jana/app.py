@@ -179,5 +179,8 @@ def orders():
 def Medicine_and_Nutrients_AllProducts():
     return render_template('Medicine_and_Nutrients_AllProducts.html')
 
+@app.route('/Fitness_and_Sports_AllProducts')
+def Fitness_and_Sports_AllProducts():
+    return render_template('Fitness_and_Sports_AllProducts.html')
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
