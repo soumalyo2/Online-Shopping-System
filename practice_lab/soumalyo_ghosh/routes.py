@@ -6,9 +6,9 @@ routing @app.for each page with their functions
 import secrets
 import os
 from flask import render_template, request, redirect, url_for, flash
-from flask_blog import app, db, bcrypt
-from flask_blog.forms import blogregistrationform, blogloginform, blogupdateform
-from flask_blog.models import User, Post
+from soumalyo_ghosh import app, db, bcrypt
+from soumalyo_ghosh.forms import blogregistrationform, blogloginform, blogupdateform
+from soumalyo_ghosh.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
 
