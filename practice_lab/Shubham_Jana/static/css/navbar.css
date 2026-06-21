@@ -8,6 +8,24 @@
     --heading-font: 'Lora', serif;
 }
 
+/* Base style for all category pills */
+.cat-pill {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    color: #475569;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* The active style that Flask will trigger dynamically */
+.cat-pill.active {
+    background-color: var(--accent-green, #22c55e); /* Use your custom green color variable */
+    color: #ffffff;
+    border-color: var(--accent-green, #22c55e);
+    font-weight: 600;
+}
+
 .navbar {
     background: transparent;
     padding: 18px 0;

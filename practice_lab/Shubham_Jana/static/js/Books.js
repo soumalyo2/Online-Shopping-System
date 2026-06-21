@@ -10,7 +10,8 @@ const heroProducts = [
         price: "₹1,519",
         tag: "BESTSELLER",
         img: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&h=600&fit=crop",
-        link: "Books_ProductDetails.html?name=The Midnight Library&price=₹1,519&img=https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&h=600&fit=crop&cat=Fiction&rating=4.9&reviews=42000&originalPrice=₹2,319&desc=A dazzling novel about all the choices that go into a life well lived.&badge=Bestseller",
+        // Fixed: Updated pathway destination context to match Flask mapping layout
+        link: "/static/template/Books_ProductDetails.html?name=The Midnight Library&price=₹1,519&img=https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&h=600&fit=crop&cat=Fiction&rating=4.9&reviews=42000&originalPrice=₹2,319&desc=A dazzling novel about all the choices that go into a life well lived.&badge=Bestseller",
         bg: "linear-gradient(rgba(45, 90, 39, 0.85), rgba(27, 48, 34, 0.85)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1600&h=900&fit=crop')",
         desc: "Between life and death there is a library. Every book contains a different version of your life. Discover the #1 bestselling phenomenon."
     },
@@ -19,7 +20,8 @@ const heroProducts = [
         price: "₹1,359",
         tag: "SELF-IMPROVEMENT",
         img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&h=600&fit=crop",
-        link: "Books_ProductDetails.html?name=Atomic Habits&price=₹1,359&img=https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&h=600&fit=crop&cat=Self-Help&rating=4.8&reviews=85000&originalPrice=₹2,239&desc=The life-changing million-copy bestseller. Build good habits, break bad ones.&badge=Phenomenon",
+        // Fixed: Updated pathway destination context to match Flask mapping layout
+        link: "/static/template/Books_ProductDetails.html?name=Atomic Habits&price=₹1,359&img=https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&h=600&fit=crop&cat=Self-Help&rating=4.8&reviews=85000&originalPrice=₹2,239&desc=The life-changing million-copy bestseller. Build good habits, break bad ones.&badge=Phenomenon",
         bg: "linear-gradient(rgba(45, 90, 39, 0.85), rgba(27, 48, 34, 0.85)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=1600&h=900&fit=crop')",
         desc: "Tiny changes, remarkable results. Learn the proven system that millions have used to transform their daily routines forever."
     },
@@ -28,7 +30,8 @@ const heroProducts = [
         price: "₹1,199",
         tag: "SCI-FI EPIC",
         img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&h=600&fit=crop",
-        link: "Books_ProductDetails.html?name=Dune&price=₹1,199&img=https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&h=600&fit=crop&cat=Sci-Fi&rating=4.9&reviews=67000&originalPrice=₹1,999&desc=The monumental sci-fi saga. A stunning blend of adventure and mysticism.&badge=Legendary",
+        // Fixed: Updated pathway destination context to match Flask mapping layout
+        link: "/static/template/Books_ProductDetails.html?name=Dune&price=₹1,199&img=https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=600&h=600&fit=crop&cat=Sci-Fi&rating=4.9&reviews=67000&originalPrice=₹1,999&desc=The monumental sci-fi saga. A stunning blend of adventure and mysticism.&badge=Legendary",
         bg: "linear-gradient(rgba(45, 90, 39, 0.85), rgba(27, 48, 34, 0.85)), url('https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=1600&h=900&fit=crop')",
         desc: "The greatest science fiction novel of all time. A masterwork of imagination set on the desert planet Arrakis."
     }
@@ -202,7 +205,6 @@ const genreData = {
 
 // Map display names to the key for cleaner look
 Object.keys(genreData).forEach(key => {
-    // Ensure img property is present for the card renderer
     genreData[key].products = genreData[key].products.map(p => ({
         ...p,
         img: p.img || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400&h=300&fit=crop"
@@ -220,7 +222,6 @@ function scrollToGenre(genreId) {
         window.scrollTo({ top: offset, behavior: 'smooth' });
     }
 
-    // Update active state in nav
     document.querySelectorAll('.genre-tab').forEach(tab => {
         tab.classList.toggle('active', tab.getAttribute('onclick').includes(`'${genreId}'`));
     });
@@ -232,14 +233,11 @@ window.addEventListener('scroll', () => {
     const catBar = document.getElementById('categoryNavBar');
     if (!genreTabs || !catBar) return;
 
-    // Get current top of cat bar (which is updated by navbar.js)
     const catBarTop = parseInt(window.getComputedStyle(catBar).top);
     const catBarHeight = catBar.getBoundingClientRect().height;
 
-    // Set genre tabs to be directly below it
     genreTabs.style.top = `${catBarTop + catBarHeight}px`;
 });
-
 
 const badgesPool = [
     { text: "Bestseller", class: "badge-best" },
@@ -265,13 +263,13 @@ function renderDynamicGenres() {
                     <span class="section-tagline">${genre.tagline}</span>
                     <h2>${genre.title}</h2>
                 </div>
-                <a href="Books_AllProducts.html?cat=${encodeURIComponent(genre.title)}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                <a href="/static/template/Books_AllProducts.html?cat=${encodeURIComponent(genre.title)}" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="product-scroll-container">
                 ${genre.products.map(p => {
             const b = badgesPool[Math.floor(Math.random() * badgesPool.length)];
             return `
-                    <div class="product-card" onclick="window.location.href='Books_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(genre.title)}&badge=${encodeURIComponent(b.text)}'">
+                    <div class="product-card" onclick="window.location.href='/static/template/Books_ProductDetails.html?name=${encodeURIComponent(p.name)}&price=${encodeURIComponent(p.price)}&img=${encodeURIComponent(p.img)}&cat=${encodeURIComponent(genre.title)}&badge=${encodeURIComponent(b.text)}'">
                         <div class="image-wrapper">
                             <img src="${p.img}" class="product-image" alt="${p.name}">
                             <span class="product-badge ${b.class}">${b.text}</span>
@@ -344,7 +342,6 @@ function toggleLike(pName, btn) {
     localStorage.setItem('books_liked', JSON.stringify(liked));
 }
 
-// --- Helper Functions ---
 function formatPrice(p) {
     if (!p) return '';
     if (typeof p === 'string' && p.includes('₹')) return p;
@@ -369,7 +366,6 @@ function addToCart(pName, pPrice, pImg, btn) {
     const existingIndex = cart.findIndex(item => item.name === pName);
 
     if (existingIndex > -1) {
-        // Remove from cart
         cart.splice(existingIndex, 1);
         localStorage.setItem('pbssd_cart', JSON.stringify(cart));
         showToast(`${pName} removed from cart!`, false);
@@ -379,7 +375,6 @@ function addToCart(pName, pPrice, pImg, btn) {
             btn.innerHTML = `<i class="fas fa-shopping-cart"></i> Add`;
         }
     } else {
-        // Add to cart
         cart.push({
             name: pName,
             price: numericPrice,
@@ -396,7 +391,7 @@ function addToCart(pName, pPrice, pImg, btn) {
     }
 
     if (window.updateCartBadge) window.updateCartBadge();
-    syncHardcodedButtons(); // Sync all other instances on the page
+    syncHardcodedButtons();
 }
 
 function showToast(msg, isAdd = true) {
@@ -415,7 +410,8 @@ function buyNow(pName, pPrice, pImg) {
         image: pImg
     };
     sessionStorage.setItem('um_cart', JSON.stringify([product]));
-    window.location.href = '../../templates/payment_gateway.html';
+    // Fixed: Standardized relative layout mapping destination to point directly to clean routing address
+    window.location.href = '/payment';
 }
 
 // Initialize
@@ -449,7 +445,6 @@ function syncLikes() {
 
 function syncHardcodedButtons() {
     const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
-    // Target both standard and carousel-style cart buttons
     document.querySelectorAll('.btn-add-cart, .add-to-cart').forEach(btn => {
         const onclickAttr = btn.getAttribute('onclick');
         if (onclickAttr && (onclickAttr.includes('addToCart') || onclickAttr.includes('quickAdd'))) {
@@ -459,7 +454,6 @@ function syncHardcodedButtons() {
                 const inCart = cart.some(item => item.name === pName);
                 btn.classList.toggle('added', inCart);
 
-                // Keep the icon and text consistent with the design
                 if (inCart) {
                     btn.innerHTML = `<i class="fas fa-check"></i> Added`;
                 } else {
@@ -470,3 +464,19 @@ function syncHardcodedButtons() {
         }
     });
 }
+// Initialization with Preloader Fallback Shield
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        renderHeroCarousel();
+        renderDynamicCategories();
+    } catch (err) {
+        console.error("Initialization error caught cleanly:", err);
+    } finally {
+        // Fallback: Manually trigger preloader termination block if global script misses it
+        const loader = document.getElementById('preloader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
+        }
+    }
+});

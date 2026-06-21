@@ -85,67 +85,67 @@ def payment_gateway():
 
 @app.route('/grocery')
 def grocery():
-    return render_template('grocery.html')
+    return render_template('grocery.html', current_page = 'grocery' )
 
 @app.route('/fashion')
 def fashion():
-    return render_template('fashion.html')
+    return render_template('fashion.html',current_page = 'fashion')
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    return render_template('cart.html',current_page = 'cart')
 
 @app.route('/mobile')
 def mobile():
-    return render_template('mobile.html')
+    return render_template('mobile.html',current_page = 'mobile')
 
 @app.route('/beauty')
 def beauty():
-    return render_template('beauty.html')
+    return render_template('beauty.html',current_page = 'beauty')
 
 @app.route('/pet')
 def pet():
-    return render_template('pet.html')
+    return render_template('pet.html',current_page = 'pet')
 
 @app.route('/electronic')
 def electronic():
-    return render_template('electronic.html')
+    return render_template('electronic.html',current_page = 'electronic')
 
 @app.route('/Homesmart')
 def Homesmart():
-    return render_template('Homesmart.html')
+    return render_template('Homesmart.html', current_page = 'homesmart')
 
 @app.route('/Toys')
 def Toys():
-    return render_template('Toys.html')
+    return render_template('Toys.html', current_page = 'toys')
 
 @app.route('/Food')
 def Food():
-    return render_template('Food.html')
+    return render_template('Food.html', current_page = 'food')
 
 @app.route('/car')
 def car():
-    return render_template('car.html')
+    return render_template('car.html', current_page = 'car')
 
 @app.route('/two_Wheelers')
 def two_Wheelers():
-    return render_template('two_Wheelers.html')
+    return render_template('two_Wheelers.html',current_page = 'tow_wheelers')
 
 @app.route('/Books')
 def Books():
-    return render_template('Books.html')
+    return render_template('Books.html',current_page = 'books')
 
 @app.route('/Fitness_and_Sports')
 def Fitness_and_Sports():
-    return render_template('Fitness_and_Sports.html')
+    return render_template('Fitness_and_Sports.html',current_page = 'fitness_and_sports')
 
 @app.route('/Medicine_and_Nutrients')
 def Medicine_and_Nutrients():
-    return render_template('Medicine_and_Nutrients.html')
+    return render_template('Medicine_and_Nutrients.html',current_page = 'medicine_and_nutrients')
 
 @app.route('/travel_landing')
 def travel_landing():
-    return render_template('travel_landing.html')
+    return render_template('travel_landing.html',current_page = 'travel_landing')
 
 @app.route('/seller')
 def seller():
