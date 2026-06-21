@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanMart | Premium E-commerce</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block head %} {% endblock %}
+</head>
+
+<body>
+
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo">UrbanMart</div>
+            <div class="text-secondary small mt-2">Curating the Best for You...</div>
+        </div>
+    </div>
+
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-overlay-inner">
+            <button class="search-close-btn" onclick="toggleSearch()"><i class="bi bi-x-lg"></i></button>
+            <input type="text" id="searchInput" placeholder="Search products, categories..." autofocus>
+            <button class="nav-icon-btn" onclick="toggleSearch()"
+                style="background:var(--primary-nature);color:white;border-color:var(--primary-nature);"><i
+                    class="bi bi-search"></i></button>
+        </div>
+    </div>
+
+    <div class="nav-backdrop" id="navBackdrop" onclick="closeAll()"></div>
+
+    <nav class="navbar animate__animated animate__fadeInDown">
+        <div class="container">
+            <div class="navbar-inner w-100">
+                <a class="navbar-brand fw-bold" href="#"
+                    style="display:flex;align-items:center;gap:0;text-decoration:none;">
+                    <svg width="148" height="36" viewBox="0 0 148 36" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="flex-shrink:0;">
+                        <rect x="2" y="10" width="22" height="20" rx="3.5" fill="#5A8A5A" />
+                        <path d="M8 10 C8 6.5 10.5 4 13 4 C15.5 4 18 6.5 18 10" stroke="#5A8A5A" stroke-width="2.2"
+                            stroke-linecap="round" fill="none" />
+                        <path d="M9 17 L17 17" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+                        <circle cx="9.5" cy="17" r="1.2" fill="white" />
+                        <circle cx="16.5" cy="17" r="1.2" fill="white" />
+                        <text x="29" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
+                            fill="#1A1A1A" letter-spacing="-0.3">Urban</text>
+                        <text x="80" y="24" font-family="'Lora', Georgia, serif" font-weight="700" font-size="15.5"
+                            fill="#5A8A5A" letter-spacing="-0.3">mart</text>
+                        <circle cx="144" cy="23" r="2.5" fill="#5A8A5A" />
+                    </svg>
+                </a>
+                <ul class="nav-links ms-3">
+                    <li><a class="nav-link active" href="{{ url_for('index') }}">Shop</a></li>
+                    <li style="margin-top: 5px; margin-bottom: 5px;"><a class="nav-link travel-link"
+                            href="{{ url_for('travel_landing') }}"><i class="bi bi-airplane-engines-fill"></i>
+                            Travel</a></li>
+                </ul>
+                <div class="nav-search-bar">
+                    <i class="bi bi-search nav-search-icon"></i>
+                    <input type="text" id="navSearchInput" class="nav-search-input"
+                        placeholder="Search products, categories...">
+                    <button class="nav-search-clear" id="navSearchClear" onclick="clearNavSearch()" title="Clear"><i
+                            class="bi bi-x"></i></button>
+                </div>
+                <div class="nav-right">
+                    <button class="nav-icon-btn" onclick="toggleFavDrawer()" title="Favourites"
+                        style="position:relative;">
+                        <i class="bi bi-heart"></i>
+                        <span class="cart-badge" id="favIconBadge" style="display:none;background:#e11d48;">0</span>
+                    </button>
+                    <div class="settings-wrapper">
+                        <button class="nav-icon-btn" onclick="toggleSettings()" title="Settings" id="settingsBtn"><i
+                                class="bi bi-gear"></i></button>
+                        <div class="settings-panel" id="settingsPanel">
+                            <div class="settings-panel-header">Preferences</div>
+                            <div class="settings-item" onclick="toggleSetting('notifications')">
+                                <div class="settings-item-left">
+                                    <div class="settings-item-icon"><i class="bi bi-bell"></i></div>
+                                    <div>
+                                        <div class="settings-item-label">Notifications</div>
+                                        <div class="settings-item-sub">Deals &amp; order updates</div>
+                                    </div>
+                                </div>
+                                <button class="s-toggle on" id="toggle-notifications"></button>
+                            </div>
+                            <div class="settings-item" onclick="toggleSetting('darkmode')">
+                                <div class="settings-item-left">
+                                    <div class="settings-item-icon"><i class="bi bi-moon"></i></div>
+                                    <div>
+                                        <div class="settings-item-label">Dark Mode</div>
+                                        <div class="settings-item-sub">Switch appearance</div>
+                                    </div>
+                                </div>
+                                <button class="s-toggle" id="toggle-darkmode"></button>
+                            </div>
+                            <div class="settings-item" onclick="toggleSetting('offers')">
+                                <div class="settings-item-left">
+                                    <div class="settings-item-icon"><i class="bi bi-tag"></i></div>
+                                    <div>
+                                        <div class="settings-item-label">Personalised Offers</div>
+                                        <div class="settings-item-sub">Based on your activity</div>
+                                    </div>
+                                </div>
+                                <button class="s-toggle on" id="toggle-offers"></button>
+                            </div>
+                            <div class="settings-divider"></div>
+                            <div class="settings-panel-header">Account</div>
+                            <a class="settings-link-item" href="{{ url_for('account') }}">
+                                <div class="settings-item-icon"><i class="bi bi-person-circle"></i></div><span>My
+                                    Profile</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                            </a>
+                            <a class="settings-link-item" href="{{ url_for('orders') }}">
+                                <div class="settings-item-icon"><i class="bi bi-box-seam"></i></div><span>My
+                                    Orders</span><i class="bi bi-chevron-right ms-auto" style="font-size:0.7rem;"></i>
+                            </a>
+                            <a class="settings-link-item" href="{{ url_for('seller') }}">
+                                <div class="settings-item-icon"
+                                    style="background:rgba(90,138,90,0.1);color:var(--primary-nature);"><i
+                                        class="bi bi-shop"></i></div><span style="color:var(--primary-nature);">Partner
+                                    with Us</span><i class="bi bi-chevron-right ms-auto"
+                                    style="font-size:0.7rem;color:var(--primary-nature);"></i>
+                            </a>
+                            <a class="settings-link-item" href="{{ url_for('about') }}">
+                                <div class="settings-item-icon"><i class="bi bi-info-circle"></i></div><span>About
+                                    UrbanMart</span><i class="bi bi-chevron-right ms-auto"
+                                    style="font-size:0.7rem;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="nav-icon-btn" href="{{ url_for('cart') }}" title="Cart" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+  <i class="bi bi-bag"></i>
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </button>
+                    <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}"><i
+                            class="bi bi-person-circle"></i>
+                        Login</a>
+                    <a id="user-profile-btn" class="nav-login-btn d-none" href="{{ url_for('account') }}"><i
+                            class="bi bi-person-circle"></i>
+                        <span id="user-nav-name">Profile</span></a>
+                    <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
+                            class="bi bi-list" id="hamburgerIcon"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="category-nav-bar" id="categoryNavBar">
+        <div class="category-nav-overflow-wrap" id="catOverflowWrap">
+            <div class="category-nav-scroll" id="category-filters">
+                <div class="cat-pill " data-cat="For You" onclick="filterProducts('All', this)"><i
+                        class="bi bi-grid-fill"></i> For You</div>
+
+                <a style="text-decoration: none; color: inherit; "
+                        href="{{ url_for('grocery') }}"><div class="cat-pill {% if current_page == 'grocery' %}active{% endif %}" data-cat="Grocery" onclick="filterProducts('Grocery', this)"><i
+                        class="bi bi-cart"></i> Grocery</div></a>
+
+                <a style="text-decoration: none; color: inherit; "
+                        href="{{ url_for('fashion') }}"><div class="cat-pill {% if current_page == 'fashion' %}active{% endif %}" data-cat="Fashion" onclick="filterProducts('Fashion', this)"><i
+                        class="bi bi-bag-heart"></i> Fashion</div></a>
+
+                <a style="text-decoration: none; color: inherit; "
+                        href=" {{ url_for('mobile') }}"><div class="cat-pill {% if current_page == 'mobile' %}active{% endif %}" data-cat="Mobiles" onclick="filterProducts('Mobiles', this)"><i
+                        class="bi bi-phone"></i> Mobiles </div></a>
+
+                <a style="text-decoration: none; color: inherit; "
+                        href=" {{ url_for('beauty') }}"><div class="cat-pill {% if current_page == 'beauty' %}active{% endif %}" data-cat="Beauty" onclick="filterProducts('Beauty', this)"><i
+                        class="bi bi-stars"></i>Beauty</div></a>
+
+                <a style="text-decoration: none; color: inherit; "
+                        href=" {{ url_for('pet') }}"><div class="cat-pill {% if current_page == 'pet' %}active{% endif %}" data-cat="pet" onclick="filterProducts('pet', this)"><i
+                        class="bi bi-tencent-qq"></i>Pet</div></a>
+
+                <a href=" {{ url_for('electronic') }}"
+                        style="text-decoration: none; color: inherit;"> <div class="cat-pill {% if current_page == 'electronic' %}active{% endif %}" data-cat="Electronics" onclick="filterProducts('Electronics', this)"><i
+                        class="bi bi-cpu"></i>Electronics</div></a>
+
+                <a href="{{ url_for('Homesmart') }}"> <div class="cat-pill {% if current_page == 'homesmart' %}active{% endif %}" data-cat="Appliances" onclick="filterProducts('Appliances', this)"><i
+                        class="bi bi-lightning-charge"></i> Appliances</div></a>
+
+                <a href=" {{ url_for('Toys') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'toys' %}active{% endif %}" data-cat="Toys" onclick="filterProducts('Toys', this)"><i
+                        class="bi bi-controller"></i>Toys</div></a>
+
+                <a href="{{ url_for('Food') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'food' %}active{% endif %}" data-cat="Food" onclick="filterProducts('Food', this)"><i
+                        class="bi bi-basket"></i> Food</div></a>
+
+                <a href="{{ url_for('car') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'car' %}active{% endif %}" data-cat="Auto" onclick="filterProducts('Auto', this)"><i class="bi bi-car-front"></i> Auto</div></a>
+                        
+                <a href="{{ url_for('two_Wheelers') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'two_wheelers' %}active{% endif %}" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler </div></a>
+
+                <a href="{{ url_for('Books') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'books' %}active{% endif %}" data-cat="Books" onclick="filterProducts('Books', this)"><i class="bi bi-book"></i> Books </div></a>
+
+                <a href="{{ url_for('Homesmart') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'homesmart' %}active{% endif %}" data-cat="Furniture" onclick="filterProducts('Furniture', this)">
+                        <i class="bi bi-lamp"></i> Furniture</div></a>
+                        
+                <a href="{{ url_for('Fitness_and_Sports') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'fitness_and_sports' %}active{% endif %}" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
+
+                <a href="{{ url_for('Medicine_and_Nutrients') }}"
+                        style="text-decoration: none; color: inherit;"><div class="cat-pill {% if current_page == 'Medicine_and_Nutrients' %}active{% endif %}" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
+
+                 <a href="{{ url_for('travel_landing') }}" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel">
+                    <span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel </div></a>
+
+            </div>
+        </div>
+    </div>
+
+    {% block body %}
+    {% endblock %}
+
+    <footer class="um-footer mt-5">
+        <div class="container">
+            <div class="um-footer-grid">
+                <div class="um-footer-brand">
+                    <div class="um-footer-logo">Urban<span>mart</span><span class="um-footer-dot">.</span></div>
+                    <p class="um-footer-tagline">Premium products, curated with care.<br>Delivered to your doorstep across India.</p>
+                    <div class="um-footer-socials">
+                        <a href="#" class="um-social-btn" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="um-social-btn" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="um-social-btn" title="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="um-social-btn" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="um-social-btn" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div class="um-footer-col">
+                    <h6 class="um-footer-col-head">Shop</h6>
+                    <ul class="um-footer-links">
+                        <li><a href="#">Fashion &amp; Clothing</a></li>
+                        <li><a href="#">Mobiles &amp; Tablets</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Home &amp; Furniture</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+
+                <div class="um-footer-col">
+                    <h6 class="um-footer-col-head">Help</h6>
+                    <ul class="um-footer-links">
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Returns &amp; Refunds</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="um-footer-col">
+                    <h6 class="um-footer-col-head">Company</h6>
+                    <ul class="um-footer-links">
+                        <li><a href="{{ url_for('about') }}">About UrbanMart</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="{{ url_for('seller') }}">Partner with Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="um-footer-divider"></div>
+
+            <div class="um-footer-bottom">
+                <p class="um-footer-copy">© 2026 UrbanMart. All rights reserved. Made with <i class="bi bi-heart-fill" style="color:#e87a7a;font-size:0.75rem;"></i> in India.</p>
+                <div class="um-payment-badges">
+                    <span class="um-pay-badge">VISA</span>
+                    <span class="um-pay-badge">MC</span>
+                    <span class="um-pay-badge">UPI</span>
+                    <span class="um-pay-badge">PayTM</span>
+                    <span class="um-pay-badge">COD</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="visual/js/products.js"></script>
+
+    <div class="fav-backdrop" id="favBackdrop" onclick="toggleFavDrawer()"></div>
+    <div class="fav-drawer" id="favDrawer">
+        <div class="fav-drawer-head">
+            <div class="fav-drawer-title">
+                <i class="bi bi-heart-fill" style="color:#e11d48;"></i>
+                Favourites
+                <span class="fav-drawer-count" id="favDrawerCount">0</span>
+            </div>
+            <button class="fav-drawer-close" onclick="toggleFavDrawer()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="fav-drawer-body" id="favDrawerBody">
+            <div class="fav-empty" id="favEmpty">
+                <div class="fav-empty-icon"><i class="bi bi-heart"></i></div>
+                <h5>Nothing saved yet</h5>
+                <p>Tap the heart on any product to save it here.</p>
+            </div>
+            <div class="fav-grid" id="favGrid"></div>
+        </div>
+    </div>
+    
+    <script src="static/js/script.js" defer></script>
+</body>
+</html>
