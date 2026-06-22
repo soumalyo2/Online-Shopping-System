@@ -112,3 +112,10 @@ body {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+
+.sample-products { margin-top: 2rem; }
+.product-preview-card { border: none; border-radius: 15px; overflow: hidden; transition: 0.3s; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); cursor: pointer; }
+.product-preview-card:hover { transform: scale(1.05); }
+.product-preview-card img { height: 100px; object-fit: cover; }
+.toggle-link { cursor: pointer; color: #5A8A5A; font-weight: 600; }
+.preview-img{width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid #5A8A5A; margin-bottom: 10px; display: none;}
