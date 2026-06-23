@@ -14,8 +14,7 @@ classes for insert data query for users,sellers,posts(products posted by the sel
 
 from datetime import datetime
 from soumalyo_ghosh import db, login_manager
-from soumalyo_ghosh import UserMixin
-
+from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):

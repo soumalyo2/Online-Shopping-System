@@ -7,9 +7,10 @@ import secrets
 import os
 from flask import render_template, request, redirect, url_for, flash
 from soumalyo_ghosh import app, db, bcrypt
-from soumalyo_ghosh.forms import blogregistrationform, blogloginform, blogupdateform
-from soumalyo_ghosh.models import User, Post
+from soumalyo_ghosh.forms import userregistrationform, userloginform
+from soumalyo_ghosh.models import User, Product
 from flask_login import login_user, current_user, logout_user, login_required
+
 
 
 @app.route('/')
@@ -21,7 +22,7 @@ def home():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = blogregistrationform()
+    form = userregistrationform()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username = form.username.data, email = form.email.data, password = hashed_password)
@@ -31,7 +32,7 @@ def register():
         
         flash(f'account created! you are able to log-in', 'success')
         return redirect(url_for('login'))
-    return render_template('blog_register.html', form=form)
+    return render_template('user_register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -39,7 +40,7 @@ def register():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = blogloginform()
+    form = userloginform()
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
