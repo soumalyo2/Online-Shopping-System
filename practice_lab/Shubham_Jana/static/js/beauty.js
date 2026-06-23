@@ -1,6 +1,173 @@
-   /* ── UI Logic from style.css/index.html ── */
+// =============================================
+// beauty.js — Dynamic rendering from beauty_data.js
+// Theme: Beauty products marketplace
+// =============================================
 
-   
+// Render Hero Slides from data
+function renderHeroSlides() {
+  const htrack = document.getElementById('htrack');
+  const hstrip = document.getElementById('hstrip');
+  const hdots = document.getElementById('hdots');
+  
+  if (!htrack || !heroSlides) return;
+
+  htrack.innerHTML = '';
+  hstrip.innerHTML = '';
+  hdots.innerHTML = '';
+
+  heroSlides.forEach((slide, idx) => {
+    // Create slide element
+    const slideEl = document.createElement('div');
+    slideEl.className = `hslide hs${idx + 1}`;
+    slideEl.innerHTML = `
+      <div class="hblob hb${idx + 1}a"></div>
+      <div class="hblob hb${idx + 1}b"></div>
+      <div class="hcw">
+        <div class="htxt">
+          <div class="htag"><i class="bi ${slide.icon}"></i> ${slide.category}</div>
+          <h1 class="hh1">${slide.title}</h1>
+          <p class="hsub">${slide.desc}</p>
+          <div class="hctas">
+            ${slide.ctas.map(cta => `<a href="${cta.href}" class="btn btn-pink"><i class="bi ${cta.icon}"></i> ${cta.text}</a>`).join('')}
+          </div>
+          <div class="hstats">
+            ${slide.stats.map(stat => `
+              <div>
+                <div class="hsn">${stat.number}<span>${stat.unit}</span></div>
+                <div class="hsl">${stat.label}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ${slide.featured.map((featured, fidx) => `
+          <div class="hvis">
+            <div class="hring hr1"></div>
+            <div class="hring hr2"></div>
+            <div class="hframe hi${idx + 1}" ${fidx > 0 ? `style="border-radius:180px var(--rlg) var(--rlg) var(--rlg)"` : ''}>
+              <div class="hillo"><img src="${featured.img}" alt="${featured.name}" class="himg"></div>
+            </div>
+            <div class="hchip hc${fidx === 0 ? 'a' : 'b'}">
+              <div class="chlbl">${featured.label}</div>
+              <div class="chval">${featured.name}</div>
+              <div class="chst">${featured.rating}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    htrack.appendChild(slideEl);
+
+    // Create strip indicator
+    const stripEl = document.createElement('div');
+    stripEl.className = `hsi${idx === 0 ? ' active' : ''}`;
+    stripEl.dataset.i = idx;
+    hstrip.appendChild(stripEl);
+
+    // Create dot
+    const dotEl = document.createElement('div');
+    dotEl.className = `hdot${idx === 0 ? ' active' : ''}`;
+    dotEl.dataset.i = idx;
+    hdots.appendChild(dotEl);
+  });
+}
+
+// Render Featured Products
+function renderFeaturedProducts() {
+  const grid = document.getElementById('featured-products-grid');
+  if (!grid || !featuredProducts) return;
+
+  grid.innerHTML = featuredProducts.map((product, idx) => {
+    const paClass = ['pa1', 'pa2', 'pa6', 'pa4', 'pa7', 'pa9', 'pa5', 'pa10', 'pa11', 'pa3', 'pa8', 'pa12'][idx] || 'pa1';
+    const rdClass = ['rd1', 'rd2', 'rd3', 'rd4', 'rd1', 'rd2', 'rd3', 'rd4', 'rd1', 'rd2', 'rd3', 'rd4'][idx] || 'rd1';
+    const colorClasses = [
+      { tla: 'pcp', bra: 'pcg' },
+      { tla: 'pcg', bra: 'pcp' },
+      { tla: 'pcp', bra: 'pcu' },
+      { tla: 'pcn', bra: 'pcg' },
+      { tla: 'pcu', bra: 'pcp' },
+      { tla: 'pcg', bra: 'pcp' },
+      { tla: 'pcp', bra: 'pcg' },
+      { tla: 'pcp', bra: 'pcu' },
+      { tla: 'pcu', bra: 'pcn' },
+      { tla: 'pcu', bra: 'pcp' },
+      { tla: 'pcn', bra: 'pcg' },
+      { tla: 'pcg', bra: 'pcu' }
+    ][idx] || { tla: 'pcp', bra: 'pcg' };
+
+    return `
+      <div class="pcard rev ${rdClass}">
+        <div class="pimgw" data-name="${product.name}" data-price="${product.price}" data-img="${product.img}" data-cat="${product.category}">
+          <div class="part ${paClass}">
+            <div class="pcirc pctla ${colorClasses.tla}"></div>
+            <img src="static/assets/${product.img}" alt="${product.name}" class="pimg">
+            <div class="pcirc pcbra ${colorClasses.bra}"></div>
+          </div>
+          <div class="pbadges"><span class="badge ${product.badgeClass}">${product.badge}</span></div>
+          <div class="pwish" onclick="event.stopPropagation(); tw(this)"><i class="bi bi-heart"></i></div>
+        </div>
+        <div class="pinfo">
+          <div class="pcat">${product.category}</div>
+          <div class="pname">${product.name}</div>
+          <div class="prat"><span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span><span class="rc">(${product.reviews.toLocaleString()})</span></div>
+          <div class="pfoot">
+            <div class="pprice">
+              <span class="pcur">$${product.price}.00</span>
+              ${product.originalPrice ? `<span class="pold">$${product.originalPrice}.00</span>` : ''}
+            </div>
+            <button class="atc" onclick="atc(this,'${product.name}',${product.price})"><i class="bi bi-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Render Categories
+function renderCategories() {
+  const catgrid = document.getElementById('category-grid');
+  if (!catgrid || !categories) return;
+
+  catgrid.innerHTML = categories.map((cat, idx) => {
+    const rdClass = ['rd1', 'rd2', 'rd3', 'rd4'][idx] || 'rd1';
+    return `
+      <div class="catcard rev ${rdClass}">
+        <div class="catbg"><img src="${cat.img}" alt="${cat.name}"></div>
+        <div class="catinfo">
+          <div class="catname">${cat.name}</div>
+          <div class="catcnt">${cat.count} Products</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Render Trending Products
+function renderTrendingProducts() {
+  const ctrack = document.getElementById('ctrack');
+  if (!ctrack || !trendingProducts) return;
+
+  ctrack.innerHTML = trendingProducts.map((product, idx) => {
+    const paClass = ['pa1', 'pa2', 'pa6', 'pa4', 'pa9', 'pa5', 'pa11', 'pa3', 'pa8', 'pa10'][idx] || 'pa1';
+    return `
+      <div class="cslide">
+        <div class="tcard">
+          <div class="timg ${paClass}" style="height:210px" data-name="${product.name}" data-price="${product.price}" data-img="${product.img}" data-cat="${product.category}">
+            <img src="static/assets/${product.img}" alt="${product.name}" class="pimg">
+            <div class="tbadge"><i class="bi ${product.badgeIcon}"></i> ${product.badge}</div>
+            <div class="pwish" onclick="event.stopPropagation(); tw(this)"><i class="bi bi-heart"></i></div>
+          </div>
+          <div class="tinf">
+            <div class="tname">${product.name}</div>
+            <div class="trat"><span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span><span style="color:var(--ts)">${product.rating} (${(product.reviews / 1000).toFixed(1)}k)</span></div>
+            <div class="tfoot"><span class="tprice">$${product.price}.00</span></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+   /* ── UI Logic from style.css/index.html ── */
 
     let settingsOpen = false;
     function toggleSettings() {
@@ -162,26 +329,33 @@
     }
 
     /* ── Beauty Specific Hero Slider ── */
-    const htrack = document.getElementById('htrack');
-    const hslides = document.querySelectorAll('.hslide');
-    const hdots = document.querySelectorAll('.hdot');
-    let hi = 0, hTimer;
-    function goH(idx) {
-      hslides[hi].classList.remove('act');
-      hi = (idx + hslides.length) % hslides.length;
-      hslides[hi].classList.add('act');
-      htrack.style.transform = `translateX(-${hi * 100}%)`;
-      hdots.forEach((d, i) => d.classList.toggle('active', i === hi));
+    function initHeroSlider() {
+      const htrack = document.getElementById('htrack');
+      const hslides = document.querySelectorAll('.hslide');
+      const hdots = document.querySelectorAll('.hdot');
+      let hi = 0, hTimer;
+      
+      function goH(idx) {
+        hslides[hi].classList.remove('act');
+        hi = (idx + hslides.length) % hslides.length;
+        hslides[hi].classList.add('act');
+        htrack.style.transform = `translateX(-${hi * 100}%)`;
+        hdots.forEach((d, i) => d.classList.toggle('active', i === hi));
+      }
+      
+      function startH() { clearInterval(hTimer); hTimer = setInterval(() => goH(hi + 1), 5200) }
+      
+      if (hslides.length > 0) {
+        hslides[0].classList.add('act');
+        document.getElementById('hnext').addEventListener('click', () => { goH(hi + 1); startH() });
+        document.getElementById('hprev').addEventListener('click', () => { goH(hi - 1); startH() });
+        hdots.forEach(d => d.addEventListener('click', () => { goH(+d.dataset.i); startH() }));
+        let htx = 0;
+        htrack.addEventListener('touchstart', e => htx = e.touches[0].clientX, { passive: true });
+        htrack.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - htx; if (Math.abs(dx) > 40) { goH(hi + (dx < 0 ? 1 : -1)); startH() } }, { passive: true });
+        startH();
+      }
     }
-    function startH() { clearInterval(hTimer); hTimer = setInterval(() => goH(hi + 1), 5200) }
-    hslides[0].classList.add('act');
-    document.getElementById('hnext').addEventListener('click', () => { goH(hi + 1); startH() });
-    document.getElementById('hprev').addEventListener('click', () => { goH(hi - 1); startH() });
-    hdots.forEach(d => d.addEventListener('click', () => { goH(+d.dataset.i); startH() }));
-    let htx = 0;
-    htrack.addEventListener('touchstart', e => htx = e.touches[0].clientX, { passive: true });
-    htrack.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - htx; if (Math.abs(dx) > 40) { goH(hi + (dx < 0 ? 1 : -1)); startH() } }, { passive: true });
-    startH();
 
     function atc(btn, name, price) {
       // Update badge count in UI
@@ -221,30 +395,35 @@
     }
 
     /* ── Product Carousel ── */
-    const ctrack = document.getElementById('ctrack');
-    const cslides = document.querySelectorAll('.cslide');
-    const cdotsEl = document.getElementById('cdots');
-    let cur = 0;
-    function getV() { if (window.innerWidth <= 600) return 1; if (window.innerWidth <= 900) return 2; if (window.innerWidth <= 1100) return 4; return 5 }
-    let vis = getV();
+    function buildTrendingCarousel() {
+      const ctrack = document.getElementById('ctrack');
+      const cslides = document.querySelectorAll('.cslide');
+      const cdotsEl = document.getElementById('cdots');
+      let cur = 0;
+      
+      function getV() { if (window.innerWidth <= 600) return 1; if (window.innerWidth <= 900) return 2; if (window.innerWidth <= 1100) return 4; return 5 }
+      let vis = getV();
 
-    function buildD() {
-      cdotsEl.innerHTML = '';
-      const tot = Math.ceil(cslides.length / vis);
-      for (let i = 0; i < tot; i++) { const d = document.createElement('div'); d.className = 'cdot' + (i === cur ? ' active' : ''); d.addEventListener('click', () => goC(i)); cdotsEl.appendChild(d) }
+      function buildD() {
+        cdotsEl.innerHTML = '';
+        const tot = Math.ceil(cslides.length / vis);
+        for (let i = 0; i < tot; i++) { const d = document.createElement('div'); d.className = 'cdot' + (i === cur ? ' active' : ''); d.addEventListener('click', () => goC(i)); cdotsEl.appendChild(d) }
+      }
+      
+      function goC(idx) {
+        const tot = Math.ceil(cslides.length / vis);
+        cur = Math.max(0, Math.min(idx, tot - 1));
+        const w = cslides[0].offsetWidth + 22.4;
+        ctrack.style.transform = `translateX(-${cur * vis * w}px)`;
+        document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === cur));
+      }
+      
+      document.getElementById('cnext').addEventListener('click', () => goC(cur < Math.ceil(cslides.length / vis) - 1 ? cur + 1 : 0));
+      document.getElementById('cprev').addEventListener('click', () => goC(cur > 0 ? cur - 1 : Math.ceil(cslides.length / vis) - 1));
+      setInterval(() => goC(cur < Math.ceil(cslides.length / vis) - 1 ? cur + 1 : 0), 4200);
+      window.addEventListener('resize', () => { vis = getV(); cur = 0; ctrack.style.transform = 'translateX(0)'; buildD() });
+      buildD();
     }
-    function goC(idx) {
-      const tot = Math.ceil(cslides.length / vis);
-      cur = Math.max(0, Math.min(idx, tot - 1));
-      const w = cslides[0].offsetWidth + 22.4;
-      ctrack.style.transform = `translateX(-${cur * vis * w}px)`;
-      document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === cur));
-    }
-    document.getElementById('cnext').addEventListener('click', () => goC(cur < Math.ceil(cslides.length / vis) - 1 ? cur + 1 : 0));
-    document.getElementById('cprev').addEventListener('click', () => goC(cur > 0 ? cur - 1 : Math.ceil(cslides.length / vis) - 1));
-    setInterval(() => goC(cur < Math.ceil(cslides.length / vis) - 1 ? cur + 1 : 0), 4200);
-    window.addEventListener('resize', () => { vis = getV(); cur = 0; ctrack.style.transform = 'translateX(0)'; buildD() });
-    buildD();
 
     /* ── Scroll Reveal ── */
     const revEls = document.querySelectorAll('.rev');
@@ -256,6 +435,16 @@
       setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
       AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
       checkAuth();
+
+      // RENDER ALL DYNAMIC CONTENT FROM DATA
+      renderHeroSlides();
+      renderFeaturedProducts();
+      renderCategories();
+      renderTrendingProducts();
+
+      // Initialize sliders after rendering
+      initHeroSlider();
+      buildTrendingCarousel();
       
       updateWishlistUI();
       syncWishlistButtons();
