@@ -1,8 +1,3 @@
-'''
-**most imp**
-routing @app.for each page with their functions
-'''
-
 import secrets
 import os
 from flask import render_template, request, redirect, url_for, flash
@@ -36,7 +31,6 @@ def register():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@app.route('/login')
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))

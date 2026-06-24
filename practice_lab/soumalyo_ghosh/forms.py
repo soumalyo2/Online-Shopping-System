@@ -1,9 +1,3 @@
-'''
-user account registration
-user account login
-user account update  for changes
-'''
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
@@ -16,6 +10,7 @@ from soumalyo_ghosh.models import User
 class userregistrationform(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('email', validators=[DataRequired(), Email()])
+    user_image = FileField('Upload Photo', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('confirm password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('sign up')
