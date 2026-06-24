@@ -4,12 +4,13 @@ from db_config import get_db_connection
 app = Flask(__name__)
 app.secret_key = 'pbssd_ecommerce_secret' # Required for session-based flash messages
 # Change this:
+'''
 from Shubham_Jana.models import User
 from models import User
 
 from Shubham_Jana import db, login_manager
 from Shubham_Jana import UserMixin
-
+'''
 # Instead of tracking through practice_lab.Shubham_Jana # Adjust path if needed
 
 # @app.route('/')
@@ -43,13 +44,17 @@ def index():
         print("DB Error:", e)
 
     return render_template('index.html', products=products)
-
+'''
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = userloginform()
     register_form = userregistrationform() # From your forms.py
-
     return render_template('login.html', login_form=login_form, register_form=register_form)
+'''
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 @app.route('/admin/login')
 def admin_login():
     return render_template('admin_login.html')

@@ -426,7 +426,7 @@
             }).join('');
         }
 
-        window.addEventListener('load', () => {
+ window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
             AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
@@ -440,4 +440,3 @@
             const catBar = document.getElementById('categoryNavBar');
             if (nav && catBar) catBar.style.top = (nav.getBoundingClientRect().height + 4) + 'px';
         });
-  
