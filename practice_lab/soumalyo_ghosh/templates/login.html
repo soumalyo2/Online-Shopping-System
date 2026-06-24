@@ -9,7 +9,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Lora:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/login.css') }}" defer>
 </head>
 <body>
     <div class="split-container">
@@ -39,49 +39,49 @@
         <div class="side-form animate-fade-in">
             <div class="form-wrapper">
                 <div id="loginSection">
-                    <a href="../../index.html" class="back-link mb-5 d-inline-block">
+                    <a href="{../../index.html}" class="back-link mb-5 d-inline-block">
                         <i class="bi bi-arrow-left"></i> Back to Store
                     </a>
                     <h2 class="heading-lora mb-2">Welcome Back</h2>
                     <p class="text-secondary mb-5">Please enter your details to sign in.</p>
 
                     <form id="userLoginForm" action = "" method = "POST">
-                        {{ form.hidden_tag()}}
+                        {{ login_form.hidden_tag()}}
                         <div class="form-floating-custom mb-4">
-                            {{ form.email.label(class = "form-label") }}
-                            {% if form.email.errors %}
-                                {{ form.email(class = "form-control is-invalid", id="loginEmail",placeholder=" ") }}
+                            {{ login_form.email.label(class = "form-label") }}
+                            {% if login_form.email.errors %}
+                                {{ login_form.email(class = "form-control is-invalid", id="loginEmail",placeholder=" ") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.email.errors %}
+                                    {% for error in login_form.email.errors %}
                                         <span>{{error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.email(class="form-control", id="loginEmail", placeholder=" ") }}
-                                {{ form.email.label(class="form-label", for="loginEmail") }}
+                                {{ login_form.email(class="form-control", id="loginEmail", placeholder=" ") }}
+                                {{ login_form.email.label(class="form-label", for="loginEmail") }}
                             {% endif %}
                             
                         </div>
                         
                         <div class="form-floating-custom mb-4 position-relative">
-                            {{ form.password.label(class = "form-label") }}
-                            {% if form.password.errors %}
-                                {{ form.password(class = "form-control is-invalid", id="loginpass",placeholder=" ") }}
+                            {{ login_form.password.label(class = "form-label") }}
+                            {% if login_form.password.errors %}
+                                {{ login_form.password(class = "form-control is-invalid", id="loginpass",placeholder=" ") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.password.errors %}
+                                    {% for error in login_form.password.errors %}
                                         <span>{{error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.password(class="form-control", id="loginpass", placeholder=" ") }}
-                                {{ form.password.label(class="form-label", for="loginpass") }}
+                                {{ login_form.password(class="form-control", id="loginpass", placeholder=" ") }}
+                                {{ login_form.password.label(class="form-label", for="loginpass") }}
                             {% endif %}
                         </div>
                         <div class="form-checkbox mb-4">
-                            {{ form.remember(class = "form-check-input") }}
-                            {{ form.remember.label(class = "form-check-label") }}
+                            {{ login_form.remember(class = "form-check-input") }}
+                            {{ login_form.remember.label(class = "form-check-label") }}
                         </div>
-                        {{ form.submit(class="btn btn-primary-nature w-100 mb-4", value = "Sign In") }}
+                        {{ login_form.submit(class="btn btn-primary-nature w-100 mb-4", value = "Sign In") }}
                         <small class="text-muted ml-2">
                             <a href="#">Forgot Password?</a>
                         </small>
@@ -102,96 +102,124 @@
                             <img id="pfpPreview" class="preview-img" src="" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid #5A8A5A; margin-bottom: 10px; display: none;">
                             <label class="btn btn-outline-secondary btn-sm rounded-pill px-3">
                                 <i class="bi bi-camera me-1"></i> Upload Photo
-                                {% if form.user_image.errors %}
-                                    {{ form.user_image(id="regPhoto", hidden=True, accept="image/*", class="is-invalid") }}
+                                {% if register_form.user_image.errors %}
+                                    {{ register_form.user_image(id="regPhoto", hidden=True, accept="image/*", class="is-invalid") }}
                                     <div class="invalid-feedback d-block">
-                                        {% for error in form.user_image.errors %}
+                                        {% for error in register_form.user_image.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.user_image(id="regPhoto", hidden=True, accept="image/*") }}
+                                    {{ register_form.user_image(id="regPhoto", hidden=True, accept="image/*") }}
                                 {% endif %}
                             </label>
                         </div>
 
-                        <div class="form-floating-custom mb-3">
-                            {% if form.full_name.errors %}
-                                {{ form.full_name(class="form-control is-invalid", id="regName", placeholder=" ") }}
-                                {{ form.full_name.label(class="form-label", for="regName") }}
+                        <!-- <div class="form-floating-custom mb-3">
+                            {% if register_form.full_name.errors %}
+                                {{ register_form.full_name(class="form-control is-invalid", id="regName", placeholder=" ") }}
+                                {{ register_form.full_name.label(class="form-label", for="regName") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.full_name.errors %}
+                                    {% for error in register_form.full_name.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.full_name(class="form-control", id="regName", placeholder=" ") }}
-                                {{ form.full_name.label(class="form-label", for="regName") }}
+                                {{ register_form.full_name(class="form-control", id="regName", placeholder=" ") }}
+                                {{ register_form.full_name.label(class="form-label", for="regName") }}
+                            {% endif %}
+                        </div> -->
+                        <div class="form-floating-custom mb-3">
+                            {% if register_form.username.errors %}
+                                {{ register_form.username(class="form-control is-invalid", id="regUsername", placeholder=" ") }}
+                                {{ register_form.username.label(class="form-label", for="regUsername") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ register_form.username(class="form-control", id="regUsername", placeholder=" ") }}
+                                {{ register_form.username.label(class="form-label", for="regUsername") }}
                             {% endif %}
                         </div>
 
-                        <div class="form-floating-custom mb-3">
-                            {% if form.email_address.errors %}
-                                {{ form.email_address(class="form-control is-invalid", id="regEmail", placeholder=" ") }}
-                                {{ form.email_address.label(class="form-label", for="regEmail") }}
+                        <!-- <div class="form-floating-custom mb-3">
+                            {% if register_form.email_address.errors %}
+                                {{ register_form.email_address(class="form-control is-invalid", id="regEmail", placeholder=" ") }}
+                                {{ register_form.email_address.label(class="form-label", for="regEmail") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.email_address.errors %}
+                                    {% for error in register_form.email_address.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.email_address(class="form-control", id="regEmail", placeholder=" ") }}
-                                {{ form.email_address.label(class="form-label", for="regEmail") }}
+                                {{ register_form.email_address(class="form-control", id="regEmail", placeholder=" ") }}
+                                {{ register_form.email_address.label(class="form-label", for="regEmail") }}
+                            {% endif %}
+                        </div> -->
+                        <div class="form-floating-custom mb-3">
+                            {% if register_form.email.errors %}
+                                {{ register_form.email(class="form-control is-invalid", id="regEmail", placeholder=" ") }}
+                                {{ register_form.email.label(class="form-label", for="regEmail") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ register_form.email(class="form-control", id="regEmail", placeholder=" ") }}
+                                {{ register_form.email.label(class="form-label", for="regEmail") }}
                             {% endif %}
                         </div>
 
                         <div class="row g-2 mb-3">
                             <div class="col-6 form-floating-custom">
-                                {% if form.phone.errors %}
-                                    {{ form.phone(class="form-control is-invalid", id="regPhone", placeholder=" ") }}
-                                    {{ form.phone.label(class="form-label", for="regPhone") }}
+                                {% if register_form.phone.errors %}
+                                    {{ register_form.phone(class="form-control is-invalid", id="regPhone", placeholder=" ") }}
+                                    {{ register_form.phone.label(class="form-label", for="regPhone") }}
                                     <div class="invalid-feedback">
-                                        {% for error in form.phone.errors %}
+                                        {% for error in register_form.phone.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.phone(class="form-control", id="regPhone", placeholder=" ") }}
-                                    {{ form.phone.label(class="form-label", for="regPhone") }}
+                                    {{ register_form.phone(class="form-control", id="regPhone", placeholder=" ") }}
+                                    {{ register_form.phone.label(class="form-label", for="regPhone") }}
                                 {% endif %}
                             </div>
 
                             <div class="col-6 form-floating-custom">
-                                {% if form.location.errors %}
-                                    {{ form.location(class="form-control is-invalid", id="regLocation", placeholder=" ") }}
-                                    {{ form.location.label(class="form-label", for="regLocation") }}
+                                {% if register_form.location.errors %}
+                                    {{ register_form.location(class="form-control is-invalid", id="regLocation", placeholder=" ") }}
+                                    {{ register_form.location.label(class="form-label", for="regLocation") }}
                                     <div class="invalid-feedback">
-                                        {% for error in form.location.errors %}
+                                        {% for error in register_form.location.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.location(class="form-control", id="regLocation", placeholder=" ") }}
-                                    {{ form.location.label(class="form-label", for="regLocation") }}
+                                    {{ register_form.location(class="form-control", id="regLocation", placeholder=" ") }}
+                                    {{ register_form.location.label(class="form-label", for="regLocation") }}
                                 {% endif %}
                             </div>
                         </div>
 
                         <div class="form-floating-custom mb-4">
-                            {% if form.password.errors %}
-                                {{ form.password(class="form-control is-invalid", id="regPass", placeholder=" ") }}
-                                {{ form.password.label(class="form-label", for="regPass") }}
+                            {% if register_form.password.errors %}
+                                {{ register_form.password(class="form-control is-invalid", id="regPass", placeholder=" ") }}
+                                {{ register_form.password.label(class="form-label", for="regPass") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.password.errors %}
+                                    {% for error in register_form.password.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.password(class="form-control", id="regPass", placeholder=" ") }}
-                                {{ form.password.label(class="form-label", for="regPass") }}
+                                {{ register_form.password(class="form-control", id="regPass", placeholder=" ") }}
+                                {{ register_form.password.label(class="form-label", for="regPass") }}
                             {% endif %}
                         </div>
-                        {{ form.submit(class="btn btn-outline-info", value = "Create Account") }}
+                        {{ register_form.submit(class="btn btn-outline-info", value = "Create Account") }}
                     </form>
                     <div class="text-center">
                         <span class="text-secondary">Already have an account?</span>

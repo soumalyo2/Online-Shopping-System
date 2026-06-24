@@ -10,6 +10,8 @@ from soumalyo_ghosh.models import User
 class userregistrationform(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('email', validators=[DataRequired(), Email()])
+    phone = StringField('Phone', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
     user_image = FileField('Upload Photo', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('confirm password', validators=[DataRequired(), EqualTo('password')])
