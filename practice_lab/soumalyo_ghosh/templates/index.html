@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrbanMart | Premium E-commerce</title>
-
+    {% block title %}UrbanMart | Premium E-commerce{% endblock %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -14,7 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+{% block body %}
 
     <!-- <div id="preloader">
         <div class="loader-content">
@@ -221,81 +219,7 @@
                 id="user-nav-name-mobile">Profile</span></a>
     </div>
 
-    <footer class="um-footer mt-5">
-        <div class="container">
-            <!-- Main footer grid -->
-            <div class="um-footer-grid">
-                <!-- Brand col -->
-                <div class="um-footer-brand">
-                    <div class="um-footer-logo">Urban<span>mart</span><span class="um-footer-dot">.</span></div>
-                    <p class="um-footer-tagline">Premium products, curated with care.<br>Delivered to your doorstep
-                        across India.</p>
-                    <div class="um-footer-socials">
-                        <a href="#" class="um-social-btn" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="um-social-btn" title="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="um-social-btn" title="Twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="um-social-btn" title="YouTube"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="um-social-btn" title="Pinterest"><i class="bi bi-pinterest"></i></a>
-                    </div>
-                </div>
 
-                <!-- Shop col -->
-                <div class="um-footer-col">
-                    <h6 class="um-footer-col-head">Shop</h6>
-                    <ul class="um-footer-links">
-                        <li><a href="#">Fashion &amp; Clothing</a></li>
-                        <li><a href="#">Mobiles &amp; Tablets</a></li>
-                        <li><a href="#">Electronics</a></li>
-                        <li><a href="#">Home &amp; Furniture</a></li>
-                        <li><a href="#">New Arrivals</a></li>
-                        <li><a href="#">Sale</a></li>
-                    </ul>
-                </div>
-
-                <!-- Help col -->
-                <div class="um-footer-col">
-                    <h6 class="um-footer-col-head">Help</h6>
-                    <ul class="um-footer-links">
-                        <li><a href="#">Track Order</a></li>
-                        <li><a href="#">Returns &amp; Refunds</a></li>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-
-                <!-- Company col -->
-                <div class="um-footer-col">
-                    <h6 class="um-footer-col-head">Company</h6>
-                    <ul class="um-footer-links">
-                        <li><a href="#">About UrbanMart</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Partner with Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms &amp; Conditions</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="um-footer-divider"></div>
-
-            <!-- Bottom bar -->
-            <div class="um-footer-bottom">
-                <p class="um-footer-copy">© 2026 UrbanMart. All rights reserved. Made with <i class="bi bi-heart-fill"
-                        style="color:#e87a7a;font-size:0.75rem;"></i> in India.</p>
-                <div class="um-payment-badges">
-                    <span class="um-pay-badge">VISA</span>
-                    <span class="um-pay-badge">MC</span>
-                    <span class="um-pay-badge">UPI</span>
-                    <span class="um-pay-badge">PayTM</span>
-                    <span class="um-pay-badge">COD</span>
-                </div>
-            </div>
-        </div>
-    </footer>
 
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
@@ -328,6 +252,6 @@
     </div>
 <script src="static/js/script.js" ></script>
     
-</html>
+{% endblock %}
 
 <!-- jiijxm -->
