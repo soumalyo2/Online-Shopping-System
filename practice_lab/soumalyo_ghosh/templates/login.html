@@ -116,20 +116,6 @@
                             </label>
                         </div>
 
-                        <!-- <div class="form-floating-custom mb-3">
-                            {% if register_form.full_name.errors %}
-                                {{ register_form.full_name(class="form-control is-invalid", id="regName", placeholder=" ") }}
-                                {{ register_form.full_name.label(class="form-label", for="regName") }}
-                                <div class="invalid-feedback">
-                                    {% for error in register_form.full_name.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ register_form.full_name(class="form-control", id="regName", placeholder=" ") }}
-                                {{ register_form.full_name.label(class="form-label", for="regName") }}
-                            {% endif %}
-                        </div> -->
                         <div class="form-floating-custom mb-3">
                             {% if register_form.username.errors %}
                                 {{ register_form.username(class="form-control is-invalid", id="regUsername", placeholder=" ") }}
@@ -145,20 +131,6 @@
                             {% endif %}
                         </div>
 
-                        <!-- <div class="form-floating-custom mb-3">
-                            {% if register_form.email_address.errors %}
-                                {{ register_form.email_address(class="form-control is-invalid", id="regEmail", placeholder=" ") }}
-                                {{ register_form.email_address.label(class="form-label", for="regEmail") }}
-                                <div class="invalid-feedback">
-                                    {% for error in register_form.email_address.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ register_form.email_address(class="form-control", id="regEmail", placeholder=" ") }}
-                                {{ register_form.email_address.label(class="form-label", for="regEmail") }}
-                            {% endif %}
-                        </div> -->
                         <div class="form-floating-custom mb-3">
                             {% if register_form.email.errors %}
                                 {{ register_form.email(class="form-control is-invalid", id="regEmail", placeholder=" ") }}
