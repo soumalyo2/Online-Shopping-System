@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %}UrbanMart | Premium E-commerce{% endblock %}
+    <title>UrbanMart | Premium E-commerce</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Lora:wght@500;600;700&display=swap"rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% endblock head%}
 </head>
 
 {% block body %}
@@ -146,64 +148,7 @@
         </div>
     </nav>
 
-    <div class="category-nav-bar" id="categoryNavBar">
-        <div class="category-nav-overflow-wrap" id="catOverflowWrap">
-            <div class="category-nav-scroll" id="category-filters">
-                <div class="cat-pill active" data-cat="For You" onclick="filterProducts('All', this)"><i
-                        class="bi bi-grid-fill"></i> For You</div>
-
-                <a style="text-decoration: none; color: inherit; " href="#"><div class="cat-pill" data-cat="Grocery" onclick="filterProducts('Grocery', this)"><i
-                        class="bi bi-cart"></i> Grocery</div></a>
-
-                <a style="text-decoration: none; color: inherit; " href="#"><div class="cat-pill" data-cat="Fashion" onclick="filterProducts('Fashion', this)"><i
-                            class="bi bi-bag-heart"></i> Fashion</div></a>
-
-                <a style="text-decoration: none; color: inherit; " href=" #"><div class="cat-pill" data-cat="Mobiles" onclick="filterProducts('Mobiles', this)"><i
-                        class="bi bi-phone"></i> Mobiles </div></a>
-
-                <a style="text-decoration: none; color: inherit; " href=" #"><div class="cat-pill" data-cat="Beauty" onclick="filterProducts('Beauty', this)"><i
-                        class="bi bi-stars"></i>Beauty</div></a>
-
-                <a style="text-decoration: none; color: inherit; " href=" #"><div class="cat-pill" data-cat="pet" onclick="filterProducts('pet', this)"><i
-                        class="bi bi-tencent-qq"></i>Pet</div></a>
-
-                <a href=" #" style="text-decoration: none; color: inherit;">
-                    <div class="cat-pill" data-cat="Electronics" onclick="filterProducts('Electronics', this)"><i
-                        class="bi bi-cpu"></i>Electronics</div></a>
-
-                <a href=" #" style="text-decoration: none; color: inherit;">
-                    <div class="cat-pill" data-cat="Home" onclick="filterProducts('Home', this)"><i
-                        class="bi bi-house"></i> Home </div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;">
-                    <div class="cat-pill" data-cat="Appliances" onclick="filterProducts('Appliances', this)"><i
-                        class="bi bi-lightning-charge"></i> Appliances</div></a>
-
-                <a href=" #" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Toys" onclick="filterProducts('Toys', this)"><i
-                        class="bi bi-controller"></i>Toys</div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Food" onclick="filterProducts('Food', this)"><i
-                        class="bi bi-basket"></i> Food</div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Auto" onclick="filterProducts('Auto', this)"><i class="bi bi-car-front"></i> Auto</div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="2 Wheelers"><i class="bi bi-bicycle"></i> 2 Wheeler </div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Books" onclick="filterProducts('Books', this)"><i class="bi bi-book"></i> Books </div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Furniture" onclick="filterProducts('Furniture', this)">
-                        <i class="bi bi-lamp"></i> Furniture</div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Sports"><i class="bi bi-trophy"></i> Sports</div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill" data-cat="Medicines"><i class="bi bi-capsule"></i> Medicines</div></a>
-
-                <a href="#" style="text-decoration: none; color: inherit;"><div class="cat-pill travel-pill" data-cat="Travel">
-                    <span class="travel-badge">NEW</span> <i class="bi bi-airplane-fill"></i> Travel </div></a>
-
-            </div>
-        </div>
-    </div>
+    
 
     <div class="nav-mobile-panel" id="mobilePanel">
         <a class="mobile-nav-link" href="{{ url_for('home') }}" onclick="closeAll()"><i class="bi bi-house"></i>
@@ -219,6 +164,209 @@
                 id="user-nav-name-mobile">Profile</span></a>
     </div>
 
+        <section id="home" class="whatsnew-section animate__animated animate__fadeIn" data-aos="fade-up">
+        <div class="container">
+            <div class="whatsnew-header">
+                <div class="whatsnew-badge"><span class="badge-dot"></span> What's New</div>
+                <h2 class="whatsnew-title">Fresh Drops This Week</h2>
+                <p class="whatsnew-sub">Curated arrivals, limited stocks — don't miss out.</p>
+            </div>
+            <div class="wn-slideshow" id="wnSlideshow">
+                <button class="wn-arrow wn-arrow-prev" onclick="wnGoTo(wnCurrent - 1)" aria-label="Previous"><i
+                        class="bi bi-chevron-left"></i></button>
+                <button class="wn-arrow wn-arrow-next" onclick="wnGoTo(wnCurrent + 1)" aria-label="Next"><i
+                        class="bi bi-chevron-right"></i></button>
+                <div class="wn-track" id="wnTrack">
+                    <div class="wn-slide">
+                        <div class="whatsnew-grid">
+                            <div class="wn-card wn-feature"
+                                style="background-image:url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=900')">
+                                <div class="wn-card-overlay"><span class="wn-tag">Fashion Drop</span>
+                                    <h3 class="wn-card-title">Summer Organic<br>Collection '25</h3>
+                                    <p class="wn-card-desc">Handpicked sustainable wear — now live.</p><a
+                                        href="visual/template/fashion.html" class="wn-btn wn-btn-light">Shop Now <i
+                                            class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="wn-stack">
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1498049794561-7780e7231661?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag wn-tag-dark">Electronics</span>
+                                        <h4 class="wn-card-title-sm">Elite Tech Arrivals</h4><a
+                                            href="visual/template/electronic.html" class="wn-btn wn-btn-outline">Explore
+                                            <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag"
+                                            style="background:#D4AF37;color:#1A1A1A;">Grocery</span>
+                                        <h4 class="wn-card-title-sm">Pure Farm Harvest</h4><a
+                                            href="visual/template/grocery.html" class="wn-btn wn-btn-outline">Order
+                                            Fresh <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wn-slide">
+                        <div class="whatsnew-grid">
+                            <div class="wn-card wn-feature"
+                                style="background-image:url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900')">
+                                <div class="wn-card-overlay"><span class="wn-tag"
+                                        style="background:#e8748a;">Beauty</span>
+                                    <h3 class="wn-card-title">Glow Up<br>Essentials '25</h3>
+                                    <p class="wn-card-desc">Serums, mists & skin care — freshly restocked.</p><a
+                                        href="visual/template/beauty.html" class="wn-btn wn-btn-light">Shop Now <i
+                                            class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="wn-stack">
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag"
+                                            style="background:#D4AF37;color:#1A1A1A;">Home</span>
+                                        <h4 class="wn-card-title-sm">Living Room Refresh</h4><a
+                                            href="visual/template/Homesmart.html" class="wn-btn wn-btn-outline">Explore
+                                            <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1585659722982-789758793322?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag wn-tag-dark">Appliances</span>
+                                        <h4 class="wn-card-title-sm">Smart Kitchen Gear</h4><a
+                                            href="visual/template/Homesmart.html" class="wn-btn wn-btn-outline">Shop Now
+                                            <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wn-slide">
+                        <div class="whatsnew-grid">
+                            <div class="wn-card wn-feature"
+                                style="background-image:url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900')">
+                                <div class="wn-card-overlay"><span class="wn-tag"
+                                        style="background:#2563eb;">Mobiles</span>
+                                    <h3 class="wn-card-title">Flagship Phones<br>Just Landed</h3>
+                                    <p class="wn-card-desc">Top-tier specs, unbeatable prices — limited stock.</p><a
+                                        href="visual/template/mobile.html" class="wn-btn wn-btn-light">Shop Now <i
+                                            class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="wn-stack">
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag wn-tag-dark">Audio</span>
+                                        <h4 class="wn-card-title-sm">Noise Buds Pro Drop</h4><a
+                                            href="visual/template/electronic.html" class="wn-btn wn-btn-outline">Listen
+                                            Up <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag"
+                                            style="background:#e11d48;">Toys</span>
+                                        <h4 class="wn-card-title-sm">Kids' Favourites</h4><a
+                                            href="visual/template/Toys.html" class="wn-btn wn-btn-outline">Explore <i
+                                                class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wn-slide">
+                        <div class="whatsnew-grid">
+                            <div class="wn-card wn-feature"
+                                style="background-image:url('https://images.unsplash.com/photo-1616455579100-2ceaa4eb4e2b?w=900')">
+                                <div class="wn-card-overlay"><span class="wn-tag"
+                                        style="background:#7c3aed;">Auto</span>
+                                    <h3 class="wn-card-title">Drive In Style<br>This Season</h3>
+                                    <p class="wn-card-desc">Car care kits, accessories & more — fully loaded.</p><a
+                                        href="visual/template/Auto.html" class="wn-btn wn-btn-light">Shop Now <i
+                                            class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="wn-stack">
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag" style="background:#c2410c;">2
+                                            Wheelers</span>
+                                        <h4 class="wn-card-title-sm">Helmet & Gear Up</h4><a
+                                            href="visual/template/2_Wheelers.html" class="wn-btn wn-btn-outline">Explore
+                                            <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1524578271613-d550eacf6090?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag"
+                                            style="background:#0369a1;">Books</span>
+                                        <h4 class="wn-card-title-sm">New Reads In Stock</h4><a
+                                            href="visual/template/Books.html" class="wn-btn wn-btn-outline">Browse <i
+                                                class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wn-slide">
+                        <div class="whatsnew-grid">
+                            <div class="wn-card wn-feature"
+                                style="background-image:url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900');background-position:top center;">
+                                <div class="wn-card-overlay"><span class="wn-tag"
+                                        style="background:#9333ea;">Furniture</span>
+                                    <h3 class="wn-card-title">Minimalist Homes<br>Made Beautiful</h3>
+                                    <p class="wn-card-desc">Bookshelves, sofas & accent pieces — curated for you.</p><a
+                                        href="visual/template/Homesmart.html" class="wn-btn wn-btn-light">Shop Now <i
+                                            class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="wn-stack">
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag"
+                                            style="background:#65a30d;">Food</span>
+                                        <h4 class="wn-card-title-sm">Organic Honey Batch</h4><a
+                                            href="visual/template/grocery.html" class="wn-btn wn-btn-outline">Order
+                                            Fresh
+                                            <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="wn-card wn-half"
+                                    style="background-image:url('https://images.unsplash.com/photo-1551028711-031cde72b4d5?w=700')">
+                                    <div class="wn-card-overlay"><span class="wn-tag">Fashion</span>
+                                        <h4 class="wn-card-title-sm">Linen Essentials</h4><a
+                                            href="visual/template/fashion.html" class="wn-btn wn-btn-outline">Browse <i
+                                                class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wn-controls">
+                    <div class="wn-dots" id="wnDots"></div>
+                    <div class="wn-progress-wrap">
+                        <div class="wn-progress-bar" id="wnProgressBar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="wn-ticker-wrap">
+                <div class="wn-ticker-inner">
+                    <span>🌿 New Organic Honey Batch — Limited Stock</span><span>✦</span>
+                    <span>👟 Summer Fashion Drop — Up to 30% Off</span><span>✦</span>
+                    <span>🎧 Noise Buds Pro Now Available</span><span>✦</span>
+                    <span>🧴 Beauty Essentials Restocked</span><span>✦</span>
+                    <span>🏠 Home Appliance Sale Ends Sunday</span><span>✦</span>
+                    <span>🌿 New Organic Honey Batch — Limited Stock</span><span>✦</span>
+                    <span>👟 Summer Fashion Drop — Up to 30% Off</span><span>✦</span>
+                    <span>🎧 Noise Buds Pro Now Available</span><span>✦</span>
+                    <span>🧴 Beauty Essentials Restocked</span><span>✦</span>
+                    <span>🏠 Home Appliance Sale Ends Sunday</span><span>✦</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 
