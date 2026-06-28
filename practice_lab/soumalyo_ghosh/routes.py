@@ -12,7 +12,9 @@ from flask_login import login_user, current_user, logout_user, login_required
 def home():
     return render_template('index.html')
 
-
+@app.route('/shop')
+def shop():
+    return render_template('index.html')
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():
 #     if current_user.is_authenticated:
@@ -34,10 +36,17 @@ def home():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
+    
+    # Determine which form to show based on the URL query parameter
+    form_to_show = request.args.get('form', 'login')
     login_form = userloginform()
     register_form = userregistrationform()
-    if login_form.validate_on_submit() and login_form.submit.data:
-        user = User.query.filter_by(email = login_form.email.data).first()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    if login_form.submit_login.data and login_form.validate_on_submit():
+        user = User.query.filter_by(email=login_form.email.data).first()
         # if user and bcrypt.check_password_hash(user.password, form.password.data):
         if user and user.password == login_form.password.data:
             login_user(user, remember = login_form.remember.data)
@@ -46,16 +55,24 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('login unsuccessful. please check email and password', 'danger')
-
-    if register_form.submit.data and register_form.validate_on_submit():
-        new_user = User(username = register_form.username.data, email = register_form.email.data, password = register_form.password.data, image_file = save_picture(register_form.user_image.data) if register_form.user_image.data else 'default.jpg', phone = register_form.phone.data, location = register_form.location.data)
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    if register_form.submit_register.data and register_form.validate_on_submit():
+        new_user = User(
+            username=register_form.username.data,
+            email=register_form.email.data,
+            password=register_form.password.data, 
+            phone=register_form.phone.data,
+            location=register_form.location.data,
+            image_file=save_picture(register_form.user_image.data) if register_form.user_image.data else 'default.jpg'
+        )
 
         db.session.add(new_user)
         db.session.commit()
         flash(f'account created! you are able to log-in', 'success')
         return redirect(url_for('login'))
 
-    return render_template('login.html', login_form=login_form, register_form=register_form)
+    return render_template('login.html', login_form=login_form, register_form=register_form, form_to_show=form_to_show)
 
 
 @app.route("/logout")
@@ -144,6 +161,7 @@ def seller():
     return render_template('seller.html')
 
 @app.route('/account')
+@login_required
 def account():
     return render_template('account.html')
 
