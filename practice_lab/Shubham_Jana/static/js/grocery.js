@@ -141,10 +141,13 @@ function syncWishlistButtons() {
 
 // --- CART STATE LOGIC (IndexedDB) ---
 let cartDB;
-const cartRequest = indexedDB.open('PBSSDCartDB', 1);
+const cartRequest = indexedDB.open('PBSSDCartDB', 2);
 cartRequest.onupgradeneeded = (e) => {
     const db = e.target.result;
     if (!db.objectStoreNames.contains('cart_state')) db.createObjectStore('cart_state');
+    if (!db.objectStoreNames.contains('cart_items')) {
+        db.createObjectStore('cart_items', { keyPath: 'id', autoIncrement: true });
+    }
 };
 cartRequest.onsuccess = (e) => {
     cartDB = e.target.result;

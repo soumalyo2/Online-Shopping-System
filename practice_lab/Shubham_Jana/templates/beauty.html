@@ -107,27 +107,12 @@
 
   
 
-  <!-- Favourites Drawer -->
-  <div class="fav-backdrop" id="favBackdrop" onclick="toggleFavDrawer()"></div>
-  <div class="fav-drawer" id="favDrawer">
-    <div class="fav-drawer-head">
-      <div class="fav-drawer-title">
-        <i class="bi bi-heart-fill" style="color:#e11d48;"></i>
-        Favourites
-        <span class="fav-drawer-count" id="favDrawerCount">0</span>
-      </div>
-      <button class="fav-drawer-close" onclick="toggleFavDrawer()"><i class="bi bi-x-lg"></i></button>
-    </div>
-    <div class="fav-drawer-body" id="favDrawerBody">
-      <!-- Content populated by JS -->
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script src="{{ url_for('static', filename='js/beauty_data.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/navbar.js') }}" defer></script>
+  <script>
+    window.BEAUTY_PRODUCTS_URL = "{{ url_for('static', filename='data/beauty-products.json') }}";
+  </script>
   <script src="{{ url_for('static', filename='js/beauty.js') }}"></script>
 {% endblock %}

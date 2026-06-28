@@ -314,11 +314,14 @@ categories.forEach(cat => {
 let toastTimeout;
 let pdCartDB;
 
-const pdCartRequest = indexedDB.open('PBSSDCartDB', 1);
+const pdCartRequest = indexedDB.open('PBSSDCartDB', 2);
 pdCartRequest.onupgradeneeded = (e) => {
     const db = e.target.result;
     if (!db.objectStoreNames.contains('cart_state')) {
         db.createObjectStore('cart_state');
+    }
+    if (!db.objectStoreNames.contains('cart_items')) {
+        db.createObjectStore('cart_items', { keyPath: 'id', autoIncrement: true });
     }
 };
 pdCartRequest.onsuccess = (e) => {
