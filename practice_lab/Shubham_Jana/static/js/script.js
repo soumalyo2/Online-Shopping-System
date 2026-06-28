@@ -5,23 +5,27 @@
         const wnDotsEl = document.getElementById('wnDots');
         const wnBar = document.getElementById('wnProgressBar');
         const wnBox = document.getElementById('wnSlideshow');
-        for (let i = 0; i < WN_TOTAL; i++) {
-            const d = document.createElement('button');
-            d.className = 'wn-dot' + (i === 0 ? ' active' : '');
-            d.setAttribute('aria-label', 'Slide ' + (i + 1));
-            d.addEventListener('click', () => wnGoTo(i));
-            wnDotsEl.appendChild(d);
-        }
-        function wnUpdateDots() { wnDotsEl.querySelectorAll('.wn-dot').forEach((d, i) => d.classList.toggle('active', i === wnCurrent)); }
-        function wnGoTo(idx) { wnCurrent = ((idx % WN_TOTAL) + WN_TOTAL) % WN_TOTAL; wnTrack.style.transform = `translateX(-${wnCurrent * 100}%)`; wnUpdateDots(); wnResetTimer(); }
-        function wnRunProgress() { wnBar.style.transition = 'none'; wnBar.style.width = '0%'; void wnBar.offsetWidth; wnBar.style.transition = `width ${WN_DURATION}ms linear`; wnBar.style.width = '100%'; }
+        
+        function wnUpdateDots() { if (wnDotsEl) wnDotsEl.querySelectorAll('.wn-dot').forEach((d, i) => d.classList.toggle('active', i === wnCurrent)); }
+        function wnGoTo(idx) { wnCurrent = ((idx % WN_TOTAL) + WN_TOTAL) % WN_TOTAL; if (wnTrack) wnTrack.style.transform = `translateX(-${wnCurrent * 100}%)`; wnUpdateDots(); wnResetTimer(); }
+        function wnRunProgress() { if (wnBar) { wnBar.style.transition = 'none'; wnBar.style.width = '0%'; void wnBar.offsetWidth; wnBar.style.transition = `width ${WN_DURATION}ms linear`; wnBar.style.width = '100%'; } }
         function wnResetTimer() { clearInterval(wnTimer); wnRunProgress(); wnTimer = setInterval(() => wnGoTo(wnCurrent + 1), WN_DURATION); }
-        wnBox.addEventListener('mouseenter', () => { clearInterval(wnTimer); const computed = getComputedStyle(wnBar).width; wnBar.style.transition = 'none'; wnBar.style.width = computed; });
-        wnBox.addEventListener('mouseleave', () => wnResetTimer());
-        let wnTouchX = 0;
-        wnBox.addEventListener('touchstart', e => { wnTouchX = e.touches[0].clientX; }, { passive: true });
-        wnBox.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - wnTouchX; if (Math.abs(dx) > 40) wnGoTo(wnCurrent + (dx < 0 ? 1 : -1)); }, { passive: true });
-        wnResetTimer();
+
+        if (wnDotsEl && wnTrack && wnBar && wnBox) {
+            for (let i = 0; i < WN_TOTAL; i++) {
+                const d = document.createElement('button');
+                d.className = 'wn-dot' + (i === 0 ? ' active' : '');
+                d.setAttribute('aria-label', 'Slide ' + (i + 1));
+                d.addEventListener('click', () => wnGoTo(i));
+                wnDotsEl.appendChild(d);
+            }
+            wnBox.addEventListener('mouseenter', () => { clearInterval(wnTimer); const computed = getComputedStyle(wnBar).width; wnBar.style.transition = 'none'; wnBar.style.width = computed; });
+            wnBox.addEventListener('mouseleave', () => wnResetTimer());
+            let wnTouchX = 0;
+            wnBox.addEventListener('touchstart', e => { wnTouchX = e.touches[0].clientX; }, { passive: true });
+            wnBox.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - wnTouchX; if (Math.abs(dx) > 40) wnGoTo(wnCurrent + (dx < 0 ? 1 : -1)); }, { passive: true });
+            wnResetTimer();
+        }
 
 
         // Keep tempIndex UI interactions
@@ -81,10 +85,13 @@
 
         // --- CART STATE LOGIC (IndexedDB) ---
         let cartDB;
-        const cartRequest = indexedDB.open('PBSSDCartDB', 1);
+        const cartRequest = indexedDB.open('PBSSDCartDB', 2);
         cartRequest.onupgradeneeded = (e) => {
             const db = e.target.result;
             if (!db.objectStoreNames.contains('cart_state')) db.createObjectStore('cart_state');
+            if (!db.objectStoreNames.contains('cart_items')) {
+                db.createObjectStore('cart_items', { keyPath: 'id', autoIncrement: true });
+            }
         };
         cartRequest.onsuccess = (e) => {
             cartDB = e.target.result;

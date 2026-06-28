@@ -1,6 +1,3 @@
-let mobileOpen = false;
-let searchOpen = false;
-
 function toggleSettings() {
     const panel = document.getElementById('settingsPanel');
     const button = document.getElementById('settingsBtn');
@@ -28,16 +25,16 @@ function toggleMobile() {
     const panel = document.getElementById('mobilePanel');
     const backdrop = document.getElementById('navBackdrop');
     if (!panel) return;
-    mobileOpen = !mobileOpen;
-    panel.classList.toggle('open', mobileOpen);
-    backdrop?.classList.toggle('active', mobileOpen);
-    if (mobileOpen) {
+    window.mobileOpen = !window.mobileOpen;
+    panel.classList.toggle('open', window.mobileOpen);
+    backdrop?.classList.toggle('active', window.mobileOpen);
+    if (window.mobileOpen) {
         closeSettings();
         closeSearch();
         panel.style.display = 'flex';
     } else {
         setTimeout(() => {
-            if (!mobileOpen) panel.style.display = 'none';
+            if (!window.mobileOpen) panel.style.display = 'none';
         }, 350);
     }
 }
@@ -45,11 +42,11 @@ function toggleMobile() {
 function closeMobile() {
     const panel = document.getElementById('mobilePanel');
     const backdrop = document.getElementById('navBackdrop');
-    mobileOpen = false;
+    window.mobileOpen = false;
     if (panel) panel.classList.remove('open');
     backdrop?.classList.remove('active');
     setTimeout(() => {
-        if (!mobileOpen && panel) panel.style.display = 'none';
+        if (!window.mobileOpen && panel) panel.style.display = 'none';
     }, 350);
 }
 
@@ -63,10 +60,10 @@ function toggleSearch() {
     const overlay = document.getElementById('searchOverlay');
     const backdrop = document.getElementById('navBackdrop');
     if (!overlay) return;
-    searchOpen = !searchOpen;
-    overlay.classList.toggle('active', searchOpen);
-    backdrop?.classList.toggle('active', searchOpen);
-    if (searchOpen) {
+    window.searchOpen = !window.searchOpen;
+    overlay.classList.toggle('active', window.searchOpen);
+    backdrop?.classList.toggle('active', window.searchOpen);
+    if (window.searchOpen) {
         closeMobile();
         closeSettings();
         setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
