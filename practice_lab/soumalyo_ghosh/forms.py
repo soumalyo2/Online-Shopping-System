@@ -15,7 +15,7 @@ class userregistrationform(FlaskForm):
     user_image = FileField('Upload Photo', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('confirm password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('sign up')
+    submit_register = SubmitField('Create Account')
 
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
@@ -31,4 +31,4 @@ class userloginform(FlaskForm):
     email = StringField('email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    submit_login = SubmitField('Sign In')

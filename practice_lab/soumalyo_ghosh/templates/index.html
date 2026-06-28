@@ -137,10 +137,16 @@
                         <i class="bi bi-bag"></i>
                         <span class="cart-badge" id="cart-badge">0</span>
                     </a>
-                    <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}"><i class="bi bi-person-circle"></i>
-                        Login</a>
-                    <a id="user-profile-btn" class="nav-login-btn d-none" href="{{ url_for('account') }}"><i class="bi bi-person-circle"></i>
-                        <span id="user-nav-name">Profile</span></a>
+                    {% if current_user.is_authenticated %}
+                        <a id="user-profile-btn" class="nav-login-btn" href="{{ url_for('account') }}">
+                            <i class="bi bi-person-circle"></i>
+                            <span id="user-nav-name">{{ current_user.username }}</span>
+                        </a>
+                    {% else %}
+                        <a id="login-nav-btn" class="nav-login-btn" href="{{ url_for('login') }}">
+                            <i class="bi bi-person-circle"></i> Login
+                        </a>
+                    {% endif %}
                     <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMobile()" title="Menu"><i
                             class="bi bi-list" id="hamburgerIcon"></i></button>
                 </div>
