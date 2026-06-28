@@ -1,173 +1,25 @@
-// ── DATA ────────────────────────────────────────────────────
-const products = [
-  // MEN
-  { id: 1,  name: 'Oxford Button Shirt',  category: 'men',   tag: 'new',  price: 1299,  oldPrice: 1799,  rating: 4.8, reviews: 124, badge: 'New',
-    image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Oxford Cotton', colors: ['#FFFFFF','#87CEEB','#F5F5DC'], sizes: ['S','M','L','XL','XXL'],
-    desc: 'A classic Oxford Button Shirt crafted from premium 100% cotton. Perfect for both casual and semi-formal occasions with a relaxed yet polished fit.'
-  },
-  { id: 5,  name: 'Chino Trousers',       category: 'men',   tag: 'sale', price: 1599,  oldPrice: 2199,  rating: 4.6, reviews: 91,  badge: 'Sale',
-    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Stretch Cotton', colors: ['#C8A882','#2F4F4F','#1C1C1E'], sizes: ['28','30','32','34','36'],
-    desc: 'Slim-fit Chino Trousers in premium stretch cotton. Versatile wardrobe staple that transitions seamlessly from office to weekend outings.'
-  },
-  { id: 9,  name: 'Leather Jacket',        category: 'men',   tag: 'hot',  price: 5999,  oldPrice: 7999,  rating: 4.9, reviews: 203, badge: 'Hot',
-    image: 'https://images.unsplash.com/photo-1520975916090-3105956dac55?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1520975916090-3105956dac55?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Genuine Leather', colors: ['#1C1C1E','#4A3728','#8B4513'], sizes: ['S','M','L','XL'],
-    desc: 'Premium genuine leather biker jacket with asymmetric zip closure. A bold statement piece with quilted shoulder panels and multiple pockets.'
-  },
-  { id: 10, name: 'Wool Overcoat',          category: 'men',   tag: 'new',  price: 8999,  oldPrice: 12999, rating: 4.8, reviews: 156, badge: 'New',
-    image: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1548778943-5bbeeb1ba6c1?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Wool Blend', colors: ['#708090','#2F4F4F','#8B7355'], sizes: ['S','M','L','XL','XXL'],
-    desc: 'Elegant double-breasted Wool Overcoat with a full lining. Timeless silhouette designed to keep you warm and stylish through the colder months.'
-  },
-  { id: 11, name: 'Slim Fit Suit',          category: 'men',   tag: 'sale', price: 12999, oldPrice: 18999, rating: 4.9, reviews: 89,  badge: 'Sale',
-    image: 'https://images.unsplash.com/photo-1594938298603-a85c8b9e4e8d?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1594938298603-a85c8b9e4e8d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Italian Wool', colors: ['#1C1C1E','#36454F','#4A4A4A'], sizes: ['38','40','42','44','46'],
-    desc: 'A sharp slim-fit two-piece suit tailored in Italian wool blend. Features a notch lapel jacket with a flat-front trouser for a refined silhouette.'
-  },
+let products = [];
 
-  // WOMEN
-  { id: 2,  name: 'Floral Wrap Dress',     category: 'women', tag: 'hot',  price: 1899,  oldPrice: 2499,  rating: 4.9, reviews: 87,  badge: 'Hot',
-    image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Chiffon', colors: ['#FFB6C1','#FF69B4','#FFF0F5'], sizes: ['XS','S','M','L','XL'],
-    desc: 'A graceful floral wrap dress in lightweight chiffon. The self-tie waist creates a flattering silhouette perfect for brunch, beach, or evening outings.'
-  },
-  { id: 4,  name: 'Silk Blazer',           category: 'women', tag: 'new',  price: 4299,  oldPrice: 5999,  rating: 4.9, reviews: 203, badge: 'New',
-    image: 'https://images.unsplash.com/photo-1590770426020-6a4ae9d31a1a?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1590770426020-6a4ae9d31a1a?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Silk Blend', colors: ['#FFFFF0','#F5F5DC','#1C1C1E'], sizes: ['XS','S','M','L'],
-    desc: 'The Signature Silk Blazer redefines power dressing. Crafted from a premium silk blend with a structured silhouette and sleek single-button closure.'
-  },
-  { id: 6,  name: 'Embroidered Kurta',     category: 'women', tag: 'hot',  price: 2199,  oldPrice: 2999,  rating: 4.8, reviews: 167, badge: 'Hot',
-    image: 'https://images.unsplash.com/photo-1583391733956-6c782764ecb5?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1583391733956-6c782764ecb5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Pure Cotton', colors: ['#FFE4B5','#DDA0DD','#98FB98'], sizes: ['XS','S','M','L','XL','XXL'],
-    desc: 'Beautifully hand-embroidered kurta in pure cotton fabric. Intricate thread work around the neckline and hem adds an elegant ethnic charm.'
-  },
-  { id: 12, name: 'Velvet Midi Dress',     category: 'women', tag: 'new',  price: 3499,  oldPrice: 4999,  rating: 4.7, reviews: 134, badge: 'New',
-    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1612336307429-8a898d10e223?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Crushed Velvet', colors: ['#722F37','#191970','#2F4F4F'], sizes: ['XS','S','M','L','XL'],
-    desc: 'A luxurious velvet midi dress with a figure-skimming fit. Ruched detailing, adjustable straps, and a side slit make it effortlessly glamorous.'
-  },
-  { id: 13, name: 'Cashmere Sweater',      category: 'women', tag: 'sale', price: 2999,  oldPrice: 4499,  rating: 4.9, reviews: 245, badge: 'Sale',
-    image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Pure Cashmere', colors: ['#F5F5DC','#C8A882','#FFDAB9'], sizes: ['XS','S','M','L','XL'],
-    desc: 'Indulge in the warmth of pure cashmere. This relaxed-fit crew-neck sweater is unbelievably soft, breathable, and a wardrobe essential for cooler days.'
-  },
-  { id: 14, name: 'Leather Handbag',       category: 'women', tag: null,   price: 5499,  oldPrice: 7499,  rating: 4.8, reviews: 98,  badge: null,
-    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Full-Grain Leather', colors: ['#8B4513','#1C1C1E','#C8A882'], sizes: ['One Size'],
-    desc: 'A structured tote crafted in full-grain leather with a gold-tone hardware finish. Spacious interior with suede lining and magnetic snap closure.'
-  },
-
-  // KIDS
-  { id: 3,  name: 'Denim Joggers',         category: 'kids',  tag: 'sale', price: 799,   oldPrice: 1199,  rating: 4.7, reviews: 56,  badge: 'Sale',
-    image: 'https://images.unsplash.com/photo-1519457431-7571897d41ef?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1519457431-7571897d41ef?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Stretch Denim', colors: ['#708090','#1C1C1E','#4169E1'], sizes: ['2Y','3Y','4Y','5Y','6Y','7Y'],
-    desc: 'Comfy and cool denim joggers designed for active kids. Elasticated waist with drawstring and ribbed cuffs for easy movement and all-day comfort.'
-  },
-  { id: 7,  name: 'Graphic Tee Set',       category: 'kids',  tag: 'new',  price: 599,   oldPrice: 899,   rating: 4.5, reviews: 44,  badge: 'New',
-    image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1533827432537-70133748f5c8?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Pure Cotton', colors: ['#FFFFFF','#FFD700','#FF6347'], sizes: ['2Y','3Y','4Y','5Y','6Y','7Y','8Y'],
-    desc: 'Fun and vibrant graphic tee set featuring playful prints. Made from 100% soft cotton — gentle on skin, easy to wash and perfect for everyday wear.'
-  },
-  { id: 15, name: 'Cotton Dress',          category: 'kids',  tag: 'hot',  price: 1299,  oldPrice: 1799,  rating: 4.8, reviews: 78,  badge: 'Hot',
-    image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Organic Cotton', colors: ['#FFB6C1','#FFFACD','#E6E6FA'], sizes: ['2Y','3Y','4Y','5Y','6Y'],
-    desc: 'A pretty A-line cotton dress with smocked detailing. Lightweight, breathable fabric keeps little ones comfortable all day. Perfect for playdates and parties.'
-  },
-  { id: 16, name: 'Kids Blazer',           category: 'kids',  tag: 'new',  price: 2199,  oldPrice: 2999,  rating: 4.6, reviews: 67,  badge: 'New',
-    image: 'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1519457431-7571897d41ef?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Poly-Wool Blend', colors: ['#1C1C1E','#36454F','#8B0000'], sizes: ['2Y','3Y','4Y','5Y','6Y','7Y','8Y'],
-    desc: 'A smart mini-me blazer tailored in soft poly-wool blend. Single-button closure with notch lapels — perfect for school events, weddings or festive occasions.'
-  },
-  { id: 17, name: 'Sneakers Set',          category: 'kids',  tag: 'sale', price: 999,   oldPrice: 1499,  rating: 4.7, reviews: 112, badge: 'Sale',
-    image: 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&w=800&q=80',
-    images: [
-      'https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80'
-    ],
-    material: 'Canvas + Rubber', colors: ['#FFFFFF','#FF6347','#4169E1'], sizes: ['UK 1','UK 2','UK 3','UK 4','UK 5'],
-    desc: 'Trendy velcro-strap sneakers bundled with a matching no-show sock set. Lightweight sole with cushioned insoles for all-day comfort and support.'
+async function loadProducts() {
+  const productsUrl = window.FASHION_PRODUCTS_URL || '../data/fashion-products.json';
+  try {
+    const response = await fetch(productsUrl);
+    if (!response.ok) throw new Error(`Failed to load products (${response.status})`);
+    const data = await response.json();
+    products = Array.isArray(data) ? data : (data.products || []);
+    renderFashionProducts(activeFilter);
+    updateCartUI();
+    updateWishlistUI();
+  } catch (error) {
+    console.error('Failed to load fashion products:', error);
+    const grid = document.getElementById('productsGrid');
+    if (grid) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted);">Products could not be loaded. Please refresh the page.</div>';
+    }
   }
-];
+}
 
-// ── STATE ────────────────────────────────────────────────────
+// ── STATE ──────────────────────────────────────────────────── ────────────────────────────────────────────────────
 let cart      = JSON.parse(localStorage.getItem('luxe_cart') || '[]');
 let wishlist  = JSON.parse(localStorage.getItem('luxe_wishlist') || '[]');
 let activeFilter = 'all';
@@ -208,7 +60,7 @@ function renderStars(rating) {
 }
 
 // ── RENDER PRODUCTS ─────────────────────────────────────────
-function renderProducts(filter = 'all') {
+function renderFashionProducts(filter = 'all') {
   const grid = document.getElementById('productsGrid');
   if (!grid) return;
 
@@ -281,9 +133,9 @@ function renderProducts(filter = 'all') {
   grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
 
-renderProducts();
+renderFashionProducts();
 
-function filterProducts(btn, filter) {
+function filterFashionProducts(btn, filter) {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   activeFilter = filter;
@@ -291,7 +143,7 @@ function filterProducts(btn, filter) {
   grid.style.opacity = '0';
   grid.style.transform = 'translateY(12px)';
   setTimeout(() => {
-    renderProducts(filter);
+    renderFashionProducts(filter);
     grid.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
     grid.style.opacity    = '1';
     grid.style.transform  = 'translateY(0)';
@@ -305,7 +157,7 @@ function filterCategory(cat) {
   document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' });
   setTimeout(() => {
     const tabToActivate = document.querySelector(`.filter-tab`);
-    filterProducts(tabToActivate, cat === 'all' ? 'all' : cat);
+    filterFashionProducts(tabToActivate, cat === 'all' ? 'all' : cat);
   }, 600);
 }
 
@@ -676,7 +528,7 @@ if (navSearchInput) {
     const val = e.target.value.trim().toLowerCase();
     if (navSearchClear) navSearchClear.style.display = val ? 'flex' : 'none';
 
-    if (!val) { renderProducts(activeFilter); return; }
+    if (!val) { renderFashionProducts(activeFilter); return; }
 
     const grid = document.getElementById('productsGrid');
     const matched = products.filter(p =>
@@ -731,7 +583,7 @@ if (navSearchInput) {
 function clearNavSearch() {
   if (navSearchInput) navSearchInput.value = '';
   if (navSearchClear) navSearchClear.style.display = 'none';
-  renderProducts(activeFilter);
+  renderFashionProducts(activeFilter);
 }
 
 // ── OVERLAY SEARCH (existing) ────────────────────────────────
