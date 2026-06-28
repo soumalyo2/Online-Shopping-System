@@ -32,18 +32,45 @@ from Shubham_Jana import UserMixin
 @app.route('/')
 def index():
     products = []
+    categories = [
+        'Grocery', 'Fashion', 'Mobiles', 'Beauty', 'Electronics',
+        'Home', 'Appliances', 'Toys', 'Food', 'Auto',
+        'Books', 'Furniture', 'Sports', 'Medicines'
+    ]
 
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM products")
-        products = cursor.fetchall()
+        db_products = cursor.fetchall()
         cursor.close()
         conn.close()
+        
+        for p in db_products:
+            # Format price as currency string (e.g. 1499.00 -> ₹1,499)
+            price_val = p.get('price', 0)
+            try:
+                val = float(price_val)
+                if val == int(val):
+                    price_str = f"₹{int(val):,}"
+                else:
+                    price_str = f"₹{val:,.2f}"
+            except Exception:
+                price_str = f"₹{price_val}"
+
+            products.append({
+                'id': p['id'],
+                'name': p['name'],
+                'price': price_str,
+                'rating': p.get('rating', 5),
+                'image': p.get('image_url', ''),
+                'section': p.get('category', 'Grocery'),
+                'desc': p.get('description', '')
+            })
     except Exception as e:
         print("DB Error:", e)
 
-    return render_template('index.html', products=products)
+    return render_template('index.html', products=products, categories=categories)
 '''
 @app.route('/login', methods=['GET', 'POST'])
 def login():

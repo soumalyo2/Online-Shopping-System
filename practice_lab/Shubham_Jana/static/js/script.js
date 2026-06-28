@@ -430,7 +430,7 @@
             const preloader = document.getElementById('preloader');
             setTimeout(() => { if (preloader) { preloader.style.opacity = '0'; preloader.style.visibility = 'hidden'; } }, 1000);
             AOS.init({ duration: 900, once: true, offset: 80, easing: 'ease-out-cubic' });
-            renderProducts();
+            // renderProducts(); // Disabled in favor of Jinja server-side rendering
             checkAuth();
             const cart = JSON.parse(localStorage.getItem('pbssd_cart') || '[]');
             const badge = getCartBadgeEl();

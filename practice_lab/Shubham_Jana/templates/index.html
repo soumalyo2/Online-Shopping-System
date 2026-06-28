@@ -446,7 +446,96 @@
     
     <!-- Product Grid -->
     <section id="shop" class="container py-3">
-        <div id="product-sections"></div>
+        <div id="product-sections">
+            {% set CAT_PAGE_LINKS = {
+                'Grocery': url_for('grocery'),
+                'Fashion': url_for('fashion'),
+                'Mobiles': url_for('mobile'),
+                'Beauty': url_for('beauty'),
+                'Electronics': url_for('electronic'),
+                'Home': url_for('Homesmart'),
+                'Appliances': url_for('Homesmart'),
+                'Toys': url_for('Toys'),
+                'Food': url_for('Food'),
+                'Auto': url_for('car'),
+                '2 Wheelers': url_for('two_Wheelers'),
+                'Books': url_for('Books'),
+                'Furniture': url_for('Homesmart'),
+                'Sports': url_for('Fitness_and_Sports'),
+                'Medicines': url_for('Medicine_and_Nutrients')
+            } %}
+            {% for cat in categories %}
+                {# Filter products in the category #}
+                {% set ns = namespace(cat_products=[]) %}
+                {% for p in products %}
+                    {% if p.section == cat %}
+                        {% set ns.cat_products = ns.cat_products + [p] %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if ns.cat_products|length > 0 %}
+                    {% set sectionId = cat.replace(' ', '-') %}
+                    {% set PRODUCTS_PER_CAT = 7 %}
+                    {% set visibleProducts = ns.cat_products[:PRODUCTS_PER_CAT] %}
+                    {% set hasMore = ns.cat_products|length > PRODUCTS_PER_CAT %}
+                    {% set pageLink = CAT_PAGE_LINKS.get(cat, '#') %}
+
+                    <div class="cat-section" id="{{ sectionId }}-section" data-aos="fade-up">
+                        <div class="cat-section-head">
+                            <div class="cat-section-left">
+                                <div class="cat-icon-blob" style="background:#f0f0ed;color:var(--primary-nature);"><i class="bi bi-grid"></i></div>
+                                <div class="cat-section-meta">
+                                    <h3 class="cat-section-title">{{ cat }}</h3>
+                                    <span class="cat-section-count">{{ ns.cat_products|length }} products</span>
+                                </div>
+                            </div>
+                            <div class="cat-section-line"></div>
+                        </div>
+                        <div class="cat-scroll-wrap">
+                            <div class="cat-scroll" id="cat-scroll-{{ sectionId }}">
+                                {% for p in visibleProducts %}
+                                    <div class="pcard" onclick="window.location.href='product_detail.html?id={{ p.id }}'">
+                                        <div class="pcard-img-wrap">
+                                            <img src="{{ p.image }}" class="pcard-img" alt="{{ p.name }}" loading="lazy">
+                                            <button class="pcard-wish" id="wish-{{ p.id }}" onclick="event.stopPropagation(); toggleFavourite({{ p.id }}, this)" title="Add to favourites">
+                                                <i class="bi bi-heart"></i>
+                                            </button>
+                                        </div>
+                                        <div class="pcard-body">
+                                            <h6 class="pcard-name" title="{{ p.name }}">{{ p.name }}</h6>
+                                            <div class="pcard-stars mb-2">
+                                                {% for i in range(p.rating) %}
+                                                    <i class="bi bi-star-fill"></i>
+                                                {% endfor %}
+                                                {% for i in range(5 - p.rating) %}
+                                                    <i class="bi bi-star" style="color:#e5e5e0;"></i>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="pcard-footer">
+                                                <div class="pcard-price">{{ p.price }}</div>
+                                                <button class="pcard-add-btn" onclick="event.stopPropagation(); addToCart({{ p.id }})" title="Add to cart">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                {% if hasMore %}
+                                    <div class="viewall-card" onclick="window.location.href='{{ pageLink }}'">
+                                        <div class="viewall-card-inner">
+                                            <div class="viewall-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                                            <div class="viewall-count">+{{ ns.cat_products|length - PRODUCTS_PER_CAT }} more</div>
+                                            <div class="viewall-label">View All</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </section>
 
     <div class="modal fade" id="userLoginModal" tabindex="-1">
@@ -557,7 +646,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="visual/js/products.js"></script>
+    <script>
+        const categories = {{ categories|tojson|safe }};
+        const products = {{ products|tojson|safe }};
+    </script>
 
     
 
