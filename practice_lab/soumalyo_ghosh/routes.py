@@ -2,8 +2,8 @@ import secrets
 import os
 from flask import render_template, request, redirect, url_for, flash
 from soumalyo_ghosh import app, db
-from soumalyo_ghosh.forms import userregistrationform, userloginform
-from soumalyo_ghosh.models import User, Product
+from soumalyo_ghosh.forms import SellerRegistrationForm, userregistrationform, userloginform
+from soumalyo_ghosh.models import User, Product, Seller
 from flask_login import login_user, current_user, logout_user, login_required  
 
 
@@ -88,6 +88,30 @@ def save_picture(form_picture):
     form_picture.save(picture_path)
     return picture_filename
 
+
+@app.route('/seller/register', methods=['GET', 'POST'])
+def seller():
+    seller_registration_form = SellerRegistrationForm()
+    if seller_registration_form.submit.data and seller_registration_form.validate_on_submit():
+        new_seller = Seller(
+            seller_name=seller_registration_form.seller_name.data,
+            shop_name=seller_registration_form.shop_name.data,
+            seller_email=seller_registration_form.seller_email.data,
+            seller_password=seller_registration_form.seller_password.data, # In a real app, HASH THIS PASSWORD
+            aadhar_number=seller_registration_form.aadhar_number.data,
+            gst_number=seller_registration_form.gst_number.data,
+            contact_number=seller_registration_form.contact_number.data,
+            seller_image=save_picture(seller_registration_form.seller_image.data) if seller_registration_form.seller_image.data else 'default.jpg',
+            address=seller_registration_form.address.data
+        )
+
+        db.session.add(new_seller)
+        db.session.commit()
+        flash(f'Seller account created for {seller_registration_form.seller_name.data}! You will be able to log in once approved.', 'success')
+        return redirect(url_for('home')) # Redirect to home, as 'seller_dashboard' route does not exist
+    return render_template('seller.html', form=seller_registration_form)
+
+
 @app.route('/payment')
 def payment_gateway():
     return render_template('payment_gateway.html')
@@ -156,9 +180,9 @@ def Medicine_and_Nutrients():
 def travel_landing():
     return render_template('travel_landing.html',current_page = 'travel_landing')
 
-@app.route('/seller')
-def seller():
-    return render_template('seller.html')
+
+
+
 
 @app.route('/account')
 @login_required
