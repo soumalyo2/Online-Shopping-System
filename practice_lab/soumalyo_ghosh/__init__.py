@@ -19,7 +19,12 @@ from soumalyo_ghosh import models
 
 @login_manager.user_loader
 def load_user(user_id):
-    return models.User.query.get(int(user_id))
+    # First, try to load a User
+    user = models.User.query.get(int(user_id))
+    if user:
+        return user
+    # If not a User, try to load a Seller
+    return models.Seller.query.get(int(user_id))
 
 from soumalyo_ghosh import routes
 

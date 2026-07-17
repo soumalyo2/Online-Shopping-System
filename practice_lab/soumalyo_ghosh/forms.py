@@ -3,7 +3,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import BooleanField, StringField, PasswordField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, Length
-from soumalyo_ghosh.models import User
+from soumalyo_ghosh.models import User, Seller
 
 
 
@@ -45,3 +45,23 @@ class SellerRegistrationForm(FlaskForm):
     seller_image = FileField('Shop Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
     address = StringField('Seller Address', validators=[DataRequired(), Length(max=120)])
     submit = SubmitField('Register')
+
+    def validate_seller_email(self, seller_email):
+        seller = Seller.query.filter_by(seller_email=seller_email.data).first()
+        if seller:
+            raise ValidationError("This email is already registered. Please choose a different one.")
+
+    def validate_shop_name(self, shop_name):
+        seller = Seller.query.filter_by(shop_name=shop_name.data).first()
+        if seller:
+            raise ValidationError("This shop name is already taken. Please choose a different one.")
+
+    def validate_aadhar_number(self, aadhar_number):
+        seller = Seller.query.filter_by(aadhar_number=aadhar_number.data).first()
+        if seller:
+            raise ValidationError("This Aadhar number is already registered.")
+
+    def validate_gst_number(self, gst_number):
+        seller = Seller.query.filter_by(gst_number=gst_number.data).first()
+        if seller:
+            raise ValidationError("This GST number is already registered.")

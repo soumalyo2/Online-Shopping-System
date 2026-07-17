@@ -111,55 +111,92 @@
                     <div class="card-body p-5">
                         <h3 class="heading-lora fw-bold mb-4 text-center color-nature">Seller Registration Form</h3>
                         <p class="text-center text-muted mb-4">Provide your business details below to get started.</p>
-                        <form id="sellerRegistrationForm">
+                        <form id="sellerRegistrationForm" method="POST" action="{{ url_for('seller') }}" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}  
+
                             <div class="row g-4">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Seller Name</label>
-                                    <input type="text" class="form-control py-2" id="sellerName" required>
+                                    {{ form.seller_name.label(class="form-label fw-bold") }}
+                                    {{ form.seller_name(class="form-control py-2") }}
+                                    {% for error in form.seller_name.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Shop Name</label>
-                                    <input type="text" class="form-control py-2" id="shopName" required>
+                                    {{ form.shop_name.label(class="form-label fw-bold") }}
+                                    {{ form.shop_name(class="form-control py-2") }}
+                                    {% for error in form.shop_name.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Email Address</label>
-                                    <input type="email" class="form-control py-2" id="sellerEmail"
-                                        placeholder="your@email.com" required>
+                                    {{ form.seller_email.label(class="form-label fw-bold") }}
+                                    {{ form.seller_email(class="form-control py-2", placeholder="your@email.com") }}
+                                    {% for error in form.seller_email.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Password</label>
-                                    <input type="password" class="form-control py-2" id="sellerPassword"
-                                        placeholder="Minimum 6 characters" minlength="6" required>
+                                    {{ form.seller_password.label(class="form-label fw-bold") }}
+                                    {{ form.seller_password(class="form-control py-2", placeholder="Minimum 6 characters") }}
+                                    {% for error in form.seller_password.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Aadhar Number</label>
-                                    <input type="text" class="form-control py-2" id="aadharNumber" pattern="\d{12}"
-                                        title="12 digit Aadhar number" placeholder="XXXX XXXX XXXX" required>
+                                    {{ form.confirm_password.label(class="form-label fw-bold") }}
+                                    {{ form.confirm_password(class="form-control py-2") }}
+                                    {% for error in form.confirm_password.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">GST Number</label>
-                                    <input type="text" class="form-control py-2" id="gstNumber"
-                                        placeholder="e.g. 29ABCDE1234F2Z5" required>
+                                    {{ form.aadhar_number.label(class="form-label fw-bold") }}
+                                    {{ form.aadhar_number(class="form-control py-2", placeholder="XXXX XXXX XXXX") }}
+                                    {% for error in form.aadhar_number.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Contact Number</label>
-                                    <input type="tel" class="form-control py-2" id="contactInfo" placeholder="+91"
-                                        required>
+                                    {{ form.gst_number.label(class="form-label fw-bold") }}
+                                    {{ form.gst_number(class="form-control py-2", placeholder="e.g. 29ABCDE1234F2Z5") }}
+                                    {% for error in form.gst_number.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label fw-bold">Seller Photo</label>
-                                    <input type="file" class="form-control py-2" id="sellerPhoto" accept="image/*"
-                                        required>
+                                    {{ form.contact_number.label(class="form-label fw-bold") }}
+                                    {{ form.contact_number(class="form-control py-2", placeholder="+91") }}
+                                    {% for error in form.contact_number.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
+                                <div class="col-md-6">
+                                    {{ form.seller_image.label(class="form-label fw-bold") }}
+                                    {{ form.seller_image(class="form-control py-2") }}
+                                    {% for error in form.seller_image.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+
                                 <div class="col-12">
-                                    <label class="form-label fw-bold">Shop Location</label>
-                                    <textarea class="form-control py-2" id="shopLocation" rows="3"
-                                        placeholder="Full address of the shop" required></textarea>
+                                    {{ form.address.label(class="form-label fw-bold") }}
+                                    {{ form.address(class="form-control py-2", rows="3", placeholder="Full address of the shop") }}
+                                    {% for error in form.address.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+
                                 <div class="col-12 mt-4 text-center">
-                                    <button type="submit"
-                                        class="btn btn-nature btn-lg px-5 rounded-pill shadow-sm w-100"
-                                        id="sellerSubmitBtn">Submit Application</button>
+                                    {{ form.submit(class="btn btn-nature btn-lg px-5 rounded-pill shadow-sm w-100", id="sellerSubmitBtn") }}
                                 </div>
                             </div>
                         </form>
