@@ -65,3 +65,10 @@ class SellerRegistrationForm(FlaskForm):
         seller = Seller.query.filter_by(gst_number=gst_number.data).first()
         if seller:
             raise ValidationError("This GST number is already registered.")
+        
+class SellerLoginForm(FlaskForm):
+    seller_email=StringField('seller_email', validators=[DataRequired(), Email()])
+    seller_password=PasswordField('seller_password', validators=[DataRequired()])
+    submit=SubmitField('Login')
+
+    

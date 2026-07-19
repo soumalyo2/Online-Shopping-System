@@ -2,7 +2,7 @@ import secrets
 import os
 from flask import render_template, request, redirect, url_for, flash
 from soumalyo_ghosh import app, db
-from soumalyo_ghosh.forms import SellerRegistrationForm, userregistrationform, userloginform
+from soumalyo_ghosh.forms import SellerRegistrationForm, userregistrationform, userloginform, SellerLoginForm
 from soumalyo_ghosh.models import User, Product, Seller
 from flask_login import login_user, current_user, logout_user, login_required  
 
@@ -57,6 +57,7 @@ def login():
             flash('login unsuccessful. please check email and password', 'danger')
     if current_user.is_authenticated:
         return redirect(url_for('home'))
+    
     if register_form.submit_register.data and register_form.validate_on_submit():
         new_user = User(
             username=register_form.username.data,
@@ -89,28 +90,56 @@ def save_picture(form_picture):
     return picture_filename
 
 
-@app.route('/seller/register', methods=['GET', 'POST'])
+@app.route('/seller', methods=['GET', 'POST'])
 def seller():
     seller_registration_form = SellerRegistrationForm()
+    seller_login_form = SellerLoginForm()   # needed here since the login modal lives on this page
+
     if seller_registration_form.submit.data and seller_registration_form.validate_on_submit():
         new_seller = Seller(
             seller_name=seller_registration_form.seller_name.data,
             shop_name=seller_registration_form.shop_name.data,
             seller_email=seller_registration_form.seller_email.data,
-            seller_password=seller_registration_form.seller_password.data, # In a real app, HASH THIS PASSWORD
+            seller_password=seller_registration_form.seller_password.data,
             aadhar_number=seller_registration_form.aadhar_number.data,
             gst_number=seller_registration_form.gst_number.data,
             contact_number=seller_registration_form.contact_number.data,
             seller_image=save_picture(seller_registration_form.seller_image.data) if seller_registration_form.seller_image.data else 'default.jpg',
             address=seller_registration_form.address.data
         )
-
         db.session.add(new_seller)
         db.session.commit()
-        flash(f'Seller account created for {seller_registration_form.seller_name.data}! You will be able to log in once approved.', 'success')
-        return redirect(url_for('home')) # Redirect to home, as 'seller_dashboard' route does not exist
-    return render_template('seller.html', form=seller_registration_form)
+        flash(f'Seller account created for {seller_registration_form.seller_name.data}! You can now log in.', 'success')
+        return redirect(url_for('seller'))
 
+    return render_template('seller.html', form=seller_registration_form, seller_login_form=seller_login_form)
+
+
+    
+@app.route('/seller/login', methods=['POST'])
+def seller_login():
+    seller_login_form = SellerLoginForm()
+    if seller_login_form.validate_on_submit():
+        seller = Seller.query.filter_by(seller_email=seller_login_form.seller_email.data).first()
+        if seller and seller.seller_password == seller_login_form.seller_password.data:
+            login_user(seller)
+            flash('Welcome back!', 'success')
+            return redirect(url_for('seller_dashboard'))
+        flash('Login unsuccessful. Please check your email and password.', 'danger')
+    else:
+        flash('Please fill in the login form correctly.', 'danger')
+    return redirect(url_for('seller'))
+
+
+
+
+@app.route('/seller/dashboard')
+@login_required
+def seller_dashboard():
+    # if not isinstance(current_user, Seller):
+    #     flash('You must be logged in as a seller to view this page.', 'danger')
+    #     return redirect(url_for('seller'))
+    return render_template('seller_dashboard.html', seller=current_user)
 
 @app.route('/payment')
 def payment_gateway():
